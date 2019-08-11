@@ -1,8 +1,13 @@
 ## [Unreleased]
 
+## 1.1.0 (August 11, 2019)
+
 - Add `.eslintignore` and `azure-pipelines.yml` to `.vscodeignore`.
 - Update `README.md`.
-- Remove message from `requireLocalPkg()`.
+- Remove message from `requireLocalPkg()` and rename it to `requireLocalPrettier()`.
+- Fix messages after format in `PrettierEditProvider.format()`.
+- Bundle extension with webpack.
+- Declare types for `prettier`, `prettier-eslint`, `prettier-tslint`, `prettier-stylelint` modules.
 
 ## 1.0.0 (August 4, 2019)
 
