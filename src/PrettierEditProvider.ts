@@ -116,7 +116,7 @@ async function format(
   }
 
   const hasConfig = await hasPrettierConfig(fileName);
-  if (!hasConfig && vscodeConfig.requireConfig) {
+  if (vscodeConfig.requireConfig && !hasConfig) {
     return text;
   }
 
@@ -196,15 +196,11 @@ async function format(
     );
   }
 
-  if (!doesParserSupportEslint && useBundled) {
+  if (useBundled) {
     return safeExecution(
       () => {
-        addToOutput(
-          `prettier@${localPrettier.version} doesn't support ${languageId}. Falling back to bundled prettier@${bundledPrettier.version}.`
-        );
-
+        addToOutput(`Using bundled prettier@${bundledPrettier.version} for ${languageId}.`);
         setUsedModule('prettier', bundledPrettier.version, true);
-
         return bundledPrettier.format(text, prettierOptions);
       },
       text,
@@ -212,8 +208,8 @@ async function format(
     );
   }
 
+  addToOutput(`Using local prettier@${localPrettier.version} for ${languageId}.`);
   setUsedModule('prettier', localPrettier.version, false);
-
   return safeExecution(() => localPrettier.format(text, prettierOptions), text, fileName);
 }
 
