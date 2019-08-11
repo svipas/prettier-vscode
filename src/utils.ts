@@ -33,7 +33,6 @@ export const allEnabledLanguages: string[] = getSupportLanguages().reduce((ids: 
   return ids;
 }, []);
 
-// TODO(@svipas): should we add more supported languages here?
 export const supportedLanguages = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'graphql'];
 export const eslintSupportedLanguages = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
 export const stylelintSupportedParsers: ParserOption[] = ['css', 'less', 'scss'];
