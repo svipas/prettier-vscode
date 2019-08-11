@@ -1,3 +1,7 @@
+import * as prettier from 'prettier';
+import prettierEslint from 'prettier-eslint';
+import * as prettierStylelint from 'prettier-stylelint';
+import * as prettierTslint from 'prettier-tslint';
 import {
   CancellationToken,
   DocumentFormattingEditProvider,
@@ -8,16 +12,7 @@ import {
   TextEdit
 } from 'vscode';
 import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
-import { requireLocalPkg } from './requirePkg';
-import {
-  ParserOption,
-  Prettier,
-  PrettierConfig,
-  PrettierEslintFormat,
-  PrettierStylelint,
-  PrettierTslintFormat,
-  PrettierVSCodeConfig
-} from './types.d';
+import { requireLocalPrettier } from './requirePkg';
 import {
   eslintSupportedLanguages,
   getConfig,
@@ -25,8 +20,6 @@ import {
   stylelintSupportedParsers,
   typescriptSupportedParser
 } from './utils';
-
-const bundledPrettier = require('prettier') as Prettier;
 
 /**
  * Check if a given file has an associated prettier config.
@@ -37,7 +30,7 @@ async function hasPrettierConfig(filePath: string): Promise<boolean> {
   return !!config;
 }
 
-type ResolveConfigResult = { config: PrettierConfig | null; error?: Error };
+type ResolveConfigResult = { config: prettier.PrettierConfig | null; error?: Error };
 
 /**
  * Resolves the prettier config for the given file.
@@ -45,7 +38,7 @@ type ResolveConfigResult = { config: PrettierConfig | null; error?: Error };
  */
 async function resolveConfig(filePath: string, options?: { editorconfig?: boolean }): Promise<ResolveConfigResult> {
   try {
-    const config = await bundledPrettier.resolveConfig(filePath, options);
+    const config = await prettier.resolveConfig(filePath, options);
     return { config };
   } catch (error) {
     return { config: null, error };
@@ -67,9 +60,9 @@ async function resolveConfig(filePath: string, options?: { editorconfig?: boolea
  */
 function mergeConfig(
   hasPrettierConfig: boolean,
-  additionalConfig: Partial<PrettierConfig>,
-  prettierConfig: Partial<PrettierConfig>,
-  vscodeConfig: Partial<PrettierConfig>
+  additionalConfig: Partial<prettier.PrettierConfig>,
+  prettierConfig: Partial<prettier.PrettierConfig>,
+  vscodeConfig: Partial<prettier.PrettierConfig>
 ) {
   if (hasPrettierConfig) {
     // Always merge our inferred parser in
@@ -86,10 +79,10 @@ function mergeConfig(
 async function format(
   text: string,
   { fileName, languageId, uri, isUntitled }: TextDocument,
-  customOptions: Partial<PrettierConfig>
+  customOptions: Partial<prettier.PrettierConfig>
 ): Promise<string> {
-  const vscodeConfig: PrettierVSCodeConfig = getConfig(uri);
-  const localPrettier = requireLocalPkg(fileName, 'prettier') as Prettier;
+  const vscodeConfig: prettier.PrettierVSCodeConfig = getConfig(uri);
+  const localPrettier = requireLocalPrettier(fileName);
 
   // This has to stay, as it allows to skip in sub workspaceFolders. Sadly noop.
   // wf1  (with "lang") -> glob: "wf1/**"
@@ -100,16 +93,15 @@ async function format(
 
   const dynamicParsers = getParsersFromLanguageId(languageId, localPrettier, isUntitled ? undefined : fileName);
   let useBundled = false;
-  let parser: ParserOption = 'none';
+  let parser: prettier.ParserOption = 'none';
 
   if (dynamicParsers.length !== 0) {
-    const bundledParsers = getParsersFromLanguageId(languageId, bundledPrettier, isUntitled ? undefined : fileName);
+    const bundledParsers = getParsersFromLanguageId(languageId, prettier, isUntitled ? undefined : fileName);
     if (bundledParsers[0]) {
       parser = bundledParsers[0];
     }
     useBundled = true;
   } else if (dynamicParsers.includes(vscodeConfig.parser)) {
-    // Handle deprecated parser option
     parser = vscodeConfig.parser;
   } else {
     parser = dynamicParsers[0];
@@ -146,11 +138,9 @@ async function format(
   if (vscodeConfig.tslintIntegration && typescriptSupportedParser === parser) {
     return safeExecution(
       () => {
-        const prettierTslint = require('prettier-tslint').format as PrettierTslintFormat;
-
+        addToOutput(`Using local prettier-tslint@0.4.2 for ${languageId}.`);
         setUsedModule('prettier-tslint', '0.4.2', true);
-
-        return prettierTslint({
+        return prettierTslint.format({
           text,
           filePath: fileName,
           fallbackPrettierOptions: prettierOptions
@@ -165,10 +155,8 @@ async function format(
   if (vscodeConfig.eslintIntegration && doesParserSupportEslint) {
     return safeExecution(
       () => {
-        const prettierEslint = require('prettier-eslint') as PrettierEslintFormat;
-
+        addToOutput(`Using local prettier-eslint@9.0.0 for ${languageId}.`);
         setUsedModule('prettier-eslint', '9.0.0', true);
-
         return prettierEslint({
           text,
           filePath: fileName,
@@ -181,10 +169,8 @@ async function format(
   }
 
   if (vscodeConfig.stylelintIntegration && stylelintSupportedParsers.includes(parser)) {
-    const prettierStylelint = require('prettier-stylelint') as PrettierStylelint;
-
+    addToOutput(`Using local prettier-stylelint@0.4.2 for ${languageId}.`);
     setUsedModule('prettier-stylelint', '0.4.2', true);
-
     return safeExecution(
       prettierStylelint.format({
         text,
@@ -199,9 +185,9 @@ async function format(
   if (useBundled) {
     return safeExecution(
       () => {
-        addToOutput(`Using bundled prettier@${bundledPrettier.version} for ${languageId}.`);
-        setUsedModule('prettier', bundledPrettier.version, true);
-        return bundledPrettier.format(text, prettierOptions);
+        addToOutput(`Using bundled prettier@${prettier.version} for ${languageId}.`);
+        setUsedModule('prettier', prettier.version, true);
+        return prettier.format(text, prettierOptions);
       },
       text,
       fileName
@@ -241,7 +227,7 @@ export class PrettierEditProvider implements DocumentRangeFormattingEditProvider
     return this._provideEdits(document, {});
   }
 
-  private _provideEdits(document: TextDocument, options: Partial<PrettierConfig>): Promise<TextEdit[]> {
+  private _provideEdits(document: TextDocument, options: Partial<prettier.PrettierConfig>): Promise<TextEdit[]> {
     if (!document.isUntitled && this._fileIsIgnored(document.fileName)) {
       return Promise.resolve([]);
     }
