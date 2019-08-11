@@ -1,6 +1,7 @@
 import * as path from 'path';
+import * as readPkgUp from 'read-pkg-up';
 import * as resolve from 'resolve';
-const readPkgUp = require('read-pkg-up');
+import * as prettier from 'prettier';
 
 /**
  * Recursively search for a `package.json` upwards containing given package as a dependency or devDependency.
@@ -10,18 +11,21 @@ const readPkgUp = require('read-pkg-up');
  */
 function findPkg(fspath: string, pkgName: string): string | undefined {
   const res = readPkgUp.sync({ cwd: fspath, normalize: false });
-  const { root } = path.parse(fspath);
+  if (!res) {
+    return undefined;
+  }
 
   if (
-    res.pkg &&
-    ((res.pkg.dependencies && res.pkg.dependencies[pkgName]) ||
-      (res.pkg.devDependencies && res.pkg.devDependencies[pkgName]))
+    res.package &&
+    ((res.package.dependencies && res.package.dependencies[pkgName]) ||
+      (res.package.devDependencies && res.package.devDependencies[pkgName]))
   ) {
     return resolve.sync(pkgName, { basedir: res.path });
   }
 
   if (res.path) {
     const parent = path.resolve(path.dirname(res.path), '..');
+    const { root } = path.parse(fspath);
     if (parent !== root) {
       return findPkg(parent, pkgName);
     }
@@ -35,12 +39,13 @@ function findPkg(fspath: string, pkgName: string): string | undefined {
  * @param pkgName package's name to require
  * @returns module
  */
-export function requireLocalPkg(fspath: string, pkgName: string): any {
+export function requireLocalPrettier(fspath: string): typeof import('prettier') {
   try {
-    const modulePath = findPkg(fspath, pkgName);
+    const modulePath = findPkg(fspath, 'prettier');
     if (modulePath) {
       return require(modulePath);
     }
   } catch {}
-  return require(pkgName);
+
+  return prettier;
 }

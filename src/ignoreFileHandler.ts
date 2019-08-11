@@ -1,10 +1,9 @@
 import { existsSync, readFileSync } from 'fs';
+import ignore from 'ignore';
 import * as path from 'path';
 import { Disposable, Uri, workspace } from 'vscode';
 import { addToOutput } from './errorHandler';
 import { getConfig } from './utils';
-
-const ignore = require('ignore');
 
 interface Ignorer {
   ignores(filePath: string): boolean;
