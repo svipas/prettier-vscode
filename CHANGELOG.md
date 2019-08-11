@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 1.1.1 (August 11, 2019)
+
+- Remove some `externals` from webpack (bundle everything).
+
 ## 1.1.0 (August 11, 2019)
 
 - Add `.eslintignore` and `azure-pipelines.yml` to `.vscodeignore`.
