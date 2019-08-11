@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as resolve from 'resolve';
-import { addToOutput } from './errorHandler';
 const readPkgUp = require('read-pkg-up');
 
 /**
@@ -42,8 +41,6 @@ export function requireLocalPkg(fspath: string, pkgName: string): any {
     if (modulePath) {
       return require(modulePath);
     }
-  } catch (e) {
-    addToOutput(`Failed to load local ${pkgName}. Using bundled version.`);
-  }
+  } catch {}
   return require(pkgName);
 }

@@ -2,7 +2,7 @@
 
 - Add `.eslintignore` and `azure-pipelines.yml` to `.vscodeignore`.
 - Update `README.md`.
-- Use better message if local Prettier wasn't found in `requireLocalPkg()`.
+- Remove message from `requireLocalPkg()`.
 
 ## 1.0.0 (August 4, 2019)
 
