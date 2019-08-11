@@ -1,9 +1,8 @@
 import * as assert from 'assert';
 import * as path from 'path';
+import * as prettier from 'prettier';
 import * as vscode from 'vscode';
 import { Uri } from 'vscode';
-import { Prettier } from '../../types';
-const bundledPrettier = require('prettier') as Prettier;
 
 /**
  * Loads and format a file.
@@ -35,7 +34,7 @@ export function format(
  */
 function formatSameAsPrettier(file: string) {
   return format(file).then(result => {
-    const prettierFormatted = bundledPrettier.format(result.source, { filepath: file });
+    const prettierFormatted = prettier.format(result.source, { filepath: file });
     assert.strictEqual(result.result, prettierFormatted);
   });
 }

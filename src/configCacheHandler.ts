@@ -1,6 +1,5 @@
+import * as prettier from 'prettier';
 import { workspace } from 'vscode';
-import { Prettier } from './types';
-const bundledPrettier = require('prettier') as Prettier;
 
 /**
  * Prettier reads configuration from files
@@ -21,8 +20,8 @@ const prettierConfigFiles = [
  */
 export function configFileListener() {
   const fileWatcher = workspace.createFileSystemWatcher(`**/{${prettierConfigFiles.join(',')}}`);
-  fileWatcher.onDidChange(bundledPrettier.clearConfigCache);
-  fileWatcher.onDidCreate(bundledPrettier.clearConfigCache);
-  fileWatcher.onDidDelete(bundledPrettier.clearConfigCache);
+  fileWatcher.onDidChange(prettier.clearConfigCache);
+  fileWatcher.onDidCreate(prettier.clearConfigCache);
+  fileWatcher.onDidDelete(prettier.clearConfigCache);
   return fileWatcher;
 }

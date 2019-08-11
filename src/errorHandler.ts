@@ -1,3 +1,4 @@
+import { PrettierVSCodeConfig } from 'prettier';
 import {
   commands,
   Disposable,
@@ -8,7 +9,6 @@ import {
   TextEditor,
   window
 } from 'vscode';
-import { PrettierVSCodeConfig } from './types';
 import { allEnabledLanguages, getConfig } from './utils';
 
 let statusBarItem: StatusBarItem;
