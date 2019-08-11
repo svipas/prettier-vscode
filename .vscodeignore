@@ -1,10 +1,6 @@
 .vscode/**
 .vscode-test/**
 node_modules/**
-!node_modules/prettier
-!node_modules/prettier-eslint
-!node_modules/prettier-tslint
-!node_modules/prettier-stylelint
 out/**
 src/**
 test/**

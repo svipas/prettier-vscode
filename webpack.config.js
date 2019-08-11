@@ -4,6 +4,9 @@ const path = require('path');
 const config = {
   target: 'node',
   entry: './src/extension.ts',
+  stats: {
+    warnings: false
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'extension.js',
@@ -12,11 +15,7 @@ const config = {
   },
   devtool: 'source-map',
   externals: {
-    vscode: 'commonjs vscode',
-    prettier: 'commonjs prettier',
-    'prettier-eslint': 'commonjs prettier-eslint',
-    'prettier-tslint': 'commonjs prettier-tslint',
-    'prettier-stylelint': 'commonjs prettier-stylelint'
+    vscode: 'commonjs vscode'
   },
   resolve: {
     extensions: ['.ts', '.js', '.json']
