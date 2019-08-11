@@ -9,7 +9,7 @@
     "color": "#ffe04b",
     "theme": "light"
   },
-  "main": "./out/extension",
+  "main": "./dist/extension",
   "repository": {
     "type": "git",
     "url": "https://github.com/svipas/vscode-prettier-plus.git"
@@ -291,10 +291,11 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "yarn compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc --watch -p ./",
-    "pretest": "yarn compile && cd test/eslint && yarn install && cd ../tslint && yarn install && cd ../stylelint && yarn install",
+    "vscode:prepublish": "webpack --mode production",
+    "compile": "webpack --mode development",
+    "watch": "webpack --watch --mode development --info-verbosity verbose",
+    "pretest": "yarn test-compile && cd test/eslint && yarn install && cd ../tslint && yarn install && cd ../stylelint && yarn install",
+    "test-compile": "tsc -p ./",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
@@ -305,7 +306,10 @@
     "@types/vscode": "^1.17.0",
     "glob": "^7.1.4",
     "mocha": "^6.2.0",
-    "vscode-test": "^1.1.0"
+    "ts-loader": "^6.0.4",
+    "vscode-test": "^1.1.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   },
   "dependencies": {
     "ignore": "^5.1.2",

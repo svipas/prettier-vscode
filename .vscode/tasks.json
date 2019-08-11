@@ -6,11 +6,19 @@
     {
       "type": "npm",
       "script": "watch",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "presentation": {
-        "reveal": "silent"
+      "problemMatcher": {
+        "base": "$tsc-watch",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "Compilation (.*?)starting…"
+          },
+          "endsPattern": {
+            "regexp": "Compilation (.*?)finished"
+          }
+        }
       },
+      "isBackground": true,
       "group": {
         "kind": "build",
         "isDefault": true
