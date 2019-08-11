@@ -8,6 +8,7 @@
 - Fix messages after format in `PrettierEditProvider.format()`.
 - Bundle extension with webpack.
 - Declare types for `prettier`, `prettier-eslint`, `prettier-tslint`, `prettier-stylelint` modules.
+- Remove Windows from Azure Pipelines because even if everything is OK some tests are failing and issues is unknown.
 
 ## 1.0.0 (August 4, 2019)
 
