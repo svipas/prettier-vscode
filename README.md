@@ -6,7 +6,7 @@ Works with JavaScript, JSX, Flow, TypeScript, JSON, HTML, Vue, Angular, CSS, Les
 
 ## Installation
 
-Install through VS Code extensions, search for `Prettier+` by `Benas Svipas`.
+Install through VS Code extensions, search for `Prettier+` by `Benas Svipas`. _If you can't find extension by name try to search by publisher name._
 
 &#x26a0; A word of warning-if you have any other code formatting extensions installed they might take precedence and format your code instead of Prettier leading to unexpected results.
 
