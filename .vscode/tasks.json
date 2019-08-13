@@ -11,10 +11,10 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": {
-            "regexp": "Compilation (.*?)starting…"
+            "regexp": "Building (.*?)"
           },
           "endsPattern": {
-            "regexp": "Compilation (.*?)finished"
+            "regexp": "Built (.*?)"
           }
         }
       },
