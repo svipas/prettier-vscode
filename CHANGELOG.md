@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## 1.2.0 (August 13, 2019)
+
+- Replace webpack with parcel.
+- Keep `node_modules` because of bundled dependencies, but ignore unnecessary files as much as possible in `.vscodeignore`.
+
 ## 1.1.1 (August 11, 2019)
 
 - Remove some `externals` from webpack (bundle everything).
