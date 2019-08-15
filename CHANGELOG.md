@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+- Refactor output message to include filename, language id and parser after every format.
+- Change default parser from `'none'` to `''` (empty string).
+- Refactor `requireLocalPrettier()` to return only local prettier module otherwise return `undefined`.
+- Fix prettier resolution by first checking if local prettier exists and only after that use bundled version.
+- Refactor `getSupportedLanguages()` to properly get local prettier.
+- Refactor whole get parser implementation, now it should format way more Untitled files and resolve to a better parser which means it will format code way better and output would be as expected.
+- Refactor whole get Prettier config implementation it wouldn't double check Prettier config file and even if `requireConfig` would be true and config file is missing it will fallback to default settings which means instead of error and returned existing text your code will be formatted.
+
 ## 1.2.0 (August 13, 2019)
 
 - Replace webpack with parcel.
