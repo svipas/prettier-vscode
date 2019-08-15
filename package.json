@@ -294,7 +294,7 @@
     "vscode:prepublish": "parcel build src/extension.ts --target node",
     "compile": "NODE_ENV=development parcel build src/extension.ts --target node",
     "watch": "parcel watch src/extension.ts --target node",
-    "pretest": "yarn test-compile && yarn compile && cd test/eslint && yarn install && cd ../tslint && yarn install && cd ../stylelint && yarn install",
+    "pretest": "yarn test-compile && yarn vscode:prepublish && cd test/eslint && yarn install && cd ../tslint && yarn install && cd ../stylelint && yarn install",
     "test-compile": "tsc -p ./",
     "test": "node ./out/test/runTest.js"
   },

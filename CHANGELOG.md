@@ -10,6 +10,7 @@
 - Update some dependencies.
 - Remove `rangeStart` and `rangeEnd` support which was never used.
 - Rename `resolveConfig()` to `resolvePrettierConfig()`.
+- Use production build in tests instead of development.
 
 ## 1.2.0 (August 13, 2019)
 
