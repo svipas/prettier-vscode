@@ -1,6 +1,6 @@
 declare module 'prettier' {
   type ParserOption =
-    | 'none'
+    | ''
     | 'babel'
     | 'babel-flow'
     | 'flow'

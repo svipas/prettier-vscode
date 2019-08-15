@@ -25,7 +25,7 @@
     "prettier.trailingComma": "none",
     "prettier.bracketSpacing": true,
     "prettier.jsxBracketSameLine": false,
-    "prettier.parser": "none",
+    "prettier.parser": "",
     "prettier.semi": true,
     "prettier.useTabs": false,
     "prettier.disableLanguages": [],

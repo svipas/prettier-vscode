@@ -33,6 +33,9 @@ Linux: Ctrl + Shift + I
 // Format all files on save
 "editor.formatOnSave": true,
 
+// Increase timeout for format on save
+"editor.formatOnSaveTimeout": 1500,
+
 // Format per-language file on save
 "[javascript]": {
   "editor.formatOnSave": false
@@ -96,7 +99,7 @@ Print spaces between brackets in object literals. [Learn more here.](https://pre
 
 Put the `>` of a multi-line JSX element at the end of the last line instead of being alone on the next line (does not apply to self closing elements). [Learn more here.](https://prettier.io/docs/en/options.html#jsx-brackets)
 
-**prettier.parser (default: 'none')**
+**prettier.parser (default: '')**
 
 Specify which parser to use. [Learn more here.](https://prettier.io/docs/en/options.html#parser)
 
@@ -106,7 +109,7 @@ Both the `babel` and `flow` parsers support the same set of JavaScript features 
 
 Valid options:
 
-- `"none"` - Automatically infers the parser from the input file path.
+- `""` - Automatically infers the parser from the input file path.
 - `"babel"` - Via `@babel/parser` named `babylon` until v1.16.0
 - `"babel-flow"` - Same as `babel` but enables Flow parsing explicitly to avoid ambiguity. First available in v1.16.0
 - `"flow"` - Via `flow-parser`

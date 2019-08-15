@@ -121,7 +121,7 @@
         "prettier.parser": {
           "type": "string",
           "enum": [
-            "none",
+            "",
             "babel",
             "babel-flow",
             "flow",
@@ -141,7 +141,7 @@
             "lwc",
             "yaml"
           ],
-          "default": "none",
+          "default": "",
           "description": "Specify which parser to use.\nPrettier automatically infers the parser from the input file path, so you shouldn't have to change this setting.\nBoth the 'babel' and 'flow' parsers support the same set of JavaScript features (including Flow type annotations).\nThey might differ in some edge cases, so if you run into one of those you can try 'flow' instead of 'babel'.",
           "enumDescriptions": [
             "Automatically infers the parser from the input file path.",
