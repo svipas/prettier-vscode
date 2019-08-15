@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## 2.0.0 (August 16, 2019)
+
 - Refactor output message to include filename, language id and parser after every format.
 - Change default parser from `'none'` to `''` (empty string).
 - Refactor `requireLocalPrettier()` to return only local prettier module otherwise return `undefined`.
