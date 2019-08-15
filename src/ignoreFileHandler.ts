@@ -54,7 +54,7 @@ export function ignoreFileHandler(disposables: Disposable[]) {
       // Don't log default value
       const ignorePath = getConfig(Uri.file(fsPath)).ignorePath;
       if (ignorePath !== '.prettierignore') {
-        addToOutput(`Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`);
+        addToOutput(`Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`, fsPath);
       }
       return { ignoreFilePath: '', ignorer: nullIgnorer };
     }
