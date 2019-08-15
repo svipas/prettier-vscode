@@ -29,11 +29,6 @@ declare module 'prettier-stylelint' {
      */
     prettierOptions?: Partial<PrettierConfig>;
     /**
-     * The options to pass for formatting with `prettier`.
-     * If the given option is not inferrable from the `stylelintConfig`
-     */
-    fallbackPrettierOptions?: Partial<PrettierConfig>;
-    /**
      * The level for the logs.
      */
     logLevel?: LogLevel;
