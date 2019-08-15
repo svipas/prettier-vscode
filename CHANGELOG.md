@@ -9,6 +9,7 @@
 - Refactor whole get Prettier config implementation it wouldn't double check Prettier config file and even if `requireConfig` would be true and config file is missing it will fallback to default settings which means instead of error and returned existing text your code will be formatted.
 - Update some dependencies.
 - Remove `rangeStart` and `rangeEnd` support which was never used.
+- Rename `resolveConfig()` to `resolvePrettierConfig()`.
 
 ## 1.2.0 (August 13, 2019)
 

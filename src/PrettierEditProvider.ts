@@ -17,7 +17,7 @@ import {
  * Resolves the prettier config for the given file.
  * @param filePath file's path
  */
-async function resolveConfig(
+async function resolvePrettierConfig(
   filePath: string,
   options?: { editorconfig?: boolean }
 ): Promise<{ config?: prettier.PrettierConfig; error: Error | null }> {
@@ -71,7 +71,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   let configOptions: prettier.PrettierConfig | undefined;
   let hasConfig = false;
   if (vscodeConfig.requireConfig) {
-    const { config, error } = await resolveConfig(fileName, { editorconfig: true });
+    const { config, error } = await resolvePrettierConfig(fileName, { editorconfig: true });
     if (error != null) {
       addToOutput(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
     } else if (config == null) {
