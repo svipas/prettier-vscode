@@ -14,34 +14,26 @@ import {
 import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
 import { requireLocalPrettier } from './requirePkg';
 import {
-  eslintSupportedLanguages,
+  eslintSupportedLanguageIds,
   getConfig,
-  getParsersFromLanguageId,
-  stylelintSupportedParsers,
-  typescriptSupportedParser
+  getSupportedParser,
+  stylelintSupportedLanguageIds,
+  tslintSupportedLanguageIds
 } from './utils';
-
-/**
- * Check if a given file has an associated prettier config.
- * @param filePath file's path
- */
-async function hasPrettierConfig(filePath: string): Promise<boolean> {
-  const { config } = await resolveConfig(filePath);
-  return !!config;
-}
-
-type ResolveConfigResult = { config: prettier.PrettierConfig | null; error?: Error };
 
 /**
  * Resolves the prettier config for the given file.
  * @param filePath file's path
  */
-async function resolveConfig(filePath: string, options?: { editorconfig?: boolean }): Promise<ResolveConfigResult> {
+async function resolveConfig(
+  filePath: string,
+  options?: { editorconfig?: boolean }
+): Promise<{ config?: prettier.PrettierConfig; error: Error | null }> {
   try {
     const config = await prettier.resolveConfig(filePath, options);
-    return { config };
+    return { config, error: null };
   } catch (error) {
-    return { config: null, error };
+    return { error };
   }
 }
 
@@ -54,7 +46,7 @@ async function resolveConfig(filePath: string, options?: { editorconfig?: boolea
  * - `prettierConfig`
  * - `vscodeConfig`
  * @param hasPrettierConfig a prettierconfig exists
- * @param additionalConfig config we really want to see in. (range)
+ * @param additionalConfig config we really want to see in
  * @param prettierConfig prettier's file config
  * @param vscodeConfig our config
  */
@@ -82,7 +74,6 @@ async function format(
   customOptions: Partial<prettier.PrettierConfig>
 ): Promise<string> {
   const vscodeConfig: prettier.PrettierVSCodeConfig = getConfig(uri);
-  const localPrettier = requireLocalPrettier(fileName);
 
   // This has to stay, as it allows to skip in sub workspaceFolders. Sadly noop.
   // wf1  (with "lang") -> glob: "wf1/**"
@@ -91,33 +82,26 @@ async function format(
     return text;
   }
 
-  const dynamicParsers = getParsersFromLanguageId(languageId, localPrettier, isUntitled ? undefined : fileName);
-  let useBundled = false;
-  let parser: prettier.ParserOption = 'none';
+  let parser: prettier.ParserOption = vscodeConfig.parser;
+  if (parser === '') {
+    parser = getSupportedParser(languageId, isUntitled ? undefined : fileName);
+  }
 
-  if (dynamicParsers.length !== 0) {
-    const bundledParsers = getParsersFromLanguageId(languageId, prettier, isUntitled ? undefined : fileName);
-    if (bundledParsers[0]) {
-      parser = bundledParsers[0];
+  let configOptions: prettier.PrettierConfig | undefined;
+  let hasConfig = false;
+  if (vscodeConfig.requireConfig) {
+    const { config, error } = await resolveConfig(fileName, { editorconfig: true });
+    if (error != null) {
+      addToOutput(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
+    } else if (config == null) {
+      addToOutput(`Prettier config is empty. Falling back to the default settings.`);
+    } else {
+      configOptions = config;
+      hasConfig = true;
     }
-    useBundled = true;
-  } else if (dynamicParsers.includes(vscodeConfig.parser)) {
-    parser = vscodeConfig.parser;
-  } else {
-    parser = dynamicParsers[0];
   }
 
-  const hasConfig = await hasPrettierConfig(fileName);
-  if (vscodeConfig.requireConfig && !hasConfig) {
-    return text;
-  }
-
-  const { config: fileOptions, error } = await resolveConfig(fileName, { editorconfig: true });
-  if (error) {
-    addToOutput(`Failed to resolve config for ${fileName}. Falling back to the default config settings.`);
-  }
-
-  const prettierOptions = mergeConfig(hasConfig, customOptions, fileOptions || {}, {
+  const prettierOptions = mergeConfig(hasConfig, customOptions, configOptions || {}, {
     printWidth: vscodeConfig.printWidth,
     tabWidth: vscodeConfig.tabWidth,
     singleQuote: vscodeConfig.singleQuote,
@@ -132,13 +116,23 @@ async function format(
     htmlWhitespaceSensitivity: vscodeConfig.htmlWhitespaceSensitivity,
     endOfLine: vscodeConfig.endOfLine,
     quoteProps: vscodeConfig.quoteProps,
+    filepath: fileName,
     parser
   });
 
-  if (vscodeConfig.tslintIntegration && typescriptSupportedParser === parser) {
+  const sendToOutput = (name: string, version: string, bundled: boolean) => {
+    addToOutput(
+      `Using ${name}@${version} (${bundled ? 'bundled' : 'local'})${
+        hasConfig ? ' with Prettier config' : ''
+      } to format code with ${parser} parser for ${languageId} language.`,
+      fileName
+    );
+  };
+
+  if (vscodeConfig.tslintIntegration && tslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
-        addToOutput(`Using local prettier-tslint@0.4.2 for ${languageId}.`);
+        sendToOutput('prettier-tslint', '0.4.2', true);
         setUsedModule('prettier-tslint', '0.4.2', true);
         return prettierTslint.format({
           text,
@@ -151,11 +145,10 @@ async function format(
     );
   }
 
-  const doesParserSupportEslint = eslintSupportedLanguages.includes(languageId);
-  if (vscodeConfig.eslintIntegration && doesParserSupportEslint) {
+  if (vscodeConfig.eslintIntegration && eslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
-        addToOutput(`Using local prettier-eslint@9.0.0 for ${languageId}.`);
+        sendToOutput('prettier-eslint', '9.0.0', true);
         setUsedModule('prettier-eslint', '9.0.0', true);
         return prettierEslint({
           text,
@@ -168,35 +161,36 @@ async function format(
     );
   }
 
-  if (vscodeConfig.stylelintIntegration && stylelintSupportedParsers.includes(parser)) {
-    addToOutput(`Using local prettier-stylelint@0.4.2 for ${languageId}.`);
+  if (vscodeConfig.stylelintIntegration && stylelintSupportedLanguageIds.includes(languageId)) {
+    sendToOutput('prettier-stylelint', '0.4.2', true);
     setUsedModule('prettier-stylelint', '0.4.2', true);
     return safeExecution(
       prettierStylelint.format({
         text,
         filePath: fileName,
-        prettierOptions
+        fallbackPrettierOptions: prettierOptions
       }),
       text,
       fileName
     );
   }
 
-  if (useBundled) {
-    return safeExecution(
-      () => {
-        addToOutput(`Using bundled prettier@${prettier.version} for ${languageId}.`);
-        setUsedModule('prettier', prettier.version, true);
-        return prettier.format(text, prettierOptions);
-      },
-      text,
-      fileName
-    );
+  const localPrettier = requireLocalPrettier(fileName);
+  if (localPrettier) {
+    sendToOutput('prettier', localPrettier.version, false);
+    setUsedModule('prettier', localPrettier.version, false);
+    return safeExecution(() => localPrettier.format(text, prettierOptions), text, fileName);
   }
 
-  addToOutput(`Using local prettier@${localPrettier.version} for ${languageId}.`);
-  setUsedModule('prettier', localPrettier.version, false);
-  return safeExecution(() => localPrettier.format(text, prettierOptions), text, fileName);
+  return safeExecution(
+    () => {
+      sendToOutput('prettier', prettier.version, true);
+      setUsedModule('prettier', prettier.version, true);
+      return prettier.format(text, prettierOptions);
+    },
+    text,
+    fileName
+  );
 }
 
 function fullDocumentRange(document: TextDocument): Range {

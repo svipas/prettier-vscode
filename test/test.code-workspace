@@ -1,20 +1,10 @@
 {
   "folders": [
-    {
-      "path": "project"
-    },
-    {
-      "path": "workspace"
-    },
-    {
-      "path": "eslint"
-    },
-    {
-      "path": "tslint"
-    },
-    {
-      "path": "stylelint"
-    }
+    { "path": "project" },
+    { "path": "workspace" },
+    { "path": "eslint" },
+    { "path": "tslint" },
+    { "path": "stylelint" }
   ],
   "settings": {
     "editor.defaultFormatter": "svipas.prettier-plus",

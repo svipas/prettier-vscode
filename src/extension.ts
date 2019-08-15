@@ -3,7 +3,7 @@ import { configFileListener } from './configCacheHandler';
 import { registerDisposables, setupErrorHandler } from './errorHandler';
 import { ignoreFileHandler } from './ignoreFileHandler';
 import { PrettierEditProvider } from './PrettierEditProvider';
-import { allEnabledLanguages, getConfig, supportedLanguages } from './utils';
+import { allSupportedVSCodeLanguageIds, getConfig, supportedLanguages } from './utils';
 
 interface Selectors {
   rangeLanguageSelector: DocumentSelector;
@@ -32,7 +32,7 @@ function disposeHandlers() {
  */
 function selectors(): Selectors {
   const { disableLanguages } = getConfig();
-  const globalLanguageSelector = allEnabledLanguages.filter(lang => !disableLanguages.includes(lang));
+  const globalLanguageSelector = allSupportedVSCodeLanguageIds.filter(lang => !disableLanguages.includes(lang));
   const globalRangeLanguageSelector = supportedLanguages.filter(lang => !disableLanguages.includes(lang));
 
   // No workspace opened

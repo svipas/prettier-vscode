@@ -9,7 +9,7 @@ import {
   TextEditor,
   window
 } from 'vscode';
-import { allEnabledLanguages, getConfig } from './utils';
+import { allSupportedVSCodeLanguageIds, getConfig } from './utils';
 
 let statusBarItem: StatusBarItem;
 let outputChannel: OutputChannel;
@@ -34,7 +34,7 @@ function toggleStatusBarItem(editor: TextEditor | undefined): void {
     return;
   }
 
-  const score = languages.match(allEnabledLanguages, editor.document);
+  const score = languages.match(allSupportedVSCodeLanguageIds, editor.document);
   const disabledLanguages: PrettierVSCodeConfig['disableLanguages'] = getConfig(editor.document.uri).disableLanguages;
 
   if (score > 0 && !disabledLanguages.includes(editor.document.languageId)) {
@@ -65,7 +65,7 @@ function updateStatusBar(message: string): void {
  * @param bundled it's bundled with the extension or not
  */
 export function setUsedModule(module: string, version: string, bundled: boolean) {
-  prettierInformation = `${module}@${version}${bundled ? ' (bundled)' : ''}`;
+  prettierInformation = `${module}@${version} (${bundled ? 'bundled' : 'local'})`;
 }
 
 /**
