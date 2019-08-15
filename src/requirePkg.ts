@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as readPkgUp from 'read-pkg-up';
 import * as resolve from 'resolve';
-import * as prettier from 'prettier';
 
 /**
  * Recursively search for a `package.json` upwards containing given package as a dependency or devDependency.
@@ -39,13 +38,11 @@ function findPkg(fspath: string, pkgName: string): string | undefined {
  * @param pkgName package's name to require
  * @returns module
  */
-export function requireLocalPrettier(fspath: string): typeof import('prettier') {
+export function requireLocalPrettier(fspath: string): typeof import('prettier') | undefined {
   try {
     const modulePath = findPkg(fspath, 'prettier');
     if (modulePath) {
       return require(modulePath);
     }
   } catch {}
-
-  return prettier;
 }
