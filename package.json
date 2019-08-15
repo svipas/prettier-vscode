@@ -301,17 +301,17 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.9",
+    "@types/node": "^10.14.15",
     "@types/resolve": "^0.0.8",
     "@types/vscode": "^1.17.0",
     "glob": "^7.1.4",
     "mocha": "^6.2.0",
     "parcel-bundler": "^1.12.3",
-    "vscode-test": "^1.1.0",
+    "vscode-test": "^1.2.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "ignore": "^5.1.2",
+    "ignore": "^5.1.4",
     "prettier": "1.18.2",
     "prettier-eslint": "^9.0.0",
     "prettier-stylelint": "^0.4.2",
