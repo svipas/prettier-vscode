@@ -66,7 +66,6 @@ export const allSupportedVSCodeLanguageIds: string[] = getSupportedLanguages().r
   return ids;
 }, []);
 
-export const supportedLanguages = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'graphql'];
 export const eslintSupportedLanguageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
 export const stylelintSupportedLanguageIds = ['css', 'less', 'scss'];
 export const tslintSupportedLanguageIds = ['typescript', 'typescriptreact'];

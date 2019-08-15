@@ -34,8 +34,6 @@ declare module 'prettier' {
     useTabs: boolean;
     proseWrap: 'preserve' | 'always' | 'never';
     arrowParens: 'avoid' | 'always';
-    rangeStart: number;
-    rangeEnd: number;
     filepath: string;
     jsxSingleQuote: boolean;
     htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore';

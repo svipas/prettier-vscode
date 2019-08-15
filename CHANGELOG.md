@@ -8,6 +8,7 @@
 - Refactor whole get parser implementation, now it should format way more Untitled files and resolve to a better parser which means it will format code way better and output would be as expected.
 - Refactor whole get Prettier config implementation it wouldn't double check Prettier config file and even if `requireConfig` would be true and config file is missing it will fallback to default settings which means instead of error and returned existing text your code will be formatted.
 - Update some dependencies.
+- Remove `rangeStart` and `rangeEnd` support which was never used.
 
 ## 1.2.0 (August 13, 2019)
 

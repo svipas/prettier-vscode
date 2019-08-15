@@ -1,54 +1,29 @@
-import { Disposable, DocumentFilter, DocumentSelector, ExtensionContext, languages, workspace } from 'vscode';
+import { Disposable, DocumentFilter, ExtensionContext, languages, workspace } from 'vscode';
 import { configFileListener } from './configCacheHandler';
 import { registerDisposables, setupErrorHandler } from './errorHandler';
 import { ignoreFileHandler } from './ignoreFileHandler';
 import { PrettierEditProvider } from './PrettierEditProvider';
-import { allSupportedVSCodeLanguageIds, getConfig, supportedLanguages } from './utils';
-
-interface Selectors {
-  rangeLanguageSelector: DocumentSelector;
-  languageSelector: DocumentSelector;
-}
+import { allSupportedVSCodeLanguageIds, getConfig } from './utils';
 
 let formatterHandler: undefined | Disposable;
-let rangeFormatterHandler: undefined | Disposable;
 
-/**
- * Dispose formatters.
- */
-function disposeHandlers() {
+function disposeFormatterHandler() {
   if (formatterHandler) {
     formatterHandler.dispose();
     formatterHandler = undefined;
   }
-  if (rangeFormatterHandler) {
-    rangeFormatterHandler.dispose();
-    rangeFormatterHandler = undefined;
-  }
 }
 
-/**
- * Build formatter selectors.
- */
-function selectors(): Selectors {
+function formatterSelector(): string[] | DocumentFilter[] {
   const { disableLanguages } = getConfig();
   const globalLanguageSelector = allSupportedVSCodeLanguageIds.filter(lang => !disableLanguages.includes(lang));
-  const globalRangeLanguageSelector = supportedLanguages.filter(lang => !disableLanguages.includes(lang));
 
   // No workspace opened
   if (!workspace.workspaceFolders) {
-    return {
-      languageSelector: globalLanguageSelector,
-      rangeLanguageSelector: globalRangeLanguageSelector
-    };
+    return globalLanguageSelector;
   }
 
   const untitledLanguageSelector: DocumentFilter[] = globalLanguageSelector.map(lang => ({
-    language: lang,
-    scheme: 'untitled'
-  }));
-
-  const untitledRangeLanguageSelector: DocumentFilter[] = globalRangeLanguageSelector.map(lang => ({
     language: lang,
     scheme: 'untitled'
   }));
@@ -58,15 +33,7 @@ function selectors(): Selectors {
     scheme: 'file'
   }));
 
-  const fileRangeLanguageSelector: DocumentFilter[] = globalRangeLanguageSelector.map(lang => ({
-    language: lang,
-    scheme: 'file'
-  }));
-
-  return {
-    languageSelector: untitledLanguageSelector.concat(fileLanguageSelector),
-    rangeLanguageSelector: untitledRangeLanguageSelector.concat(fileRangeLanguageSelector)
-  };
+  return untitledLanguageSelector.concat(fileLanguageSelector);
 }
 
 export function activate(context: ExtensionContext) {
@@ -74,13 +41,9 @@ export function activate(context: ExtensionContext) {
   const prettierEditProvider = new PrettierEditProvider(fileIsIgnored);
 
   const registerFormatter = () => {
-    disposeHandlers();
+    disposeFormatterHandler();
 
-    const { languageSelector, rangeLanguageSelector } = selectors();
-    rangeFormatterHandler = languages.registerDocumentRangeFormattingEditProvider(
-      rangeLanguageSelector,
-      prettierEditProvider
-    );
+    const languageSelector = formatterSelector();
     formatterHandler = languages.registerDocumentFormattingEditProvider(languageSelector, prettierEditProvider);
   };
 
@@ -88,7 +51,7 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(
     workspace.onDidChangeWorkspaceFolders(registerFormatter),
-    { dispose: disposeHandlers },
+    { dispose: disposeFormatterHandler },
     setupErrorHandler(),
     configFileListener(),
     ...registerDisposables()

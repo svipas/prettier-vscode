@@ -2,15 +2,7 @@ import * as prettier from 'prettier';
 import prettierEslint from 'prettier-eslint';
 import * as prettierStylelint from 'prettier-stylelint';
 import * as prettierTslint from 'prettier-tslint';
-import {
-  CancellationToken,
-  DocumentFormattingEditProvider,
-  DocumentRangeFormattingEditProvider,
-  FormattingOptions,
-  Range,
-  TextDocument,
-  TextEdit
-} from 'vscode';
+import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit } from 'vscode';
 import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
 import { requireLocalPrettier } from './requirePkg';
 import {
@@ -39,40 +31,29 @@ async function resolveConfig(
 
 /**
  * Define which config should be used.
- * If a prettier config exists, it returns itself.
- * It merges prettier config into VS Code's config (`.editorconfig`).
- * Priority:
- * - `additionalConfig`
- * - `prettierConfig`
- * - `vscodeConfig`
- * @param hasPrettierConfig a prettierconfig exists
- * @param additionalConfig config we really want to see in
- * @param prettierConfig prettier's file config
- * @param vscodeConfig our config
+ * @param hasPrettierConfig a prettier config exists
+ * @param prettierConfig config from prettier's config file
+ * @param vscodeConfig vscode config
  */
 function mergeConfig(
   hasPrettierConfig: boolean,
-  additionalConfig: Partial<prettier.PrettierConfig>,
   prettierConfig: Partial<prettier.PrettierConfig>,
   vscodeConfig: Partial<prettier.PrettierConfig>
 ) {
   if (hasPrettierConfig) {
     // Always merge our inferred parser in
-    return { parser: vscodeConfig.parser, ...prettierConfig, ...additionalConfig };
+    return { parser: vscodeConfig.parser, ...prettierConfig };
   }
-  return { ...vscodeConfig, ...prettierConfig, ...additionalConfig };
+  return { ...vscodeConfig, ...prettierConfig };
 }
+
 /**
  * Format the given text with user's configuration.
  * @param text text to format
  * @param path formatting file's path
  * @returns formatted text
  */
-async function format(
-  text: string,
-  { fileName, languageId, uri, isUntitled }: TextDocument,
-  customOptions: Partial<prettier.PrettierConfig>
-): Promise<string> {
+async function format(text: string, { fileName, languageId, uri, isUntitled }: TextDocument): Promise<string> {
   const vscodeConfig: prettier.PrettierVSCodeConfig = getConfig(uri);
 
   // This has to stay, as it allows to skip in sub workspaceFolders. Sadly noop.
@@ -101,7 +82,7 @@ async function format(
     }
   }
 
-  const prettierOptions = mergeConfig(hasConfig, customOptions, configOptions || {}, {
+  const prettierOptions = mergeConfig(hasConfig, configOptions || {}, {
     printWidth: vscodeConfig.printWidth,
     tabWidth: vscodeConfig.tabWidth,
     singleQuote: vscodeConfig.singleQuote,
@@ -198,36 +179,18 @@ function fullDocumentRange(document: TextDocument): Range {
   return new Range(0, 0, lastLineId, document.lineAt(lastLineId).text.length);
 }
 
-export class PrettierEditProvider implements DocumentRangeFormattingEditProvider, DocumentFormattingEditProvider {
+export class PrettierEditProvider implements DocumentFormattingEditProvider {
   constructor(private _fileIsIgnored: (filePath: string) => boolean) {}
 
-  provideDocumentRangeFormattingEdits(
-    document: TextDocument,
-    range: Range,
-    _options: FormattingOptions,
-    _token: CancellationToken
-  ): Promise<TextEdit[]> {
-    return this._provideEdits(document, {
-      rangeStart: document.offsetAt(range.start),
-      rangeEnd: document.offsetAt(range.end)
-    });
+  provideDocumentFormattingEdits(document: TextDocument): Promise<TextEdit[]> {
+    return this._provideEdits(document);
   }
 
-  provideDocumentFormattingEdits(
-    document: TextDocument,
-    _options: FormattingOptions,
-    _token: CancellationToken
-  ): Promise<TextEdit[]> {
-    return this._provideEdits(document, {});
-  }
-
-  private _provideEdits(document: TextDocument, options: Partial<prettier.PrettierConfig>): Promise<TextEdit[]> {
+  private _provideEdits(document: TextDocument): Promise<TextEdit[]> {
     if (!document.isUntitled && this._fileIsIgnored(document.fileName)) {
       return Promise.resolve([]);
     }
 
-    return format(document.getText(), document, options).then(code => [
-      TextEdit.replace(fullDocumentRange(document), code)
-    ]);
+    return format(document.getText(), document).then(code => [TextEdit.replace(fullDocumentRange(document), code)]);
   }
 }
