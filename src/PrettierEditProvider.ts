@@ -108,13 +108,13 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
       } to format code with ${parser} parser for ${languageId} language.`,
       fileName
     );
+    setUsedModule(name, version, bundled);
   };
 
   if (vscodeConfig.tslintIntegration && tslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
         sendToOutput('prettier-tslint', '0.4.2', true);
-        setUsedModule('prettier-tslint', '0.4.2', true);
         return prettierTslint.format({
           text,
           filePath: fileName,
@@ -130,7 +130,6 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     return safeExecution(
       () => {
         sendToOutput('prettier-eslint', '9.0.0', true);
-        setUsedModule('prettier-eslint', '9.0.0', true);
         return prettierEslint({
           text,
           filePath: fileName,
@@ -144,7 +143,6 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
 
   if (vscodeConfig.stylelintIntegration && stylelintSupportedLanguageIds.includes(languageId)) {
     sendToOutput('prettier-stylelint', '0.4.2', true);
-    setUsedModule('prettier-stylelint', '0.4.2', true);
     return safeExecution(
       prettierStylelint.format({
         text,
@@ -159,14 +157,12 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   const localPrettier = requireLocalPrettier(fileName);
   if (localPrettier) {
     sendToOutput('prettier', localPrettier.version, false);
-    setUsedModule('prettier', localPrettier.version, false);
     return safeExecution(() => localPrettier.format(text, prettierOptions), text, fileName);
   }
 
   return safeExecution(
     () => {
       sendToOutput('prettier', prettier.version, true);
-      setUsedModule('prettier', prettier.version, true);
       return prettier.format(text, prettierOptions);
     },
     text,
