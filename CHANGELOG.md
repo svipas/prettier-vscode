@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+- Update dependencies.
+- Move `setUsedModule()` to `sendToOutput()` in `PrettierEditProvider`.
+
 ## 2.0.0 (August 16, 2019)
 
 - Refactor output message to include filename, language id and parser after every format.
