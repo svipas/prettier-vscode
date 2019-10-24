@@ -9,7 +9,6 @@ import {
   stylelintSupportedLanguageIds,
   tslintSupportedLanguageIds
 } from './integrations';
-import { requireLocalPrettier } from './requirePkg';
 import { getConfig, getSupportedParser } from './utils';
 
 /**
@@ -100,20 +99,20 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     parser
   });
 
-  const sendToOutput = (name: string, version: string, bundled: boolean) => {
+  const sendToOutput = (name: string, version: string) => {
     addToOutput(
-      `Using ${name}@${version} (${bundled ? 'bundled' : 'local'})${
-        hasConfig ? ' with Prettier config' : ''
+      `Using ${name}@${version} ${
+        hasConfig ? 'with Prettier config' : ''
       } to format code with ${parser} parser for ${languageId} language.`,
       fileName
     );
-    setUsedModule(name, version, bundled);
+    setUsedModule(name, version);
   };
 
   if (vscodeConfig.tslintIntegration && tslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
-        sendToOutput('prettier-tslint', '0.4.2', true);
+        sendToOutput('prettier-tslint', '0.4.2');
         const prettierTslint = requireLocalPrettierTslint();
         return prettierTslint.format({
           text,
@@ -129,7 +128,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   if (vscodeConfig.eslintIntegration && eslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
-        sendToOutput('prettier-eslint', '9.0.0', true);
+        sendToOutput('prettier-eslint', '9.0.0');
         const prettierEslint = requireLocalPrettierEslint();
         return prettierEslint({
           text,
@@ -143,7 +142,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   }
 
   if (vscodeConfig.stylelintIntegration && stylelintSupportedLanguageIds.includes(languageId)) {
-    sendToOutput('prettier-stylelint', '0.4.2', true);
+    sendToOutput('prettier-stylelint', '0.4.2');
     const prettierStylelint = requireLocalPrettierStylelint();
     return safeExecution(
       prettierStylelint.format({
@@ -156,15 +155,9 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     );
   }
 
-  const localPrettier = requireLocalPrettier(fileName);
-  if (localPrettier) {
-    sendToOutput('prettier', localPrettier.version, false);
-    return safeExecution(() => localPrettier.format(text, prettierOptions), text, fileName);
-  }
-
   return safeExecution(
     () => {
-      sendToOutput('prettier', prettier.version, true);
+      sendToOutput('prettier', prettier.version);
       return prettier.format(text, prettierOptions);
     },
     text,

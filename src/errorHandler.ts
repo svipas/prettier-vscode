@@ -62,10 +62,9 @@ function updateStatusBar(message: string): void {
 /**
  * @param module the module used
  * @param version the version of the module
- * @param bundled it's bundled with the extension or not
  */
-export function setUsedModule(module: string, version: string, bundled: boolean) {
-  prettierInformation = `${module}@${version} (${bundled ? 'bundled' : 'local'})`;
+export function setUsedModule(module: string, version: string) {
+  prettierInformation = `${module}@${version}`;
 }
 
 /**

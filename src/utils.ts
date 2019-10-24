@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as prettier from 'prettier';
-import { Uri, window, workspace } from 'vscode';
-import { requireLocalPrettier } from './requirePkg';
+import { Uri, workspace } from 'vscode';
 
 export function getConfig(uri?: Uri): prettier.PrettierVSCodeConfig {
   return workspace.getConfiguration('prettier', uri) as any;
@@ -40,13 +39,15 @@ export function getSupportedParser(languageId: string, filepath?: string): prett
   return getParserByLanguageId(languageId);
 }
 
+const prettierSupportedLanguages = prettier.getSupportInfo(prettier.version).languages;
+
 const allSupportedLanguages: {
   [languageId: string]: {
     filenames: string[];
     extensions: string[];
     parsers: prettier.ParserOption[];
   }[];
-} = getSupportedLanguages().reduce((obj: any, prettierLang) => {
+} = prettierSupportedLanguages.reduce((obj: any, prettierLang) => {
   const { filenames = [], extensions = [], parsers = [], vscodeLanguageIds = [] } = prettierLang;
   vscodeLanguageIds.forEach(vscodeLangId => {
     if (obj[vscodeLangId]) {
@@ -59,7 +60,7 @@ const allSupportedLanguages: {
 }, {});
 
 // Returns all supported VS Code language ids from Prettier
-export const allSupportedVSCodeLanguageIds: string[] = getSupportedLanguages().reduce((ids: string[], lang) => {
+export const allSupportedVSCodeLanguageIds: string[] = prettierSupportedLanguages.reduce((ids: string[], lang) => {
   if (lang.vscodeLanguageIds) {
     ids.push(...lang.vscodeLanguageIds);
   }
@@ -85,19 +86,6 @@ const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOpti
   vue: ['vue'],
   yaml: ['yaml']
 };
-
-/**
- * Returns supported languages from local or bundled Prettier.
- */
-function getSupportedLanguages(): prettier.PrettierSupportInfo['languages'] {
-  if (window.activeTextEditor) {
-    const localPrettier = requireLocalPrettier(window.activeTextEditor.document.fileName);
-    if (localPrettier) {
-      return localPrettier.getSupportInfo(localPrettier.version).languages;
-    }
-  }
-  return prettier.getSupportInfo(prettier.version).languages;
-}
 
 function getParserByLanguageId(languageId: string): prettier.ParserOption {
   const parsers = allSupportedLanguageParsers[languageId];
