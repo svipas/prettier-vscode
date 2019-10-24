@@ -5,6 +5,7 @@
 - Update `azure-pipelines.yml` to use Node 12 and fix triggers.
 - Change status bar text from `Prettier` to `Prettier+`.
 - Set `extensionKind` to `workspace` in `package.json`.
+- Update `README.md` to include bundled dependencies url.
 
 ## 2.0.0 (August 16, 2019)
 
