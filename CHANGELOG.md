@@ -6,6 +6,7 @@
 - Change status bar text from `Prettier` to `Prettier+`.
 - Set `extensionKind` to `workspace` in `package.json`.
 - Update `README.md` to include bundled dependencies url.
+- Remove `vue` from `disableLanguages` because Vue is supported in Prettier 1.15 version.
 
 ## 2.0.0 (August 16, 2019)
 

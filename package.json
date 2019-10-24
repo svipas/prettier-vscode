@@ -37,9 +37,6 @@
           "items": {
             "type": "string"
           },
-          "default": [
-            "vue"
-          ],
           "description": "List of languages IDs to ignore. Restart required.",
           "scope": "window"
         },

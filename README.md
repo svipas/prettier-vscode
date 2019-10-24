@@ -218,7 +218,7 @@ Require a config file to format code.
 
 Path to a `.prettierignore` or similar file such as `.gitignore`. Files which match will not be formatted. Set to `null` to not read ignore files. **Restart required.**
 
-**prettier.disableLanguages (default: ["vue"])**
+**prettier.disableLanguages (default: [])**
 
 List of languages IDs to ignore. **Restart required.** _Disabling a language enabled in a parent folder will prevent formatting instead of letting any other formatter to run._
 
