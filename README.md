@@ -44,7 +44,7 @@ Linux: Ctrl + Shift + I
 
 ## Bundled dependencies
 
-These dependencies are bundled with the extension so additionally you don't need to install either of those:
+These dependencies are bundled with the extension:
 
 - [Prettier (1.18.2)](https://github.com/prettier/prettier)
 - [prettier-eslint (9.0.0)](https://github.com/prettier/prettier-eslint)
@@ -55,25 +55,25 @@ After installing this extension you can immediately start to format your code, y
 
 ## Integrations
 
-### ESLint ([prettier-eslint](https://github.com/prettier/prettier-eslint))
+#### [ESLint](https://github.com/prettier/prettier-eslint)
 
-1. Install `eslint` and dependencies required by your specific configuration locally with Yarn or npm.
+1. Install `eslint` locally with Yarn or npm.
 2. Setup your ESLint configuration.
 3. Add `"prettier.eslintIntegration": true` in VS Code settings.
 
-### TSLint ([prettier-tslint](https://github.com/azz/prettier-tslint))
+#### [TSLint](https://github.com/azz/prettier-tslint)
 
-1. Install `tslint` and dependencies required by your specific configuration locally with Yarn or npm.
+1. Install `tslint` locally with Yarn or npm.
 2. Setup your TSLint configuration.
 3. Add `"prettier.tslintIntegration": true` in VS Code settings.
 
-### stylelint ([prettier-stylelint](https://github.com/hugomrdias/prettier-stylelint))
+#### [stylelint](https://github.com/hugomrdias/prettier-stylelint)
 
-1. Install `stylelint` and dependencies required by your specific configuration locally with Yarn or npm.
+1. Install `stylelint` locally with Yarn or npm.
 2. Setup your stylelint configuration.
 3. Add `"prettier.stylelintIntegration": true` in VS Code settings.
 
-&#x26a0; If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`.
+_If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`._
 
 ## Settings
 
@@ -219,17 +219,17 @@ Valid options:
 
 These settings are specific to VS Code and need to be set in the VS Code settings file. See the [documentation](https://code.visualstudio.com/docs/getstarted/settings) for how to do that.
 
-**prettier.eslintIntegration (default: false) - JavaScript, TypeScript and Vue**
+**prettier.eslintIntegration (default: false)**
 
-Use [prettier-eslint](https://github.com/prettier/prettier-eslint) instead of `prettier`.
+Use [prettier-eslint](https://github.com/prettier/prettier-eslint) to format JavaScript, TypeScript and Vue.
 
-**prettier.tslintIntegration (default: false) - TypeScript**
+**prettier.tslintIntegration (default: false)**
 
-Use [prettier-tslint](https://github.com/azz/prettier-tslint) instead of `prettier`.
+Use [prettier-tslint](https://github.com/azz/prettier-tslint) to format TypeScript.
 
-**prettier.stylelintIntegration (default: false) - CSS, SCSS and Less**
+**prettier.stylelintIntegration (default: false)**
 
-Use [prettier-stylelint](https://github.com/hugomrdias/prettier-stylelint) instead of `prettier`.
+Use [prettier-stylelint](https://github.com/hugomrdias/prettier-stylelint) to CSS, SCSS and Less.
 
 **prettier.requireConfig (default: false)**
 
