@@ -102,23 +102,23 @@ export function safeExecution(
   if (cb instanceof Promise) {
     return cb
       .then(returnValue => {
-        updateStatusBar('Prettier: $(check)');
+        updateStatusBar('Prettier+: $(check)');
         return returnValue;
       })
       .catch((err: Error) => {
         addToOutput(err.message, filename);
-        updateStatusBar('Prettier: $(x)');
+        updateStatusBar('Prettier+: $(x)');
         return defaultText;
       });
   }
 
   try {
     const returnValue = cb();
-    updateStatusBar('Prettier: $(check)');
+    updateStatusBar('Prettier+: $(check)');
     return returnValue;
   } catch (err) {
     addToOutput(err.message, filename);
-    updateStatusBar('Prettier: $(x)');
+    updateStatusBar('Prettier+: $(x)');
     return defaultText;
   }
 }
@@ -130,13 +130,13 @@ export function safeExecution(
 export function setupErrorHandler(): Disposable {
   // Setup the statusBarItem
   statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, -1);
-  statusBarItem.text = 'Prettier';
+  statusBarItem.text = 'Prettier+:';
   statusBarItem.command = 'prettier.open-output';
 
   toggleStatusBarItem(window.activeTextEditor);
 
   // Setup the outputChannel
-  outputChannel = window.createOutputChannel('Prettier');
+  outputChannel = window.createOutputChannel('Prettier+');
 
   return commands.registerCommand('prettier.open-output', () => outputChannel.show());
 }
