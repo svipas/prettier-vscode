@@ -73,7 +73,9 @@ After installing this extension you can immediately start to format your code, y
 2. Setup your stylelint configuration.
 3. Add `"prettier.stylelintIntegration": true` in VS Code settings.
 
-_If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`._
+<hr>
+
+If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`.
 
 ## Settings
 
