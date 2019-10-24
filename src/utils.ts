@@ -40,7 +40,7 @@ export function getSupportedParser(languageId: string, filepath?: string): prett
   return getParserByLanguageId(languageId);
 }
 
-export const allSupportedLanguages: {
+const allSupportedLanguages: {
   [languageId: string]: {
     filenames: string[];
     extensions: string[];
@@ -71,7 +71,7 @@ export const stylelintSupportedLanguageIds = ['css', 'less', 'scss'];
 export const tslintSupportedLanguageIds = ['typescript', 'typescriptreact'];
 
 // Mainly used for untitled files or for files without any extension to get the default parser
-export const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOption[] } = {
+const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOption[] } = {
   javascript: ['babel', 'flow'],
   javascriptreact: ['babel', 'flow'],
   typescript: ['typescript'],
