@@ -101,8 +101,8 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
 
   const sendToOutput = (name: string, version: string) => {
     addToOutput(
-      `Using ${name}@${version} ${
-        hasConfig ? 'with Prettier config' : ''
+      `Using ${name}@${version}${
+        hasConfig ? ' with Prettier config' : ''
       } to format code with ${parser} parser for ${languageId} language.`,
       fileName
     );
