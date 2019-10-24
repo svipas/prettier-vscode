@@ -15,9 +15,9 @@ function findPkg(fspath: string, pkgName: string): string | undefined {
   }
 
   if (
-    res.package &&
-    ((res.package.dependencies && res.package.dependencies[pkgName]) ||
-      (res.package.devDependencies && res.package.devDependencies[pkgName]))
+    res.packageJson &&
+    ((res.packageJson.dependencies && res.packageJson.dependencies[pkgName]) ||
+      (res.packageJson.devDependencies && res.packageJson.devDependencies[pkgName]))
   ) {
     return resolve.sync(pkgName, { basedir: res.path });
   }
