@@ -266,7 +266,3 @@ Feel free to open issues or PRs!
 - Run tests from terminal via `yarn test`
 
 </details>
-
-## Credits
-
-All credits goes to the [prettier-vscode](https://github.com/prettier/prettier-vscode) and [prettier](https://github.com/prettier/prettier).
