@@ -5,7 +5,7 @@
 - Update `azure-pipelines.yml` to use Node 12 and fix triggers.
 - Change status bar text from `Prettier` to `Prettier+`.
 - Set `extensionKind` to `workspace` in `package.json`.
-- Update `README.md` to include bundled dependencies url.
+- Update `README.md` to include bundled dependencies url, etc.
 - Remove `vue` from `disableLanguages` because Vue is supported in Prettier 1.15 version.
 - Move `eslint`, `tslint` and `stylelint` integrations to separate file `integrations.ts` (out from `utils.ts`) and `require()` (load) dependency only when it's needed and cache it in-memory.
 
