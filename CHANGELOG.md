@@ -1,7 +1,10 @@
 ## [Unreleased]
 
-- Update dependencies.
+- Update all dependencies across whole project.
 - Move `setUsedModule()` to `sendToOutput()` in `PrettierEditProvider`.
+- Update `azure-pipelines.yml` to use Node 12 and fix triggers.
+- Change status bar text from `Prettier` to `Prettier+`.
+- Set `extensionKind` to `workspace` in `package.json`.
 
 ## 2.0.0 (August 16, 2019)
 
