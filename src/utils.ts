@@ -66,10 +66,6 @@ export const allSupportedVSCodeLanguageIds: string[] = getSupportedLanguages().r
   return ids;
 }, []);
 
-export const eslintSupportedLanguageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
-export const stylelintSupportedLanguageIds = ['css', 'less', 'scss'];
-export const tslintSupportedLanguageIds = ['typescript', 'typescriptreact'];
-
 // Mainly used for untitled files or for files without any extension to get the default parser
 const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOption[] } = {
   javascript: ['babel', 'flow'],

@@ -1,17 +1,16 @@
 import * as prettier from 'prettier';
-import prettierEslint from 'prettier-eslint';
-import * as prettierStylelint from 'prettier-stylelint';
-import * as prettierTslint from 'prettier-tslint';
 import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit } from 'vscode';
 import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
-import { requireLocalPrettier } from './requirePkg';
 import {
   eslintSupportedLanguageIds,
-  getConfig,
-  getSupportedParser,
+  requireLocalPrettierEslint,
+  requireLocalPrettierStylelint,
+  requireLocalPrettierTslint,
   stylelintSupportedLanguageIds,
   tslintSupportedLanguageIds
-} from './utils';
+} from './integrations';
+import { requireLocalPrettier } from './requirePkg';
+import { getConfig, getSupportedParser } from './utils';
 
 /**
  * Resolves the prettier config for the given file.
@@ -115,6 +114,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     return safeExecution(
       () => {
         sendToOutput('prettier-tslint', '0.4.2', true);
+        const prettierTslint = requireLocalPrettierTslint();
         return prettierTslint.format({
           text,
           filePath: fileName,
@@ -130,6 +130,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     return safeExecution(
       () => {
         sendToOutput('prettier-eslint', '9.0.0', true);
+        const prettierEslint = requireLocalPrettierEslint();
         return prettierEslint({
           text,
           filePath: fileName,
@@ -143,6 +144,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
 
   if (vscodeConfig.stylelintIntegration && stylelintSupportedLanguageIds.includes(languageId)) {
     sendToOutput('prettier-stylelint', '0.4.2', true);
+    const prettierStylelint = requireLocalPrettierStylelint();
     return safeExecution(
       prettierStylelint.format({
         text,
