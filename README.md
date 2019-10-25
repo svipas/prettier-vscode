@@ -1,11 +1,11 @@
 # Prettier+ &middot; [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/svipas.prettier-plus.svg)](https://marketplace.visualstudio.com/items?itemName=svipas.prettier-plus) [![Build Status](https://dev.azure.com/svipas/svipas/_apis/build/status/svipas.vscode-prettier-plus?branchName=master)](https://dev.azure.com/svipas/svipas/_build/latest?definitionId=4&branchName=master)
 
-[Prettier](https://prettier.io) (code formatter) for the VS Code. To see what was changed you can take a look at the [CHANGELOG](https://github.com/svipas/vscode-prettier-plus/blob/master/CHANGELOG.md).
+[Prettier](https://prettier.io) (code formatter) for the VS Code.
 
-## Works with the Tools You Use
+### Works with the Tools You Use
 
 <table>
-  <tr>
+  <tr align="center">
     <td>
       <strong>JavaScript</strong>
       <br />
@@ -37,8 +37,8 @@
       <br />
       <a href="https://mdxjs.com">MDX</a>
     </td>
-    <td>
-      <strong>Official Plugins</strong>
+    <td rowspan="2">
+      <strong>Plugins</strong>
       <br />
       <a href="https://github.com/prettier/plugin-php">PHP</a>
       <br />
@@ -49,7 +49,7 @@
       <a href="https://github.com/prettier/plugin-swift">Swift</a>
     </td>
   </tr>
-  <tr>
+  <tr align="center">
     <td>
       <strong>HTML</strong>
       <br />
@@ -59,6 +59,8 @@
     </td>
     <td>
       <strong><a href="https://graphql.org">GraphQL</a></strong>
+      <br />
+      <a href="https://graphql.org/learn/schema">GraphQL Schemas</a>
     </td>
     <td>
       <strong><a href="https://yaml.org">YAML</a></strong>
