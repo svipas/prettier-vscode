@@ -2,31 +2,66 @@
 
 [Prettier](https://prettier.io) (code formatter) for the VS Code. To see what was changed you can take a look at the [CHANGELOG](https://github.com/svipas/vscode-prettier-plus/blob/master/CHANGELOG.md).
 
-Works with HTML, Vue, Angular, GraphQL, Markdown, CommonMark, GitHub-Flavored Markdown, MDX, Yaml, PHP, Pug, Ruby, and Swift.
+## Works with the Tools You Use
 
 <table>
   <tr>
     <td>
-      JavaScript
+      <strong>JavaScript</strong>
       <br />
-      JSX
+      <a href="https://facebook.github.io/jsx">JSX</a>
       <br />
-      Flow
+      <a href="https://flow.org">Flow</a>
       <br />
-      TypeScript
+      <a href="https://www.typescriptlang.org">TypeScript</a>
       <br />
-      JSON
+      <a href="https://json.org">JSON</a>
     </td>
     <td>
-      CSS
+      <strong>CSS</strong>
       <br />
-      Less
+      <a href="http://lesscss.org">Less</a>
       <br />
-      SCSS
+      <a href="https://sass-lang.com">SCSS</a>
       <br />
-      styled-components
+      <a href="https://styled-components.com">styled-components</a>
       <br />
-      styled-jsx
+      <a href="https://github.com/zeit/styled-jsx">styled-jsx</a>
+    </td>
+    <td>
+      <strong>Markdown</strong>
+      <br />
+      <a href="https://commonmark.org">CommonMark</a>
+      <br />
+      <a href="https://github.github.com/gfm">GitHub-Flavored Markdown</a>
+      <br />
+      <a href="https://mdxjs.com">MDX</a>
+    </td>
+    <td>
+      <strong>Official Plugins</strong>
+      <br />
+      <a href="https://github.com/prettier/plugin-php">PHP</a>
+      <br />
+      <a href="https://github.com/prettier/plugin-pug">Pug</a>
+      <br />
+      <a href="https://github.com/prettier/plugin-ruby">Ruby</a>
+      <br />
+      <a href="https://github.com/prettier/plugin-swift">Swift</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>HTML</strong>
+      <br />
+      <a href="https://vuejs.org">Vue</a>
+      <br />
+      <a href="https://angular.io">Angular</a>
+    </td>
+    <td>
+      <strong><a href="https://graphql.org">GraphQL</a></strong>
+    </td>
+    <td>
+      <strong><a href="https://yaml.org">YAML</a></strong>
     </td>
   </tr>
 </table>
