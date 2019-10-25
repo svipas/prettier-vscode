@@ -8,7 +8,7 @@ Works with HTML, Vue, Angular, GraphQL, Markdown, CommonMark, GitHub-Flavored Ma
   <tr>
     <td>
       <img
-        src="https://raw.githubusercontent.com/svipas/vscode-prettier-plus/master/images/js.svg"
+        src="https://prettier.io/images/languages/tools_js.svg"
         width="50px"
         height="110px"
         align="left"
@@ -25,7 +25,7 @@ Works with HTML, Vue, Angular, GraphQL, Markdown, CommonMark, GitHub-Flavored Ma
     </td>
     <td>
       <img
-        src="https://raw.githubusercontent.com/svipas/vscode-prettier-plus/master/images/css.svg"
+        src="https://prettier.io/images/languages/tools_css.svg"
         width="50px"
         height="110px"
         align="left"
