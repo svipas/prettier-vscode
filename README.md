@@ -1,8 +1,8 @@
 # Prettier+ &middot; [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/svipas.prettier-plus.svg)](https://marketplace.visualstudio.com/items?itemName=svipas.prettier-plus) [![Build Status](https://dev.azure.com/svipas/svipas/_apis/build/status/svipas.vscode-prettier-plus?branchName=master)](https://dev.azure.com/svipas/svipas/_build/latest?definitionId=4&branchName=master)
 
-[Prettier](https://prettier.io) (code formatter) for the VS Code.
+[Prettier](https://prettier.io) (code formatter) for the VS Code. To see the difference between [prettier-vscode](https://github.com/prettier/prettier-vscode) you can take a look at the [CHANGELOG](https://github.com/svipas/vscode-prettier-plus/blob/master/CHANGELOG.md).
 
-### Works with the Tools You Use
+## Works with the Tools You Use
 
 <table>
   <tr align="center">
