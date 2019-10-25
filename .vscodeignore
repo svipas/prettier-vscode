@@ -4,6 +4,7 @@
 out/**
 src/**
 test/**
+images/**
 .eslintignore
 azure-pipelines.yml
 tsconfig.json
