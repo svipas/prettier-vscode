@@ -2,7 +2,20 @@
 
 [Prettier](https://prettier.io) (code formatter) for the VS Code. To see what was changed you can take a look at the [CHANGELOG](https://github.com/svipas/vscode-prettier-plus/blob/master/CHANGELOG.md).
 
-Works with JavaScript, JSX, Flow, TypeScript, JSON, HTML, Vue, Angular, CSS, Less, SCSS, `styled-components`, `styled-jsx`, GraphQL, Markdown, CommonMark, GitHub-Flavored Markdown, MDX, Yaml, Elm (via `elm-format`), Java, PHP, PostgreSQL, Ruby, Swift, TOML.
+Works with JavaScript, JSX, Flow, TypeScript, JSON, HTML, Vue, Angular, CSS, Less, SCSS, `styled-components`, `styled-jsx`, GraphQL, Markdown, CommonMark, GitHub-Flavored Markdown, MDX, Yaml, PHP, Pug, Ruby, and Swift.
+
+<p>
+<img src="https://prettier.io/images/languages/tools_js.svg" width="50px" height="110px" align="left" />
+&nbsp; JavaScript
+<br>
+&nbsp; JSX
+<br>
+&nbsp; Flow
+<br>
+&nbsp; TypeScript
+<br>
+&nbsp; JSON
+</p>
 
 ## Installation
 
