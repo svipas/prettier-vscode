@@ -7,12 +7,6 @@ Works with HTML, Vue, Angular, GraphQL, Markdown, CommonMark, GitHub-Flavored Ma
 <table>
   <tr>
     <td>
-      <img
-        src="https://prettier.io/images/languages/tools_js.svg"
-        width="50px"
-        height="110px"
-        align="left"
-      />
       JavaScript
       <br />
       JSX
@@ -24,12 +18,6 @@ Works with HTML, Vue, Angular, GraphQL, Markdown, CommonMark, GitHub-Flavored Ma
       JSON
     </td>
     <td>
-      <img
-        src="https://prettier.io/images/languages/tools_css.svg"
-        width="50px"
-        height="110px"
-        align="left"
-      />
       CSS
       <br />
       Less
