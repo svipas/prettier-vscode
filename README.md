@@ -145,21 +145,10 @@ If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration
 
 &#x26a0; The plugin API is in a beta state as of Prettier 1.10. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
 
-#### [PHP](https://github.com/prettier/plugin-php)
-
-1. Install `prettier` and `@prettier/plugin-php` **locally** with Yarn or npm.
-
-#### [Pug](https://github.com/prettier/plugin-pug)
-
-1. Install `@prettier/plugin-pug` **locally** with Yarn or npm.
-
-#### [Ruby](https://github.com/prettier/plugin-ruby)
-
-1. Install `@prettier/plugin-ruby` **locally** with Yarn or npm.
-
-#### [Swift](https://github.com/prettier/plugin-swift)
-
-1. Install `prettier/plugin-swift` **locally** with Yarn or npm.
+- **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` **locally** with Yarn or npm.
+- **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` **locally** with Yarn or npm.
+- **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` **locally** with Yarn or npm.
+- **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` **locally** with Yarn or npm.
 
 ## Settings
 
