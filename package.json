@@ -43,19 +43,19 @@
         "prettier.eslintIntegration": {
           "type": "boolean",
           "default": false,
-          "description": "Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.",
+          "description": "Use 'prettier-eslint' to format JavaScript, TypeScript and Vue.",
           "scope": "resource"
         },
         "prettier.tslintIntegration": {
           "type": "boolean",
           "default": false,
-          "description": "Use 'prettier-tslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from tslint rules.",
+          "description": "Use 'prettier-tslint' to format TypeScript.",
           "scope": "resource"
         },
         "prettier.stylelintIntegration": {
           "type": "boolean",
           "default": false,
-          "description": "Use 'prettier-stylelint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from stylelint rules.",
+          "description": "Use 'prettier-stylelint' to format CSS, SCSS and Less.",
           "scope": "resource"
         },
         "prettier.requireConfig": {
@@ -299,13 +299,13 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.11.6",
+    "@types/node": "^12.11.7",
     "@types/vscode": "^1.17.0",
     "glob": "^7.1.5",
     "mocha": "^6.2.2",
     "parcel-bundler": "^1.12.4",
-    "vscode-test": "^1.2.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "vscode-test": "^1.2.0"
   },
   "dependencies": {
     "ignore": "^5.1.4",
@@ -326,28 +326,24 @@
     "typescript",
     "ts",
     "json",
-    "html",
-    "vue",
-    "angular",
     "css",
     "less",
     "scss",
     "styled-components",
     "styled-jsx",
-    "graphql",
     "markdown",
     "md",
     "commonmark",
     "mdx",
-    "yaml",
-    "yml",
-    "elm",
-    "java",
     "php",
-    "postgresql",
-    "sql",
+    "pug",
     "ruby",
     "swift",
-    "toml"
+    "html",
+    "vue",
+    "angular",
+    "graphql",
+    "yaml",
+    "yml"
   ]
 }
