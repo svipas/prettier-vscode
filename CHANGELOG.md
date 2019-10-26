@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## 3.0.0 (October 27, 2019)
+
 - Update all dependencies across whole project.
 - Move `setUsedModule()` to `sendToOutput()` in `PrettierEditProvider`.
 - Update `azure-pipelines.yml` to use Node 12 and fix triggers.
@@ -11,6 +13,7 @@
 - Remove local prettier support.
 - Remove unnecessary settings from `test.code-workspace` file.
 - Add support for official plugins.
+- Refactor tests to contain `actual` and `expected` file instead of having expected result hard-coded into tests.
 
 ## 2.0.0 (August 16, 2019)
 
