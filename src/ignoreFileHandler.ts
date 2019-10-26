@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'fs';
 import ignore from 'ignore';
-import * as path from 'path';
+import { posix } from 'path';
 import { Disposable, Uri, workspace } from 'vscode';
 import { addToOutput } from './errorHandler';
 import { getVSCodeConfig } from './utils';
@@ -68,7 +68,7 @@ export function ignoreFileHandler(disposables: Disposable[]) {
   return {
     fileIsIgnored(filePath: string) {
       const { ignorer, ignoreFilePath } = getIgnorerForFile(filePath);
-      return ignorer.ignores(path.relative(path.dirname(ignoreFilePath), filePath));
+      return ignorer.ignores(posix.relative(posix.dirname(ignoreFilePath), filePath));
     }
   };
 }
@@ -88,5 +88,5 @@ function getIgnorePathForFile(filePath: string, ignorePath: string): string | nu
 }
 
 function getPath(fsPath: string, relativeTo: string) {
-  return path.isAbsolute(fsPath) ? fsPath : path.posix.join(relativeTo, fsPath);
+  return posix.isAbsolute(fsPath) ? fsPath : posix.join(relativeTo, fsPath);
 }

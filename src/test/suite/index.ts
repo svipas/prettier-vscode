@@ -1,6 +1,6 @@
 import glob from 'glob';
 import Mocha from 'mocha';
-import * as path from 'path';
+import { posix } from 'path';
 
 export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
   const mocha = new Mocha({
@@ -15,7 +15,7 @@ export function run(testsRoot: string, cb: (error: any, failures?: number) => vo
     }
 
     // Add files to the test suite
-    files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+    files.forEach(f => mocha.addFile(posix.resolve(testsRoot, f)));
 
     try {
       // Run the mocha test

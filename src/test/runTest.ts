@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { posix } from 'path';
 import { runTests } from 'vscode-test';
 
 (async function main() {
@@ -8,10 +8,10 @@ import { runTests } from 'vscode-test';
 
   // The path to test runner
   // Passed to --extensionTestsPath
-  const extensionTestsPath = path.posix.join(__dirname, './suite');
+  const extensionTestsPath = posix.join(__dirname, './suite');
 
   // The path to the workspace file
-  const workspace = path.resolve('test', 'test.code-workspace');
+  const workspace = posix.resolve('test', 'test.code-workspace');
 
   // Download VS Code, unzip it and run the integration test
   await runTests({ extensionDevelopmentPath, extensionTestsPath, launchArgs: [workspace] });
