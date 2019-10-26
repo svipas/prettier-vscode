@@ -4,8 +4,7 @@
     { "path": "workspace" },
     { "path": "eslint" },
     { "path": "tslint" },
-    { "path": "stylelint" },
-    { "path": "ruby" }
+    { "path": "stylelint" }
   ],
   "settings": {
     "editor.defaultFormatter": "svipas.prettier-plus"
