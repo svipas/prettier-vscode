@@ -8,7 +8,7 @@ import { runTests } from 'vscode-test';
 
   // The path to test runner
   // Passed to --extensionTestsPath
-  const extensionTestsPath = path.join(__dirname, './suite');
+  const extensionTestsPath = path.posix.join(__dirname, './suite');
 
   // The path to the workspace file
   const workspace = path.resolve('test', 'test.code-workspace');

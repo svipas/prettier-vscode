@@ -1,18 +1,13 @@
 import * as assert from 'assert';
-import { join, posix } from 'path';
+import { posix } from 'path';
 import * as prettier from 'prettier';
 import { commands, Uri, window, workspace } from 'vscode';
 
-/**
- * Loads and format a file.
- * @param filename path relative to base URI (a workspaceFolder's URI)
- * @param base base URI
- * @returns source code and resulting code
- */
-export function format(filename: string, base: Uri): Promise<{ result: string; source: string }> {
-  const absPath = join(base.fsPath, filename);
+export function format(filename: string, uri: Uri): Promise<{ result: string; source: string }> {
+  uri = uri.with({ path: posix.join(uri.fsPath, filename) });
+
   return new Promise((resolve, reject) => {
-    workspace.openTextDocument(absPath).then(doc => {
+    workspace.openTextDocument(uri).then(doc => {
       const text = doc.getText();
       window.showTextDocument(doc).then(() => {
         console.time(filename);
@@ -26,19 +21,14 @@ export function format(filename: string, base: Uri): Promise<{ result: string; s
 }
 
 export async function readTestFile(filename: string, uri: Uri): Promise<string> {
-  const data = await workspace.fs.readFile(uri.with({ path: posix.join(uri.path, filename) }));
+  const data = await workspace.fs.readFile(uri.with({ path: posix.join(uri.fsPath, filename) }));
   return Buffer.from(data).toString();
 }
 
-/**
- * Compare prettier's output (default settings) with the output from extension.
- * @param file path relative to workspace root
- */
-function formatSameAsPrettier(file: string) {
-  return format(file, workspace.workspaceFolders![0].uri).then(result => {
-    const prettierFormatted = prettier.format(result.source, { filepath: file });
-    assert.strictEqual(result.result, prettierFormatted);
-  });
+async function formatSameAsPrettier(path: string) {
+  const { result, source } = await format(path, workspace.workspaceFolders![0].uri);
+  const prettierFormatted = prettier.format(source, { filepath: path });
+  assert.strictEqual(result, prettierFormatted);
 }
 
 suite('Prettier', () => {

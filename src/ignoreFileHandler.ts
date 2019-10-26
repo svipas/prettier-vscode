@@ -88,5 +88,5 @@ function getIgnorePathForFile(filePath: string, ignorePath: string): string | nu
 }
 
 function getPath(fsPath: string, relativeTo: string) {
-  return path.isAbsolute(fsPath) ? fsPath : path.join(relativeTo, fsPath);
+  return path.isAbsolute(fsPath) ? fsPath : path.posix.join(relativeTo, fsPath);
 }
