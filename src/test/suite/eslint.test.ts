@@ -1,19 +1,13 @@
 import * as assert from 'assert';
-import { format } from './format.test';
 import { workspace } from 'vscode';
-
-const expectedResult = `// ESLint: single-quote, trailing-comma, no-semi
-function foo() {
-    return 'bar'
-}
-`;
+import { format, readTestFile } from './format.test';
 
 const workspaceFolder = workspace.workspaceFolders![2].uri;
 
-suite('Test eslint', () => {
-  test('it formats with prettier-eslint', () => {
-    return format('withEslint.js', workspaceFolder).then(({ result }) => {
-      assert.strictEqual(result, expectedResult);
-    });
+suite('ESLint', () => {
+  test('it formats with prettier-eslint', async () => {
+    const actualResult = (await format('actual.js', workspaceFolder)).result;
+    const expectedResult = await readTestFile('expected.js', workspaceFolder);
+    assert.strictEqual(actualResult, expectedResult);
   });
 });

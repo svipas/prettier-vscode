@@ -1,45 +1,47 @@
 import * as assert from 'assert';
-import * as path from 'path';
+import { join, posix } from 'path';
 import * as prettier from 'prettier';
-import * as vscode from 'vscode';
-import { Uri } from 'vscode';
+import { commands, Uri, window, workspace } from 'vscode';
 
 /**
  * Loads and format a file.
- * @param file path relative to base URI (a workspaceFolder's URI)
+ * @param filename path relative to base URI (a workspaceFolder's URI)
  * @param base base URI
  * @returns source code and resulting code
  */
-export function format(
-  file: string,
-  base: Uri = vscode.workspace.workspaceFolders![0].uri
-): Promise<{ result: string; source: string }> {
-  const absPath = path.join(base.fsPath, file);
+export function format(filename: string, base: Uri): Promise<{ result: string; source: string }> {
+  const absPath = join(base.fsPath, filename);
   return new Promise((resolve, reject) => {
-    vscode.workspace.openTextDocument(absPath).then(doc => {
+    workspace.openTextDocument(absPath).then(doc => {
       const text = doc.getText();
-      vscode.window.showTextDocument(doc).then(() => {
-        console.time(file);
-        vscode.commands.executeCommand('editor.action.formatDocument').then(() => {
-          console.timeEnd(file);
+      window.showTextDocument(doc).then(() => {
+        console.time(filename);
+        commands.executeCommand('editor.action.formatDocument').then(() => {
+          console.timeEnd(filename);
           resolve({ result: doc.getText(), source: text });
         }, reject);
       }, reject);
     }, reject);
   });
 }
+
+export async function readTestFile(filename: string, uri: Uri): Promise<string> {
+  const data = await workspace.fs.readFile(uri.with({ path: posix.join(uri.path, filename) }));
+  return Buffer.from(data).toString();
+}
+
 /**
  * Compare prettier's output (default settings) with the output from extension.
  * @param file path relative to workspace root
  */
 function formatSameAsPrettier(file: string) {
-  return format(file).then(result => {
+  return format(file, workspace.workspaceFolders![0].uri).then(result => {
     const prettierFormatted = prettier.format(result.source, { filepath: file });
     assert.strictEqual(result.result, prettierFormatted);
   });
 }
 
-suite('Test format document', () => {
+suite('Prettier', () => {
   test('it formats JavaScript', () => formatSameAsPrettier('formatTest/ugly.js'));
   test('it formats TypeScript', () => formatSameAsPrettier('formatTest/ugly.ts'));
   test('it formats CSS', () => formatSameAsPrettier('formatTest/ugly.css'));

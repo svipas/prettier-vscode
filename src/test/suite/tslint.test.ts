@@ -1,19 +1,13 @@
 import * as assert from 'assert';
-import { format } from './format.test';
 import { workspace } from 'vscode';
-
-const expectedResult = `// TSLint: single-quote, trailing-comma, no-semi
-function foo() {
-  return 'bar'
-}
-`;
+import { format, readTestFile } from './format.test';
 
 const workspaceFolder = workspace.workspaceFolders![3].uri;
 
-suite('Test tslint', () => {
-  test('it formats with prettier-tslint', () => {
-    return format('withTslint.ts', workspaceFolder).then(({ result }) => {
-      assert.strictEqual(result, expectedResult);
-    });
+suite('TSLint', () => {
+  test('it formats with prettier-tslint', async () => {
+    const actualResult = (await format('actual.ts', workspaceFolder)).result;
+    const expectedResult = await readTestFile('expected.ts', workspaceFolder);
+    assert.strictEqual(actualResult, expectedResult);
   });
 });
