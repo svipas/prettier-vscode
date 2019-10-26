@@ -1,4 +1,4 @@
-import { posix } from 'path';
+import * as path from 'path';
 import * as prettier from 'prettier';
 import { Uri, workspace } from 'vscode';
 
@@ -19,8 +19,8 @@ export function getSupportedParser(
     return getParserByLanguageId(languageId);
   }
 
-  const basename = posix.basename(filepath);
-  const extname = posix.extname(filepath);
+  const basename = path.basename(filepath);
+  const extname = path.extname(filepath);
   let filenamesAndExtensionsEmptyParser: prettier.ParserOption = '';
 
   for (const lang of supportedLanguage) {

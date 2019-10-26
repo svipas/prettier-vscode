@@ -1,13 +1,12 @@
 import * as assert from 'assert';
-import { posix } from 'path';
+import * as path from 'path';
 import * as prettier from 'prettier';
 import { commands, Uri, window, workspace } from 'vscode';
 
 export function format(filename: string, uri: Uri): Promise<{ result: string; source: string }> {
-  uri = uri.with({ path: posix.join(uri.fsPath, filename) });
-
+  const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
   return new Promise((resolve, reject) => {
-    workspace.openTextDocument(uri).then(doc => {
+    workspace.openTextDocument(extendedUri).then(doc => {
       const text = doc.getText();
       window.showTextDocument(doc).then(() => {
         console.time(filename);
@@ -21,7 +20,8 @@ export function format(filename: string, uri: Uri): Promise<{ result: string; so
 }
 
 export async function readTestFile(filename: string, uri: Uri): Promise<string> {
-  const data = await workspace.fs.readFile(uri.with({ path: posix.join(uri.fsPath, filename) }));
+  const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
+  const data = await workspace.fs.readFile(extendedUri);
   return Buffer.from(data).toString();
 }
 
