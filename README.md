@@ -141,9 +141,9 @@ After installing this extension you can immediately start to format your code, y
 
 If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`.
 
-## Plugins (Beta)
+## Plugins
 
-&#x26a0; The plugin API is in a beta state as of Prettier 1.10. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
+&#x26a0; The plugin API is in a beta state. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
 
 - **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` **locally** with Yarn or npm.
 - **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` **locally** with Yarn or npm.
