@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "description": "Test Ruby plugin",
+  "devDependencies": {
+    "@prettier/plugin-ruby": "^0.15.0"
+  }
+}
