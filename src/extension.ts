@@ -3,7 +3,7 @@ import { configFileListener } from './configCacheHandler';
 import { registerDisposables, setupErrorHandler } from './errorHandler';
 import { ignoreFileHandler } from './ignoreFileHandler';
 import { PrettierEditProvider } from './PrettierEditProvider';
-import { allSupportedVSCodeLanguageIds, getConfig } from './utils';
+import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
 
 let formatterHandler: undefined | Disposable;
 
@@ -15,8 +15,12 @@ function disposeFormatterHandler() {
 }
 
 function formatterSelector(): string[] | DocumentFilter[] {
-  const { disableLanguages } = getConfig();
-  const globalLanguageSelector = allSupportedVSCodeLanguageIds.filter(lang => !disableLanguages.includes(lang));
+  const { disableLanguages } = getVSCodeConfig();
+  let globalLanguageSelector = allSupportedLanguageIds;
+
+  if (disableLanguages.length !== 0) {
+    globalLanguageSelector = globalLanguageSelector.filter(lang => !disableLanguages.includes(lang));
+  }
 
   // No workspace opened
   if (!workspace.workspaceFolders) {

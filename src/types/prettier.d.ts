@@ -20,6 +20,8 @@ declare module 'prettier' {
     | 'lwc'
     | 'yaml';
 
+  type PluginParserOption = 'php' | 'pug' | 'ruby' | 'swift';
+
   type TrailingCommaOption = 'none' | 'es5' | 'all';
 
   interface PrettierConfig {
@@ -29,7 +31,7 @@ declare module 'prettier' {
     trailingComma: TrailingCommaOption;
     bracketSpacing: boolean;
     jsxBracketSameLine: boolean;
-    parser: ParserOption;
+    parser: ParserOption | PluginParserOption;
     semi: boolean;
     useTabs: boolean;
     proseWrap: 'preserve' | 'always' | 'never';
@@ -39,6 +41,8 @@ declare module 'prettier' {
     htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore';
     endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
     quoteProps: 'as-needed' | 'consistent' | 'preserve';
+    pluginSearchDirs: string[];
+    plugins: string[];
   }
 
   interface PrettierSupportInfo {
@@ -86,15 +90,15 @@ declare module 'prettier' {
    */
   interface ExtensionConfig {
     /**
-     * Use `prettier-eslint` instead of `prettier`.
+     * Use `prettier-eslint` to format JavaScript, TypeScript and Vue.
      */
     eslintIntegration: boolean;
     /**
-     * Use `prettier-tslint` instead of `prettier`.
+     * Use `prettier-tslint` to format TypeScript.
      */
     tslintIntegration: boolean;
     /**
-     * Use `prettier-stylelint` instead of `prettier`.
+     * Use `prettier-stylelint` to format CSS, SCSS and Less.
      */
     stylelintIntegration: boolean;
     /**

@@ -1,8 +1,8 @@
 // ESLint
 export const eslintSupportedLanguageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
-let prettierEslint: typeof import('prettier-eslint');
+let prettierEslint: typeof import('prettier-eslint') | undefined;
 
-export function requireLocalPrettierEslint(): typeof prettierEslint {
+export function requireLocalPrettierEslint(): typeof import('prettier-eslint') {
   if (prettierEslint) {
     return prettierEslint;
   }
@@ -12,9 +12,9 @@ export function requireLocalPrettierEslint(): typeof prettierEslint {
 
 // TSLint
 export const tslintSupportedLanguageIds = ['typescript', 'typescriptreact'];
-let prettierTslint: typeof import('prettier-tslint');
+let prettierTslint: typeof import('prettier-tslint') | undefined;
 
-export function requireLocalPrettierTslint(): typeof prettierTslint {
+export function requireLocalPrettierTslint(): typeof import('prettier-tslint') {
   if (prettierTslint) {
     return prettierTslint;
   }
@@ -24,9 +24,9 @@ export function requireLocalPrettierTslint(): typeof prettierTslint {
 
 // stylelint
 export const stylelintSupportedLanguageIds = ['css', 'less', 'scss'];
-let prettierStylelint: typeof import('prettier-stylelint');
+let prettierStylelint: typeof import('prettier-stylelint') | undefined;
 
-export function requireLocalPrettierStylelint(): typeof prettierStylelint {
+export function requireLocalPrettierStylelint(): typeof import('prettier-stylelint') {
   if (prettierStylelint) {
     return prettierStylelint;
   }

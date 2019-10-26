@@ -2,16 +2,19 @@ import * as path from 'path';
 import * as prettier from 'prettier';
 import { Uri, workspace } from 'vscode';
 
-export function getConfig(uri?: Uri): prettier.PrettierVSCodeConfig {
+export function getVSCodeConfig(uri?: Uri): prettier.PrettierVSCodeConfig {
   return workspace.getConfiguration('prettier', uri) as any;
 }
 
-export function getSupportedParser(languageId: string, filepath?: string): prettier.ParserOption {
+export function getSupportedParser(
+  languageId: string,
+  filepath?: string
+): prettier.ParserOption | prettier.PluginParserOption {
   if (!filepath) {
     return getParserByLanguageId(languageId);
   }
 
-  const supportedLanguage = allSupportedLanguages[languageId];
+  const supportedLanguage = supportedLanguagesFromPrettier[languageId];
   if (!supportedLanguage) {
     return getParserByLanguageId(languageId);
   }
@@ -41,7 +44,7 @@ export function getSupportedParser(languageId: string, filepath?: string): prett
 
 const prettierSupportedLanguages = prettier.getSupportInfo(prettier.version).languages;
 
-const allSupportedLanguages: {
+const supportedLanguagesFromPrettier: {
   [languageId: string]: {
     filenames: string[];
     extensions: string[];
@@ -49,6 +52,7 @@ const allSupportedLanguages: {
   }[];
 } = prettierSupportedLanguages.reduce((obj: any, prettierLang) => {
   const { filenames = [], extensions = [], parsers = [], vscodeLanguageIds = [] } = prettierLang;
+
   vscodeLanguageIds.forEach(vscodeLangId => {
     if (obj[vscodeLangId]) {
       obj[vscodeLangId].push({ filenames, extensions, parsers });
@@ -56,19 +60,26 @@ const allSupportedLanguages: {
       obj[vscodeLangId] = [{ filenames, extensions, parsers }];
     }
   });
+
   return obj;
 }, {});
 
-// Returns all supported VS Code language ids from Prettier
-export const allSupportedVSCodeLanguageIds: string[] = prettierSupportedLanguages.reduce((ids: string[], lang) => {
-  if (lang.vscodeLanguageIds) {
-    ids.push(...lang.vscodeLanguageIds);
-  }
-  return ids;
-}, []);
+export const supportedPluginLanguageIds = ['php', 'jade', 'ruby', 'swift'];
 
-// Mainly used for untitled files or for files without any extension to get the default parser
-const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOption[] } = {
+export const allSupportedLanguageIds = [
+  ...prettierSupportedLanguages.reduce((ids: string[], lang) => {
+    if (lang.vscodeLanguageIds) {
+      ids.push(...lang.vscodeLanguageIds);
+    }
+    return ids;
+  }, []),
+  ...supportedPluginLanguageIds
+];
+
+const allSupportedLanguageParsers: {
+  [key: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
+} = {
+  // Prettier
   javascript: ['babel', 'flow'],
   javascriptreact: ['babel', 'flow'],
   typescript: ['typescript'],
@@ -84,10 +95,15 @@ const allSupportedLanguageParsers: { [vscodeLangId: string]: prettier.ParserOpti
   mdx: ['mdx'],
   html: ['html'],
   vue: ['vue'],
-  yaml: ['yaml']
+  yaml: ['yaml'],
+  // Plugins
+  php: ['php'],
+  jade: ['pug'],
+  ruby: ['ruby'],
+  swift: ['swift']
 };
 
-function getParserByLanguageId(languageId: string): prettier.ParserOption {
+function getParserByLanguageId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
   const parsers = allSupportedLanguageParsers[languageId];
   return parsers ? parsers[0] : '';
 }

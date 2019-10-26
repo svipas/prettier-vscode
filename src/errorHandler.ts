@@ -1,4 +1,3 @@
-import { PrettierVSCodeConfig } from 'prettier';
 import {
   commands,
   Disposable,
@@ -9,7 +8,7 @@ import {
   TextEditor,
   window
 } from 'vscode';
-import { allSupportedVSCodeLanguageIds, getConfig } from './utils';
+import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
 
 let statusBarItem: StatusBarItem;
 let outputChannel: OutputChannel;
@@ -34,10 +33,10 @@ function toggleStatusBarItem(editor: TextEditor | undefined): void {
     return;
   }
 
-  const score = languages.match(allSupportedVSCodeLanguageIds, editor.document);
-  const disabledLanguages: PrettierVSCodeConfig['disableLanguages'] = getConfig(editor.document.uri).disableLanguages;
+  const { disableLanguages } = getVSCodeConfig(editor.document.uri);
+  const score = languages.match(allSupportedLanguageIds, editor.document);
 
-  if (score > 0 && !disabledLanguages.includes(editor.document.languageId)) {
+  if (score > 0 && !disableLanguages.includes(editor.document.languageId)) {
     statusBarItem.show();
   } else {
     statusBarItem.hide();
@@ -129,13 +128,13 @@ export function safeExecution(
 export function setupErrorHandler(): Disposable {
   // Setup the statusBarItem
   statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, -1);
-  statusBarItem.text = 'Prettier+:';
-  statusBarItem.command = 'prettier.open-output';
+  statusBarItem.text = 'Prettier+';
+  statusBarItem.command = 'prettier-plus.open-output';
 
   toggleStatusBarItem(window.activeTextEditor);
 
   // Setup the outputChannel
   outputChannel = window.createOutputChannel('Prettier+');
 
-  return commands.registerCommand('prettier.open-output', () => outputChannel.show());
+  return commands.registerCommand('prettier-plus.open-output', () => outputChannel.show());
 }

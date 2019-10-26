@@ -1,5 +1,5 @@
 import * as prettier from 'prettier';
-import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit } from 'vscode';
+import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit, workspace } from 'vscode';
 import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
 import {
   eslintSupportedLanguageIds,
@@ -9,7 +9,7 @@ import {
   stylelintSupportedLanguageIds,
   tslintSupportedLanguageIds
 } from './integrations';
-import { getConfig, getSupportedParser } from './utils';
+import { getSupportedParser, getVSCodeConfig, supportedPluginLanguageIds } from './utils';
 
 /**
  * Resolves the prettier config for the given file.
@@ -52,7 +52,12 @@ function mergeConfig(
  * @returns formatted text
  */
 async function format(text: string, { fileName, languageId, uri, isUntitled }: TextDocument): Promise<string> {
-  const vscodeConfig: prettier.PrettierVSCodeConfig = getConfig(uri);
+  const vscodeConfig: prettier.PrettierVSCodeConfig = getVSCodeConfig(uri);
+  const workspaceFolderPaths: string[] = [];
+
+  if (supportedPluginLanguageIds.includes(languageId) && workspace.workspaceFolders) {
+    workspace.workspaceFolders.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
+  }
 
   // This has to stay, as it allows to skip in sub workspaceFolders. Sadly noop.
   // wf1  (with "lang") -> glob: "wf1/**"
@@ -61,7 +66,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     return text;
   }
 
-  let parser: prettier.ParserOption = vscodeConfig.parser;
+  let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
   if (parser === '') {
     parser = getSupportedParser(languageId, isUntitled ? undefined : fileName);
   }
@@ -96,6 +101,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     endOfLine: vscodeConfig.endOfLine,
     quoteProps: vscodeConfig.quoteProps,
     filepath: fileName,
+    pluginSearchDirs: workspaceFolderPaths,
     parser
   });
 
