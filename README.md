@@ -121,25 +121,45 @@ After installing this extension you can immediately start to format your code, y
 
 #### [ESLint](https://github.com/prettier/prettier-eslint)
 
-1. Install `eslint` locally with Yarn or npm.
+1. Install `eslint` **locally** with Yarn or npm.
 2. Setup your ESLint configuration.
 3. Add `"prettier.eslintIntegration": true` in VS Code settings.
 
 #### [TSLint](https://github.com/azz/prettier-tslint)
 
-1. Install `tslint` locally with Yarn or npm.
+1. Install `tslint` **locally** with Yarn or npm.
 2. Setup your TSLint configuration.
 3. Add `"prettier.tslintIntegration": true` in VS Code settings.
 
 #### [stylelint](https://github.com/hugomrdias/prettier-stylelint)
 
-1. Install `stylelint` locally with Yarn or npm.
+1. Install `stylelint` **locally** with Yarn or npm.
 2. Setup your stylelint configuration.
 3. Add `"prettier.stylelintIntegration": true` in VS Code settings.
 
 <hr>
 
 If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration"` enabled in your VS Code settings, then TSLint will be used to lint your TypeScript code. If you would rather use ESLint, disable the TSLint integration by setting `"prettier.tslintIntegration"` to `false`.
+
+## Plugins (Beta)
+
+&#x26a0; The plugin API is in a beta state as of Prettier 1.10. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
+
+#### [PHP](https://github.com/prettier/plugin-php)
+
+1. Install `prettier` and `@prettier/plugin-php` **locally** with Yarn or npm.
+
+#### [Pug](https://github.com/prettier/plugin-pug)
+
+1. Install `@prettier/plugin-pug` **locally** with Yarn or npm.
+
+#### [Ruby](https://github.com/prettier/plugin-ruby)
+
+1. Install `@prettier/plugin-ruby` **locally** with Yarn or npm.
+
+#### [Swift](https://github.com/prettier/plugin-swift)
+
+1. Install `prettier/plugin-swift` **locally** with Yarn or npm.
 
 ## Settings
 
