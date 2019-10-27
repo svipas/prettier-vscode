@@ -76,14 +76,14 @@ Install through VS Code extensions, search for `Prettier+` by `Benas Svipas`. _I
 
 ## Usage
 
-### Command palette
+#### Command palette
 
 ```
 1. Format Document With... -> Prettier+
 2. Format Selection With... -> Prettier+
 ```
 
-### Keyboard shortcuts
+#### Keyboard shortcuts
 
 ```
 Mac: Shift + Option + F
@@ -91,7 +91,7 @@ Windows: Shift + Alt + F
 Linux: Ctrl + Shift + I
 ```
 
-### Format a file on save
+#### Format a file on save
 
 ```json
 // Format all files on save
@@ -199,7 +199,7 @@ Put the `>` of a multi-line JSX element at the end of the last line instead of b
 
 Specify which parser to use. [Learn more here.](https://prettier.io/docs/en/options.html#parser)
 
-_Prettier automatically infers the parser from the input file path, so you shouldn't have to change this setting._
+&#x26a0; Prettier automatically infers the parser from the input file path, so you shouldn't have to change this setting.
 
 Both the `babel` and `flow` parsers support the same set of JavaScript features (including Flow type annotations). They might differ in some edge cases, so if you run into one of those you can try `flow` instead of `babel`.
 
