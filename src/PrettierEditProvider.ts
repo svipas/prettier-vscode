@@ -55,15 +55,15 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   const vscodeConfig: prettier.PrettierVSCodeConfig = getVSCodeConfig(uri);
   const workspaceFolderPaths: string[] = [];
 
-  if (supportedPluginLanguageIds.includes(languageId) && workspace.workspaceFolders) {
-    workspace.workspaceFolders.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
-  }
-
   // This has to stay, as it allows to skip in sub workspaceFolders. Sadly noop.
   // wf1  (with "lang") -> glob: "wf1/**"
   // wf1/wf2  (without "lang") -> match "wf1/**"
   if (vscodeConfig.disableLanguages.includes(languageId)) {
     return text;
+  }
+
+  if (supportedPluginLanguageIds.includes(languageId) && workspace.workspaceFolders) {
+    workspace.workspaceFolders.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
   }
 
   let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
