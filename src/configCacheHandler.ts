@@ -11,7 +11,8 @@ const prettierConfigFiles = [
   '.prettierrc.yml',
   '.prettierrc.js',
   'package.json',
-  'prettier.config.js'
+  'prettier.config.js',
+  '.editorconfig'
 ];
 
 /**
