@@ -38,4 +38,6 @@ suite('Prettier', () => {
   test('it formats JSON', () => formatSameAsPrettier('formatTest/ugly.json'));
   test('it formats package.json', () => formatSameAsPrettier('formatTest/package.json'));
   test('it formats HTML', () => formatSameAsPrettier('formatTest/index.html'));
+  test('it formats Vue', () => formatSameAsPrettier('formatTest/ugly.vue'));
+  test('it formats GraphQL', () => formatSameAsPrettier('formatTest/ugly.graphql'));
 });

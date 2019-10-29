@@ -1,0 +1,9 @@
+query  DroidById  (  $id:  ID!  )  {
+
+    droid  (  id:  $id  )  {
+
+    name
+
+  }
+
+}
