@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## 3.1.0 (October 29, 2019)
+
+- Register `graphql` and `vue` languages.
+- Add tests for `graphql` and `vue` languages.
+- Add `.editorconfig` to config file watches.
+- Move check for disabled languages upper in `PrettierEditProvider.format()`.
+
 ## 3.0.0 (October 27, 2019)
 
 - Update all dependencies across whole project.
