@@ -80,6 +80,7 @@ const allSupportedLanguageParsers: {
   [key: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
 } = {
   // Prettier
+  mongo: ['babel', 'flow'],
   javascript: ['babel', 'flow'],
   javascriptreact: ['babel', 'flow'],
   typescript: ['typescript'],
@@ -88,6 +89,7 @@ const allSupportedLanguageParsers: {
   jsonc: ['json'],
   json5: ['json5'],
   css: ['css'],
+  postcss: ['css'],
   less: ['less'],
   scss: ['scss'],
   graphql: ['graphql'],
