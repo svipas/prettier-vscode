@@ -266,6 +266,15 @@ Valid options:
 - `"strict"` - Whitespaces are considered sensitive.
 - `"ignore"` - Whitespaces are considered insensitive.
 
+#### prettier.vueIndentScriptAndStyle (default: false)
+
+Whether or not to indent the code inside `<script>` and `<style>` tags in Vue files. Some people (like the creator of Vue) don’t indent to save an indentation level, but this might break code folding in your editor. [Learn more here.](https://prettier.io/docs/en/options.html#vue-files-script-and-style-tags-indentation)
+
+Valid options:
+
+- `"false"` - Do not indent script and style tags in Vue files.
+- `"true"` - Indent script and style tags in Vue files.
+
 #### prettier.endOfLine (default: 'auto')
 
 Specify the end of line used by Prettier. [Learn more here.](https://prettier.io/docs/en/options.html#end-of-line)

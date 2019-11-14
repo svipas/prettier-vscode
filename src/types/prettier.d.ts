@@ -39,6 +39,7 @@ declare module 'prettier' {
     filepath: string;
     jsxSingleQuote: boolean;
     htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore';
+    vueIndentScriptAndStyle: boolean;
     endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
     quoteProps: 'as-needed' | 'consistent' | 'preserve';
     pluginSearchDirs: string[];

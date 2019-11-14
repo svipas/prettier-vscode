@@ -98,6 +98,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     arrowParens: vscodeConfig.arrowParens,
     jsxSingleQuote: vscodeConfig.jsxSingleQuote,
     htmlWhitespaceSensitivity: vscodeConfig.htmlWhitespaceSensitivity,
+    vueIndentScriptAndStyle: vscodeConfig.vueIndentScriptAndStyle,
     endOfLine: vscodeConfig.endOfLine,
     quoteProps: vscodeConfig.quoteProps,
     filepath: fileName,
