@@ -799,10 +799,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
-"@types/vscode@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.17.0.tgz#a4c90f5a02f5a0694c4354c1bdafc0a535072429"
-  integrity sha512-QIDbDParZqNDvhliURrIIxWAEBtmOuc7Oi78AM/7dwecmLs4b+JEsDnP3oCZJsUfgHK9SBudytQHRRpe5TxbOg==
+"@types/vscode@^1.17.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.40.0.tgz#47d19e9e32da512c986f579fe6afbc8d3e6e0c55"
+  integrity sha512-5kEIxL3qVRkwhlMerxO7XuMffa+0LBl+iG2TcRa0NsdoeSFLkt/9hJ02jsi/Kvc6y8OVF2N2P2IHP5S4lWf/5w==
 
 "@typescript-eslint/experimental-utils@1.13.0":
   version "1.13.0"
