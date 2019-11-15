@@ -1,6 +1,6 @@
 ## [Unreleased]
 
-## 3.2.0 (November 14, 2019)
+## 3.2.0 (November 15, 2019)
 
 - Update all dependencies across whole project including Prettier to [1.19.1](https://prettier.io/blog/2019/11/09/1.19.0.html).
 - Add `postcss` and `mongo` language parsers.
