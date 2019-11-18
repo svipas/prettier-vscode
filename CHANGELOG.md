@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 3.3.0 (November 18, 2019)
+
+- Update all dependencies across whole project including `prettier-eslint` to `9.0.1` which fixes issues with ESLint 6.
+
 ## 3.2.0 (November 15, 2019)
 
 - Update all dependencies across whole project including Prettier to [1.19.1](https://prettier.io/blog/2019/11/09/1.19.0.html).
