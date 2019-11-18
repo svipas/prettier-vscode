@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 3.4.0 (November 18, 2019)
+
+- Add support for official `XML` plugin.
+
 ## 3.3.0 (November 18, 2019)
 
 - Update all dependencies across whole project including `prettier-eslint` to `9.0.1` which fixes issues with ESLint 6.
