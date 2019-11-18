@@ -135,7 +135,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   if (vscodeConfig.eslintIntegration && eslintSupportedLanguageIds.includes(languageId)) {
     return safeExecution(
       () => {
-        sendToOutput('prettier-eslint', '9.0.0');
+        sendToOutput('prettier-eslint', '9.0.1');
         const prettierEslint = requireLocalPrettierEslint();
         return prettierEslint({
           text,

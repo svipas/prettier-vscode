@@ -316,7 +316,7 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.8",
     "@types/vscode": "^1.17.0",
     "glob": "^7.1.6",
     "mocha": "^6.2.2",
@@ -327,7 +327,7 @@
   "dependencies": {
     "ignore": "^5.1.4",
     "prettier": "1.19.1",
-    "prettier-eslint": "^9.0.0",
+    "prettier-eslint": "^9.0.1",
     "prettier-stylelint": "^0.4.2",
     "prettier-tslint": "^0.4.2"
   },
