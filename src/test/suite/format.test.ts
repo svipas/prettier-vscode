@@ -27,7 +27,7 @@ export async function readTestFile(filename: string, uri: Uri): Promise<string> 
 
 async function formatSameAsPrettier(path: string) {
   const { result, source } = await format(path, workspace.workspaceFolders![0].uri);
-  const prettierFormatted = prettier.format(source, { filepath: path });
+  const prettierFormatted = prettier.format(source, { filepath: path, singleQuote: true });
   assert.strictEqual(result, prettierFormatted);
 }
 
