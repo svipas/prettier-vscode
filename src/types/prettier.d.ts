@@ -20,7 +20,7 @@ declare module 'prettier' {
     | 'lwc'
     | 'yaml';
 
-  type PluginParserOption = 'php' | 'pug' | 'ruby' | 'swift';
+  type PluginParserOption = 'php' | 'pug' | 'ruby' | 'swift' | 'xml';
 
   type TrailingCommaOption = 'none' | 'es5' | 'all';
 

@@ -47,6 +47,8 @@
       <a href="https://github.com/prettier/plugin-ruby">Ruby</a>
       <br />
       <a href="https://github.com/prettier/plugin-swift">Swift</a>
+      <br />
+      <a href="https://github.com/prettier/plugin-xml">XML</a>
     </td>
   </tr>
   <tr align="center">
@@ -149,6 +151,7 @@ If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration
 - **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` **locally** with Yarn or npm.
 - **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` **locally** with Yarn or npm.
 - **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` **locally** with Yarn or npm.
+- **[XML](https://github.com/prettier/plugin-xml)**: install `@prettier/plugin-xml` **locally** with Yarn or npm.
 
 ## Settings
 

@@ -64,7 +64,7 @@ const supportedLanguagesFromPrettier: {
   return obj;
 }, {});
 
-export const supportedPluginLanguageIds = ['php', 'jade', 'ruby', 'swift'];
+export const supportedPluginLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
 
 export const allSupportedLanguageIds = [
   ...prettierSupportedLanguages.reduce((ids: string[], lang) => {
@@ -102,7 +102,8 @@ const allSupportedLanguageParsers: {
   php: ['php'],
   jade: ['pug'],
   ruby: ['ruby'],
-  swift: ['swift']
+  swift: ['swift'],
+  xml: ['xml']
 };
 
 function getParserByLanguageId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
