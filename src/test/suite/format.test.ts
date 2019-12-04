@@ -31,13 +31,30 @@ async function formatSameAsPrettier(filename: string) {
   assert.strictEqual(result, prettierFormatted);
 }
 
-function getParserByFileName(filename: string): prettier.ParserOption | undefined {
-  const prettierSupportedLanguages = prettier.getSupportInfo(prettier.version).languages;
-  const fileExtension = path.extname(filename);
-  const prettierLanguage = prettierSupportedLanguages.find(lang => {
-    return lang.filenames?.includes(filename) || lang.extensions.includes(fileExtension);
-  });
-  return prettierLanguage?.parsers[0];
+function getParserByFileName(filename: string): prettier.ParserOption {
+  if (filename === 'package.json') {
+    return 'json-stringify';
+  }
+
+  const fileExtension = path.extname(filename).substring(1);
+  switch (fileExtension) {
+    case 'js':
+      return 'babel';
+    case 'ts':
+      return 'typescript';
+    case 'css':
+      return 'css';
+    case 'json':
+      return 'json';
+    case 'html':
+      return 'html';
+    case 'vue':
+      return 'vue';
+    case 'graphql':
+      return 'graphql';
+    default:
+      return '';
+  }
 }
 
 suite('Prettier', () => {
