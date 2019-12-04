@@ -1,8 +1,8 @@
 import { Disposable, DocumentFilter, ExtensionContext, languages, workspace } from 'vscode';
-import { configFileListener } from './configCacheHandler';
-import { registerDisposables, setupErrorHandler } from './errorHandler';
-import { ignoreFileHandler } from './ignoreFileHandler';
-import { PrettierEditProvider } from './PrettierEditProvider';
+import { configFileListener } from './config-cache-handler';
+import { registerDisposables, setupErrorHandler } from './error-handler';
+import { ignoreFileHandler } from './ignore-file-handler';
+import { PrettierEditProvider } from './prettier-edit-provider';
 import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
 
 let formatterHandler: undefined | Disposable;

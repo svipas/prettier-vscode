@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import ignore from 'ignore';
 import * as path from 'path';
 import { Disposable, Uri, workspace } from 'vscode';
-import { addToOutput } from './errorHandler';
+import { addToOutput } from './error-handler';
 import { getVSCodeConfig } from './utils';
 
 interface Ignorer {

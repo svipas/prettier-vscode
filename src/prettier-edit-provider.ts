@@ -1,6 +1,6 @@
 import * as prettier from 'prettier';
 import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit, workspace } from 'vscode';
-import { addToOutput, safeExecution, setUsedModule } from './errorHandler';
+import { addToOutput, safeExecution, setUsedModule } from './error-handler';
 import {
   eslintSupportedLanguageIds,
   requireLocalPrettierEslint,
