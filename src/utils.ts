@@ -108,5 +108,5 @@ const allSupportedLanguageParsers: {
 
 function getParserByLanguageId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
   const parsers = allSupportedLanguageParsers[languageId];
-  return parsers ? parsers[0] : '';
+  return parsers?.[0] ?? '';
 }

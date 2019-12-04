@@ -6,7 +6,6 @@ export function requireLocalPrettierEslint(): typeof import('prettier-eslint') {
   if (prettierEslint) {
     return prettierEslint;
   }
-
   return (prettierEslint = require('prettier-eslint'));
 }
 
@@ -18,7 +17,6 @@ export function requireLocalPrettierTslint(): typeof import('prettier-tslint') {
   if (prettierTslint) {
     return prettierTslint;
   }
-
   return (prettierTslint = require('prettier-tslint'));
 }
 
@@ -30,6 +28,5 @@ export function requireLocalPrettierStylelint(): typeof import('prettier-styleli
   if (prettierStylelint) {
     return prettierStylelint;
   }
-
   return (prettierStylelint = require('prettier-stylelint'));
 }

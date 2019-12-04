@@ -8,10 +8,8 @@ import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
 let formatterHandler: undefined | Disposable;
 
 function disposeFormatterHandler() {
-  if (formatterHandler) {
-    formatterHandler.dispose();
-    formatterHandler = undefined;
-  }
+  formatterHandler?.dispose();
+  formatterHandler = undefined;
 }
 
 function formatterSelector(): string[] | DocumentFilter[] {

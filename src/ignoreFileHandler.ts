@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'fs';
+import * as fs from 'fs';
 import ignore from 'ignore';
 import * as path from 'path';
 import { Disposable, Uri, workspace } from 'vscode';
@@ -21,7 +21,7 @@ export function ignoreFileHandler(disposables: Disposable[]) {
 
   const unloadIgnorer = (ignoreUri: Uri) => (ignorers[ignoreUri.fsPath] = nullIgnorer);
 
-  const loadIgnorer = (ignoreUri: Uri) => {
+  const loadIgnorer = async (ignoreUri: Uri) => {
     let ignorer = nullIgnorer;
 
     if (!ignorers[ignoreUri.fsPath]) {
@@ -32,15 +32,15 @@ export function ignoreFileHandler(disposables: Disposable[]) {
       fileWatcher.onDidDelete(unloadIgnorer, null, disposables);
     }
 
-    if (existsSync(ignoreUri.fsPath)) {
-      const ignoreFileContents = readFileSync(ignoreUri.fsPath, 'utf8');
+    if (await isFileExists(ignoreUri.fsPath)) {
+      const ignoreFileContents = await fs.promises.readFile(ignoreUri.fsPath, 'utf8');
       ignorer = ignore().add(ignoreFileContents);
     }
 
     ignorers[ignoreUri.fsPath] = ignorer;
   };
 
-  const getIgnorerForFile = (fsPath: string): { ignorer: Ignorer; ignoreFilePath: string } => {
+  const getIgnorerForFile = async (fsPath: string): Promise<{ ignorer: Ignorer; ignoreFilePath: string }> => {
     const { ignorePath } = getVSCodeConfig(Uri.file(fsPath));
     const absolutePath = getIgnorePathForFile(fsPath, ignorePath);
 
@@ -49,16 +49,17 @@ export function ignoreFileHandler(disposables: Disposable[]) {
     }
 
     if (!ignorers[absolutePath]) {
-      loadIgnorer(Uri.file(absolutePath));
+      await loadIgnorer(Uri.file(absolutePath));
     }
 
-    if (!existsSync(absolutePath)) {
-      // Don't log default value
+    if (await !isFileExists(absolutePath)) {
+      // Don't log default value.
       if (ignorePath !== '.prettierignore') {
         addToOutput(`Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`, fsPath);
       }
       return { ignoreFilePath: '', ignorer: nullIgnorer };
     }
+
     return {
       ignoreFilePath: absolutePath,
       ignorer: ignorers[absolutePath]
@@ -66,27 +67,39 @@ export function ignoreFileHandler(disposables: Disposable[]) {
   };
 
   return {
-    fileIsIgnored(filePath: string) {
-      const { ignorer, ignoreFilePath } = getIgnorerForFile(filePath);
+    fileIsIgnored: async (filePath: string) => {
+      const { ignorer, ignoreFilePath } = await getIgnorerForFile(filePath);
       return ignorer.ignores(path.relative(path.dirname(ignoreFilePath), filePath));
     }
   };
 }
 
-function getIgnorePathForFile(filePath: string, ignorePath: string): string | null {
-  // Configuration `prettier.ignorePath` is set to `null`
+function getIgnorePathForFile(filePath: string, ignorePath: string): string | undefined {
+  // Configuration `prettier.ignorePath` is set to `null`.
   if (!ignorePath) {
-    return null;
+    return;
   }
 
   if (workspace.workspaceFolders) {
     const folder = workspace.getWorkspaceFolder(Uri.file(filePath));
-    return folder ? getPath(ignorePath, folder.uri.fsPath) : null;
+    if (folder) {
+      return getPath(ignorePath, folder.uri.fsPath);
+    }
   }
-
-  return null;
 }
 
 function getPath(fsPath: string, relativeTo: string) {
   return path.isAbsolute(fsPath) ? fsPath : path.join(relativeTo, fsPath);
+}
+
+async function isFileExists(path: string): Promise<boolean> {
+  try {
+    await fs.promises.stat(path);
+    return true;
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      return false;
+    }
+    throw err;
+  }
 }

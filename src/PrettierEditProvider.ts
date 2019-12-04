@@ -62,8 +62,8 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     return text;
   }
 
-  if (supportedPluginLanguageIds.includes(languageId) && workspace.workspaceFolders) {
-    workspace.workspaceFolders.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
+  if (supportedPluginLanguageIds.includes(languageId)) {
+    workspace.workspaceFolders?.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
   }
 
   let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
@@ -178,17 +178,18 @@ function fullDocumentRange(document: TextDocument): Range {
 }
 
 export class PrettierEditProvider implements DocumentFormattingEditProvider {
-  constructor(private _fileIsIgnored: (filePath: string) => boolean) {}
+  constructor(private _fileIsIgnored: (filePath: string) => Promise<boolean>) {}
 
   provideDocumentFormattingEdits(document: TextDocument): Promise<TextEdit[]> {
     return this._provideEdits(document);
   }
 
-  private _provideEdits(document: TextDocument): Promise<TextEdit[]> {
-    if (!document.isUntitled && this._fileIsIgnored(document.fileName)) {
-      return Promise.resolve([]);
+  private async _provideEdits(document: TextDocument): Promise<TextEdit[]> {
+    if (!document.isUntitled && (await this._fileIsIgnored(document.fileName))) {
+      return [];
     }
 
-    return format(document.getText(), document).then(code => [TextEdit.replace(fullDocumentRange(document), code)]);
+    const formattedText = await format(document.getText(), document);
+    return [TextEdit.replace(fullDocumentRange(document), formattedText)];
   }
 }
