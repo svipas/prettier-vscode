@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## 3.5.0 (December 4, 2019)
+
+- Update all dependencies across whole project.
+- Update `LICENSE` year.
+- Increase minimum VS Code version to `1.30.0`.
+- Set `extensionKind` to `["ui"]` in `package.json`.
+- Refactor extension to newer TypeScript features and replace \*Sync to async API.
+- Rename `extension.ts` to `main.ts`.
+- Rename all files to use hyphen (`-`).
+- Add global node modules paths of Yarn and npm while searching for plugin dirs.
+
 ## 3.4.0 (November 18, 2019)
 
 - Add support for official `XML` plugin.

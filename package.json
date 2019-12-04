@@ -2,7 +2,7 @@
   "name": "prettier-plus",
   "displayName": "Prettier+",
   "description": "Prettier (code formatter) for the VS Code.",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "publisher": "svipas",
   "icon": "icon.png",
   "galleryBanner": {
@@ -364,6 +364,10 @@
     "angular",
     "graphql",
     "yaml",
-    "yml"
+    "yml",
+    "react",
+    "reactjs",
+    "node",
+    "nodejs"
   ]
 }
