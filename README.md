@@ -147,11 +147,11 @@ If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration
 
 &#x26a0; The plugin API is in a beta state. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
 
-- **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` **locally** with Yarn or npm.
-- **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` **locally** with Yarn or npm.
-- **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` **locally** with Yarn or npm.
-- **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` **locally** with Yarn or npm.
-- **[XML](https://github.com/prettier/plugin-xml)**: install `@prettier/plugin-xml` **locally** with Yarn or npm.
+- **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` locally or globally with Yarn or npm.
+- **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` locally or globally with Yarn or npm.
+- **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` locally or globally with Yarn or npm.
+- **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` locally or globally with Yarn or npm.
+- **[XML](https://github.com/prettier/plugin-xml)**: install `@prettier/plugin-xml` locally or globally with Yarn or npm.
 
 ## Settings
 

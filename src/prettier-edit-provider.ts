@@ -9,6 +9,7 @@ import {
   stylelintSupportedLanguageIds,
   tslintSupportedLanguageIds
 } from './integrations';
+import { globalNodeModulesPaths } from './main';
 import { getSupportedParser, getVSCodeConfig, supportedPluginLanguageIds } from './utils';
 
 /**
@@ -64,6 +65,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
 
   if (supportedPluginLanguageIds.includes(languageId)) {
     workspace.workspaceFolders?.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
+    globalNodeModulesPaths.forEach(globalPath => globalPath && workspaceFolderPaths.push(globalPath));
   }
 
   let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
@@ -178,7 +180,7 @@ function fullDocumentRange(document: TextDocument): Range {
 }
 
 export class PrettierEditProvider implements DocumentFormattingEditProvider {
-  constructor(private _fileIsIgnored: (filePath: string) => Promise<boolean>) {}
+  constructor(private readonly _fileIsIgnored: (filePath: string) => Promise<boolean>) {}
 
   provideDocumentFormattingEdits(document: TextDocument): Promise<TextEdit[]> {
     return this._provideEdits(document);

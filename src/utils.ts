@@ -1,5 +1,7 @@
+import * as childProcess from 'child_process';
 import * as path from 'path';
 import * as prettier from 'prettier';
+import { promisify } from 'util';
 import { Uri, workspace } from 'vscode';
 
 export function getVSCodeConfig(uri?: Uri): prettier.PrettierVSCodeConfig {
@@ -109,4 +111,19 @@ const allSupportedLanguageParsers: {
 function getParserByLanguageId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
   const parsers = allSupportedLanguageParsers[languageId];
   return parsers?.[0] ?? '';
+}
+
+export async function getGlobalNodeModulesPaths(): Promise<(string | undefined)[]> {
+  const promisifiedExec = promisify(childProcess.exec);
+  const executeCommand = async (cmd: string): Promise<string | undefined> => {
+    try {
+      let nodeModulesPath = (await promisifiedExec(cmd)).stdout.trim();
+      if (nodeModulesPath.endsWith('node_modules')) {
+        nodeModulesPath = nodeModulesPath.replace('node_modules', '');
+      }
+      return nodeModulesPath;
+    } catch {}
+  };
+
+  return Promise.all([executeCommand('yarn global dir'), executeCommand('npm -g root')]);
 }

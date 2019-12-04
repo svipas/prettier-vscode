@@ -3,9 +3,10 @@ import { configFileListener } from './config-cache-handler';
 import { registerDisposables, setupErrorHandler } from './error-handler';
 import { ignoreFileHandler } from './ignore-file-handler';
 import { PrettierEditProvider } from './prettier-edit-provider';
-import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
+import { allSupportedLanguageIds, getGlobalNodeModulesPaths, getVSCodeConfig } from './utils';
 
-let formatterHandler: undefined | Disposable;
+let formatterHandler: Disposable | undefined;
+export let globalNodeModulesPaths: (string | undefined)[];
 
 function disposeFormatterHandler() {
   formatterHandler?.dispose();
@@ -38,7 +39,8 @@ function formatterSelector(): string[] | DocumentFilter[] {
   return untitledLanguageSelector.concat(fileLanguageSelector);
 }
 
-export function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext) {
+  globalNodeModulesPaths = await getGlobalNodeModulesPaths();
   const { fileIsIgnored } = ignoreFileHandler(context.subscriptions);
   const prettierEditProvider = new PrettierEditProvider(fileIsIgnored);
 
