@@ -25,19 +25,28 @@ export async function readTestFile(filename: string, uri: Uri): Promise<string> 
   return data.toString();
 }
 
-async function formatSameAsPrettier(path: string) {
-  const { result, source } = await format(path, workspace.workspaceFolders![0].uri);
-  const prettierFormatted = prettier.format(source, { filepath: path });
+async function formatSameAsPrettier(filename: string) {
+  const { result, source } = await format(`formatTest/${filename}`, workspace.workspaceFolders![0].uri);
+  const prettierFormatted = prettier.format(source, { parser: getParserByFileName(filename) });
   assert.strictEqual(result, prettierFormatted);
 }
 
+function getParserByFileName(filename: string): prettier.ParserOption | undefined {
+  const prettierSupportedLanguages = prettier.getSupportInfo(prettier.version).languages;
+  const fileExtension = path.extname(filename);
+  const prettierLanguage = prettierSupportedLanguages.find(lang => {
+    return lang.filenames?.includes(filename) || lang.extensions.includes(fileExtension);
+  });
+  return prettierLanguage?.parsers[0];
+}
+
 suite('Prettier', () => {
-  test('it formats JavaScript', () => formatSameAsPrettier('formatTest/ugly.js'));
-  test('it formats TypeScript', () => formatSameAsPrettier('formatTest/ugly.ts'));
-  test('it formats CSS', () => formatSameAsPrettier('formatTest/ugly.css'));
-  test('it formats JSON', () => formatSameAsPrettier('formatTest/ugly.json'));
-  test('it formats package.json', () => formatSameAsPrettier('formatTest/package.json'));
-  test('it formats HTML', () => formatSameAsPrettier('formatTest/index.html'));
-  test('it formats Vue', () => formatSameAsPrettier('formatTest/ugly.vue'));
-  test('it formats GraphQL', () => formatSameAsPrettier('formatTest/ugly.graphql'));
+  test('it formats JavaScript', () => formatSameAsPrettier('ugly.js'));
+  test('it formats TypeScript', () => formatSameAsPrettier('ugly.ts'));
+  test('it formats CSS', () => formatSameAsPrettier('ugly.css'));
+  test('it formats JSON', () => formatSameAsPrettier('ugly.json'));
+  test('it formats package.json', () => formatSameAsPrettier('package.json'));
+  test('it formats HTML', () => formatSameAsPrettier('index.html'));
+  test('it formats Vue', () => formatSameAsPrettier('ugly.vue'));
+  test('it formats GraphQL', () => formatSameAsPrettier('ugly.graphql'));
 });
