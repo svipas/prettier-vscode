@@ -22,7 +22,7 @@ export function format(filename: string, uri: Uri): Promise<{ result: string; so
 export async function readTestFile(filename: string, uri: Uri): Promise<string> {
   const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
   const data = await workspace.fs.readFile(extendedUri);
-  return Buffer.from(data).toString();
+  return data.toString();
 }
 
 async function formatSameAsPrettier(path: string) {
