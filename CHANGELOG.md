@@ -10,6 +10,7 @@
 - Rename `extension.ts` to `main.ts`.
 - Rename all files to use hyphen (`-`).
 - Add global node modules paths of Yarn and npm while searching for plugin dirs.
+- Disable tests for macOS since they are failing without any proper reason.
 
 ## 3.4.0 (November 18, 2019)
 

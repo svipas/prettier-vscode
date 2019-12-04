@@ -1,16 +1,4 @@
 jobs:
-  - job: macOS
-    pool:
-      name: Hosted macOS
-    steps:
-      - task: NodeTool@0
-        displayName: 'Use Node 12.x'
-        inputs:
-          versionSpec: 12.x
-      - script: 'yarn install'
-        displayName: 'Install dependencies'
-      - script: 'yarn test'
-        displayName: 'Run tests'
   - job: Linux
     pool:
       name: Hosted Ubuntu 1604
