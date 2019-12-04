@@ -27,34 +27,8 @@ export async function readTestFile(filename: string, uri: Uri): Promise<string> 
 
 async function formatSameAsPrettier(filename: string) {
   const { result, source } = await format(`formatTest/${filename}`, workspace.workspaceFolders![0].uri);
-  const prettierFormatted = prettier.format(source, { parser: getParserByFileName(filename) });
+  const prettierFormatted = prettier.format(source, { filepath: filename });
   assert.strictEqual(result, prettierFormatted);
-}
-
-function getParserByFileName(filename: string): prettier.ParserOption {
-  if (filename === 'package.json') {
-    return 'json-stringify';
-  }
-
-  const fileExtension = path.extname(filename).substring(1);
-  switch (fileExtension) {
-    case 'js':
-      return 'babel';
-    case 'ts':
-      return 'typescript';
-    case 'css':
-      return 'css';
-    case 'json':
-      return 'json';
-    case 'html':
-      return 'html';
-    case 'vue':
-      return 'vue';
-    case 'graphql':
-      return 'graphql';
-    default:
-      return '';
-  }
 }
 
 suite('Prettier', () => {
