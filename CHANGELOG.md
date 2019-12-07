@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 3.5.1 (December 7, 2019)
+
+- Update all dependencies across whole project.
+
 ## 3.5.0 (December 4, 2019)
 
 - Update all dependencies across whole project.
