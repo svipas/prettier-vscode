@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 3.5.2 (December 9, 2019)
+
+- Set `extensionKind` to `["workspace"]` in `package.json`.
+
 ## 3.5.1 (December 7, 2019)
 
 - Update all dependencies across whole project.
