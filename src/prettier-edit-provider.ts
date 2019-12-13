@@ -1,20 +1,13 @@
 import * as prettier from 'prettier';
 import { DocumentFormattingEditProvider, Range, TextDocument, TextEdit, workspace } from 'vscode';
-import { addToOutput, safeExecution, setUsedModule } from './error-handler';
-import {
-  eslintSupportedLanguageIds,
-  requireLocalPrettierEslint,
-  requireLocalPrettierStylelint,
-  requireLocalPrettierTslint,
-  stylelintSupportedLanguageIds,
-  tslintSupportedLanguageIds
-} from './integrations';
+import { errorHandler } from './error-handler';
+import { integration } from './integration';
 import { globalNodeModulesPaths } from './main';
 import { getSupportedParser, getVSCodeConfig, supportedPluginLanguageIds } from './utils';
 
 /**
  * Resolves the prettier config for the given file.
- * @param filePath file's path
+ * @param filePath file's path.
  */
 async function resolvePrettierConfig(
   filePath: string,
@@ -30,9 +23,9 @@ async function resolvePrettierConfig(
 
 /**
  * Define which config should be used.
- * @param hasPrettierConfig a prettier config exists
- * @param prettierConfig config from prettier's config file
- * @param vscodeConfig vscode config
+ * @param hasPrettierConfig a prettier config exists.
+ * @param prettierConfig config from prettier's config file.
+ * @param vscodeConfig vscode config.
  */
 function mergeConfig(
   hasPrettierConfig: boolean,
@@ -40,7 +33,7 @@ function mergeConfig(
   vscodeConfig: Partial<prettier.PrettierConfig>
 ) {
   if (hasPrettierConfig) {
-    // Always merge our inferred parser in
+    // Always merge our inferred parser in.
     return { parser: vscodeConfig.parser, ...prettierConfig };
   }
   return { ...vscodeConfig, ...prettierConfig };
@@ -48,9 +41,9 @@ function mergeConfig(
 
 /**
  * Format the given text with user's configuration.
- * @param text text to format
- * @param path formatting file's path
- * @returns formatted text
+ * @param text text to format.
+ * @param path formatting file's path.
+ * @returns formatted text.
  */
 async function format(text: string, { fileName, languageId, uri, isUntitled }: TextDocument): Promise<string> {
   const vscodeConfig: prettier.PrettierVSCodeConfig = getVSCodeConfig(uri);
@@ -78,9 +71,9 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   if (vscodeConfig.requireConfig) {
     const { config, error } = await resolvePrettierConfig(fileName, { editorconfig: true });
     if (error != null) {
-      addToOutput(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
+      errorHandler.log(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
     } else if (config == null) {
-      addToOutput(`Prettier config is empty. Falling back to the default settings.`);
+      errorHandler.log(`Prettier config is empty. Falling back to the default settings.`);
     } else {
       configOptions = config;
       hasConfig = true;
@@ -109,21 +102,22 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
   });
 
   const sendToOutput = (name: string, version: string) => {
-    addToOutput(
+    errorHandler.log(
       `Using ${name}@${version}${
         hasConfig ? ' with Prettier config' : ''
       } to format code with ${parser} parser for ${languageId} language.`,
       fileName
     );
-    setUsedModule(name, version);
+    errorHandler.setUsedModule(name, version);
   };
 
-  if (vscodeConfig.tslintIntegration && tslintSupportedLanguageIds.includes(languageId)) {
-    return safeExecution(
+  const { prettierESLint, prettierStylelint, prettierTSLint } = integration;
+
+  if (vscodeConfig.tslintIntegration && prettierTSLint.languageIds.includes(languageId)) {
+    return errorHandler.safeExecution(
       () => {
         sendToOutput('prettier-tslint', '0.4.2');
-        const prettierTslint = requireLocalPrettierTslint();
-        return prettierTslint.format({
+        return prettierTSLint.getModule().format({
           text,
           filePath: fileName,
           fallbackPrettierOptions: prettierOptions
@@ -134,12 +128,11 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     );
   }
 
-  if (vscodeConfig.eslintIntegration && eslintSupportedLanguageIds.includes(languageId)) {
-    return safeExecution(
+  if (vscodeConfig.eslintIntegration && prettierESLint.languageIds.includes(languageId)) {
+    return errorHandler.safeExecution(
       () => {
         sendToOutput('prettier-eslint', '9.0.1');
-        const prettierEslint = requireLocalPrettierEslint();
-        return prettierEslint({
+        return prettierESLint.getModule()({
           text,
           filePath: fileName,
           fallbackPrettierOptions: prettierOptions
@@ -150,11 +143,10 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     );
   }
 
-  if (vscodeConfig.stylelintIntegration && stylelintSupportedLanguageIds.includes(languageId)) {
+  if (vscodeConfig.stylelintIntegration && prettierStylelint.languageIds.includes(languageId)) {
     sendToOutput('prettier-stylelint', '0.4.2');
-    const prettierStylelint = requireLocalPrettierStylelint();
-    return safeExecution(
-      prettierStylelint.format({
+    return errorHandler.safeExecution(
+      prettierStylelint.getModule().format({
         text,
         filePath: fileName,
         prettierOptions
@@ -164,7 +156,7 @@ async function format(text: string, { fileName, languageId, uri, isUntitled }: T
     );
   }
 
-  return safeExecution(
+  return errorHandler.safeExecution(
     () => {
       sendToOutput('prettier', prettier.version);
       return prettier.format(text, prettierOptions);

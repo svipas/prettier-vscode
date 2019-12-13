@@ -1,6 +1,6 @@
 import { Disposable, DocumentFilter, ExtensionContext, languages, workspace } from 'vscode';
-import { configFileListener } from './config-cache-handler';
-import { registerDisposables, setupErrorHandler } from './error-handler';
+import { configCacheHandler } from './config-cache-handler';
+import { errorHandler } from './error-handler';
 import { ignoreFileHandler } from './ignore-file-handler';
 import { PrettierEditProvider } from './prettier-edit-provider';
 import { allSupportedLanguageIds, getGlobalNodeModulesPaths, getVSCodeConfig } from './utils';
@@ -21,7 +21,7 @@ function formatterSelector(): string[] | DocumentFilter[] {
     globalLanguageSelector = globalLanguageSelector.filter(lang => !disableLanguages.includes(lang));
   }
 
-  // No workspace opened
+  // No workspace opened.
   if (!workspace.workspaceFolders) {
     return globalLanguageSelector;
   }
@@ -56,9 +56,8 @@ export async function activate(context: ExtensionContext) {
   context.subscriptions.push(
     workspace.onDidChangeWorkspaceFolders(registerFormatter),
     { dispose: disposeFormatterHandler },
-    setupErrorHandler(),
-    configFileListener(),
-    ...registerDisposables()
+    configCacheHandler.fileWatcher,
+    ...errorHandler.disposables
   );
 }
 

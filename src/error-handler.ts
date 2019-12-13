@@ -1,35 +1,31 @@
-import {
-  commands,
-  Disposable,
-  languages,
-  OutputChannel,
-  StatusBarAlignment,
-  StatusBarItem,
-  TextEditor,
-  window
-} from 'vscode';
+import { commands, languages, StatusBarAlignment, TextEditor, window } from 'vscode';
 import { allSupportedLanguageIds, getVSCodeConfig } from './utils';
 
-let statusBarItem: StatusBarItem;
-let outputChannel: OutputChannel;
-let prettierInformation: string;
+type EditorPart = 'debug' | 'output';
 
-const editorParts = ['debug', 'output'];
+// Create status bar item.
+const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, -1);
+statusBarItem.text = 'Prettier+';
+statusBarItem.command = 'prettier-plus.open-output';
+toggleStatusBarItem(window.activeTextEditor);
 
-function toggleStatusBarItem(editor: TextEditor | undefined): void {
-  if (!statusBarItem) {
+// Create output channel.
+const outputChannel = window.createOutputChannel('Prettier+');
+
+let prettierInformation: string | undefined;
+
+function toggleStatusBarItem(editor: TextEditor | undefined) {
+  if (!editor) {
+    statusBarItem.hide();
     return;
   }
 
-  if (!editor) {
-    return statusBarItem.hide();
-  }
-
-  // The function will be triggered everytime the active "editor" instance changes
-  // It also triggers when we focus on the output panel or on the debug panel
+  // The function will be triggered everytime the active "editor" instance changes.
+  // It also triggers when we focus on the output panel or on the debug panel.
   // Both are seen as an "editor".
-  // The following check will ignore such panels
-  if (editorParts.some(part => editor.document.uri.scheme === part)) {
+  // The following check will ignore such panels.
+  const textDocumentEditorPart = editor.document.uri.scheme as EditorPart;
+  if (textDocumentEditorPart === 'debug' || textDocumentEditorPart === 'output') {
     return;
   }
 
@@ -43,33 +39,27 @@ function toggleStatusBarItem(editor: TextEditor | undefined): void {
   }
 }
 
-export function registerDisposables(): Disposable[] {
-  // Keep track whether to show/hide the statusbar
-  return [window.onDidChangeActiveTextEditor(editor => toggleStatusBarItem(editor))];
-}
-
 /**
- * Update the `statusBarItem` message and show the `statusBarItem`
- * @param message the message to put inside the `statusBarItem`
+ * Update status bar item message.
  */
-function updateStatusBar(message: string): void {
+function updateStatusBar(message: string) {
   statusBarItem.text = message;
   statusBarItem.tooltip = prettierInformation;
   statusBarItem.show();
 }
 
 /**
- * @param module the module used
- * @param version the version of the module
+ * @param module module used.
+ * @param version version of the module.
  */
-export function setUsedModule(module: string, version: string) {
+function setUsedModule(module: string, version: string) {
   prettierInformation = `${module}@${version}`;
 }
 
 /**
  * Append messages to the output channel and format it with a title.
  */
-export function addToOutput(message: string, filename?: string): void {
+function log(message: string, filename?: string) {
   let title: string;
   if (filename) {
     title = `${filename} (${new Date().toLocaleString()}):`;
@@ -81,18 +71,18 @@ export function addToOutput(message: string, filename?: string): void {
   outputChannel.appendLine(title);
   outputChannel.appendLine('-'.repeat(title.length));
 
-  // Append actual output
+  // Append actual output.
   outputChannel.appendLine(`${message}\n`);
 }
 
 /**
  * Execute a callback safely, if it doesn't work, return default and log messages.
- * @param cb The function to be executed,
- * @param defaultText The default value if execution of the cb failed
- * @param filename The filename of the current document
- * @returns {string} formatted text or defaultText
+ * @param cb The function to be executed.
+ * @param defaultText The default value if execution of the callback failed.
+ * @param filename The filename of the current document.
+ * @returns formatted text or default text.
  */
-export function safeExecution(
+function safeExecution(
   cb: (() => string) | Promise<string>,
   defaultText: string,
   filename: string
@@ -104,7 +94,7 @@ export function safeExecution(
         return returnValue;
       })
       .catch((err: Error) => {
-        addToOutput(err.message, filename);
+        log(err.message, filename);
         updateStatusBar('Prettier+: $(x)');
         return defaultText;
       });
@@ -115,26 +105,15 @@ export function safeExecution(
     updateStatusBar('Prettier+: $(check)');
     return returnValue;
   } catch (err) {
-    addToOutput(err.message, filename);
+    log(err.message, filename);
     updateStatusBar('Prettier+: $(x)');
     return defaultText;
   }
 }
-/**
- * Setup the output channel and the `statusBarItem`
- * Create a command to show the output channel
- * @returns the command to open the output channel
- */
-export function setupErrorHandler(): Disposable {
-  // Setup the statusBarItem
-  statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, -1);
-  statusBarItem.text = 'Prettier+';
-  statusBarItem.command = 'prettier-plus.open-output';
 
-  toggleStatusBarItem(window.activeTextEditor);
+const disposables = [
+  window.onDidChangeActiveTextEditor(editor => toggleStatusBarItem(editor)),
+  commands.registerCommand('prettier-plus.open-output', () => outputChannel.show())
+];
 
-  // Setup the outputChannel
-  outputChannel = window.createOutputChannel('Prettier+');
-
-  return commands.registerCommand('prettier-plus.open-output', () => outputChannel.show());
-}
+export const errorHandler = { disposables, setUsedModule, log, safeExecution };
