@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## 3.6.0 (December 13, 2019)
+
+- Update all dependencies.
+- Set `target` in `tsconfig.json` to `ES2017` instead of `es6` and remove `lib` key.
+- Refactor extension logic to make it easier to maintain and to reduce some boilerplate.
+
 ## 3.5.2 (December 9, 2019)
 
 - Set `extensionKind` to `["workspace"]` in `package.json`.
