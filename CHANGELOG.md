@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## 3.6.1 (December 18, 2019)
+
+- Update all dependencies.
+- Publish extension with `--yarn` flag in `vsce` command.
+
 ## 3.6.0 (December 13, 2019)
 
 - Update all dependencies.
