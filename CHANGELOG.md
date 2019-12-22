@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## 3.6.2 (December 22, 2019)
+
+- Update all dependencies.
+- Fix `prettier.eslintIntegration` by using npm instead of Yarn.
+
 ## 3.6.1 (December 18, 2019)
 
 - Update all dependencies.
