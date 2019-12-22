@@ -323,7 +323,7 @@
     "glob": "^7.1.6",
     "mocha": "^6.2.2",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^3.7.3",
+    "typescript": "^3.7.4",
     "vscode-test": "^1.3.0"
   },
   "dependencies": {
