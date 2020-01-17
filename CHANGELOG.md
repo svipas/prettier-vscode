@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## 3.6.3 (January 17, 2020)
+
+- Update all dependencies.
+- Properly return `exitCode` after tests.
+
 ## 3.6.2 (December 22, 2019)
 
 - Update all dependencies.
