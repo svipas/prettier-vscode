@@ -348,6 +348,6 @@ Feel free to open issues or PRs!
 <details>
 <summary><strong>Run tests</strong></summary>
 
-- Run tests from terminal via `yarn test`
+- Run tests from terminal via `npm run test`
 
 </details>
