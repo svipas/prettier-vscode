@@ -11,7 +11,7 @@ import { runTests } from 'vscode-test';
   const extensionTestsPath = path.join(__dirname, './suite');
 
   // The path to the workspace file
-  const workspace = path.resolve('test', 'test.code-workspace');
+  const workspace = path.resolve('test-fixtures', 'test.code-workspace');
 
   // Download VS Code, unzip it and run the integration test
   try {

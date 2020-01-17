@@ -3,7 +3,7 @@
 .vscode-test/**
 out/**
 src/**
-test/**
+test-fixtures/**
 .eslintignore
 azure-pipelines.yml
 tsconfig.json

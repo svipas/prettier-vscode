@@ -6,10 +6,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "sourceMap": true,
     "rootDir": "src"
   },
-  "exclude": ["node_modules", ".vscode-test", "test/eslint", "test/project", "test/tslint"]
+  "exclude": ["node_modules", ".vscode-test", "test-fixtures"]
 }
