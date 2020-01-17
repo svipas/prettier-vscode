@@ -2,6 +2,7 @@ import glob from 'glob';
 import Mocha from 'mocha';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 
 export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
   const mocha = new Mocha({
@@ -32,12 +33,7 @@ async function format(filename: string, uri: vscode.Uri): Promise<{ result: stri
   const doc = await vscode.workspace.openTextDocument(extendedUri);
   const text = doc.getText();
 
-  try {
-    await vscode.window.showTextDocument(doc);
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  await vscode.window.showTextDocument(doc);
 
   console.time(filename);
   await vscode.commands.executeCommand('editor.action.formatDocument');
@@ -46,10 +42,9 @@ async function format(filename: string, uri: vscode.Uri): Promise<{ result: stri
   return { result: doc.getText(), source: text };
 }
 
-async function readFile(filename: string, uri: vscode.Uri): Promise<string> {
+function readFile(filename: string, uri: vscode.Uri): Promise<string> {
   const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
-  const data = await vscode.workspace.fs.readFile(extendedUri);
-  return data.toString();
+  return fs.promises.readFile(extendedUri.fsPath, 'utf8');
 }
 
 export const extension = { format, readFile };
