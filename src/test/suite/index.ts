@@ -1,7 +1,7 @@
 import glob from 'glob';
 import Mocha from 'mocha';
 import * as path from 'path';
-import { commands, Uri, window, workspace } from 'vscode';
+import * as vscode from 'vscode';
 
 export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
   const mocha = new Mocha({
@@ -27,25 +27,23 @@ export function run(testsRoot: string, cb: (error: any, failures?: number) => vo
   });
 }
 
-function format(filename: string, uri: Uri): Promise<{ result: string; source: string }> {
+async function format(filename: string, uri: vscode.Uri): Promise<{ result: string; source: string }> {
   const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
-  return new Promise((resolve, reject) => {
-    workspace.openTextDocument(extendedUri).then(doc => {
-      const text = doc.getText();
-      window.showTextDocument(doc).then(() => {
-        console.time(filename);
-        commands.executeCommand('editor.action.formatDocument').then(() => {
-          console.timeEnd(filename);
-          resolve({ result: doc.getText(), source: text });
-        }, reject);
-      }, reject);
-    }, reject);
-  });
+  const doc = await vscode.workspace.openTextDocument(extendedUri);
+  const text = doc.getText();
+
+  await vscode.window.showTextDocument(doc);
+
+  console.time(filename);
+  await vscode.commands.executeCommand('editor.action.formatDocument');
+  console.timeEnd(filename);
+
+  return { result: doc.getText(), source: text };
 }
 
-async function readFile(filename: string, uri: Uri): Promise<string> {
+async function readFile(filename: string, uri: vscode.Uri): Promise<string> {
   const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
-  const data = await workspace.fs.readFile(extendedUri);
+  const data = await vscode.workspace.fs.readFile(extendedUri);
   return data.toString();
 }
 

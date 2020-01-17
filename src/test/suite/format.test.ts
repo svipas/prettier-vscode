@@ -3,19 +3,19 @@ import * as prettier from 'prettier';
 import { workspace } from 'vscode';
 import { extension } from '.';
 
-async function formatSameAsPrettier(filename: string) {
-  const { result, source } = await extension.format(`formatTest/${filename}`, workspace.workspaceFolders![0].uri);
-  const prettierFormatted = prettier.format(source, { filepath: filename });
+async function formatSameAsPrettier(filepath: string) {
+  const { result, source } = await extension.format(filepath, workspace.workspaceFolders![0].uri);
+  const prettierFormatted = prettier.format(source, { filepath });
   assert.strictEqual(result, prettierFormatted);
 }
 
 suite('Prettier', () => {
-  test('it formats JavaScript', () => formatSameAsPrettier('ugly.js'));
-  test('it formats TypeScript', () => formatSameAsPrettier('ugly.ts'));
-  test('it formats CSS', () => formatSameAsPrettier('ugly.css'));
-  test('it formats JSON', () => formatSameAsPrettier('ugly.json'));
-  test('it formats package.json', () => formatSameAsPrettier('package.json'));
-  test('it formats HTML', () => formatSameAsPrettier('index.html'));
-  test('it formats Vue', () => formatSameAsPrettier('ugly.vue'));
-  test('it formats GraphQL', () => formatSameAsPrettier('ugly.graphql'));
+  test('it formats JavaScript', () => formatSameAsPrettier('formatTest/ugly.js'));
+  test('it formats TypeScript', () => formatSameAsPrettier('formatTest/ugly.ts'));
+  test('it formats CSS', () => formatSameAsPrettier('formatTest/ugly.css'));
+  test('it formats JSON', () => formatSameAsPrettier('formatTest/ugly.json'));
+  test('it formats package.json', () => formatSameAsPrettier('formatTest/package.json'));
+  test('it formats HTML', () => formatSameAsPrettier('formatTest/index.html'));
+  test('it formats Vue', () => formatSameAsPrettier('formatTest/ugly.vue'));
+  test('it formats GraphQL', () => formatSameAsPrettier('formatTest/ugly.graphql'));
 });
