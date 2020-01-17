@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { runTests } from 'vscode-test';
 
-async function main() {
+(async function main() {
   // The folder containing the Extension Manifest package.json
   // Passed to `--extensionDevelopmentPath`
   const extensionDevelopmentPath = process.cwd();
@@ -14,7 +14,10 @@ async function main() {
   const workspace = path.resolve('test', 'test.code-workspace');
 
   // Download VS Code, unzip it and run the integration test
-  await runTests({ extensionDevelopmentPath, extensionTestsPath, launchArgs: [workspace] });
-}
-
-main();
+  try {
+    const exitCode = await runTests({ extensionDevelopmentPath, extensionTestsPath, launchArgs: [workspace] });
+    process.exitCode = exitCode;
+  } catch {
+    process.exitCode = 1;
+  }
+})();
