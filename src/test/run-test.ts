@@ -15,7 +15,11 @@ import { runTests } from 'vscode-test';
 
   // Download VS Code, unzip it and run the integration test
   try {
-    const exitCode = await runTests({ extensionDevelopmentPath, extensionTestsPath, launchArgs: [workspace] });
+    const exitCode = await runTests({
+      extensionDevelopmentPath,
+      extensionTestsPath,
+      launchArgs: [workspace, '--disable-extensions']
+    });
     process.exitCode = exitCode;
   } catch {
     process.exitCode = 1;
