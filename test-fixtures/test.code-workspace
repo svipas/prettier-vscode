@@ -7,6 +7,9 @@
     { "path": "stylelint" }
   ],
   "settings": {
-    "editor.defaultFormatter": "svipas.prettier-plus"
+    "editor.defaultFormatter": "svipas.prettier-plus",
+    "[javascript]": {
+      "editor.defaultFormatter": "svipas.prettier-plus"
+    }
   }
 }
