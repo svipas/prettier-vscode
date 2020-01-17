@@ -32,7 +32,12 @@ async function format(filename: string, uri: vscode.Uri): Promise<{ result: stri
   const doc = await vscode.workspace.openTextDocument(extendedUri);
   const text = doc.getText();
 
-  await vscode.window.showTextDocument(doc);
+  try {
+    await vscode.window.showTextDocument(doc);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 
   console.time(filename);
   await vscode.commands.executeCommand('editor.action.formatDocument');
