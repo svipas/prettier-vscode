@@ -1,9 +1,5 @@
 {
-  "env": {
-    "es6": true,
-    "node": true
-  },
-  "rulesDirectory": ["tslint-plugin-prettier"],
+  "extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
   "rules": {
     "prettier": [
       true,

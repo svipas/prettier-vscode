@@ -1,6 +1,8 @@
 {
+  "extends": ["stylelint-config-prettier"],
   "plugins": ["stylelint-prettier"],
   "rules": {
+    "prettier/prettier": true,
     "no-extra-semicolons": true,
     "shorthand-property-no-redundant-values": true,
     "color-hex-case": true
