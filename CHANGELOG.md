@@ -2,7 +2,9 @@
 
 ## 3.6.3 (January 17, 2020)
 
-- Update all dependencies.
+- Update all dependencies across whole project.
+- Fix tests and increase tests timeout from 10s to 20s.
+- Rename `test` dir to `test-fixtures` dir.
 - Properly return `exitCode` after tests.
 
 ## 3.6.2 (December 22, 2019)
