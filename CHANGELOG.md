@@ -1,6 +1,6 @@
 ## [Unreleased]
 
-## 3.6.3 (January 17, 2020)
+## 3.6.3 (January 19, 2020)
 
 - Update all dependencies across whole project.
 - Fix tests and increase tests timeout from 10s to 20s.
