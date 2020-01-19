@@ -1,7 +1,7 @@
 {
   "name": "prettier-plus",
   "displayName": "Prettier+",
-  "description": "Prettier (code formatter) for the VS Code. ",
+  "description": "Prettier (code formatter) for the VS Code.",
   "version": "3.6.3",
   "publisher": "svipas",
   "icon": "icon.png",
