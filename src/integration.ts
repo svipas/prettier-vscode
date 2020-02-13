@@ -1,24 +1,35 @@
-const modules: {
-  eslint?: typeof import('prettier-eslint');
-  tslint?: typeof import('prettier-tslint');
-  stylelint?: typeof import('prettier-stylelint');
-} = {};
+export class ESLint {
+  private static prettierESLint: typeof import('prettier-eslint');
+  static readonly languageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
 
-function loadModule<T>(name: 'eslint' | 'tslint' | 'stylelint'): T {
-  return modules[name] ?? (modules[name] = require(`prettier-${name}`));
+  static get format(): typeof import('prettier-eslint') {
+    if (!this.prettierESLint) {
+      this.prettierESLint = require('prettier-eslint');
+    }
+    return this.prettierESLint;
+  }
 }
 
-export const integration = {
-  prettierESLint: {
-    languageIds: ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'],
-    getModule: () => loadModule<typeof import('prettier-eslint')>('eslint')
-  },
-  prettierTSLint: {
-    languageIds: ['typescript', 'typescriptreact'],
-    getModule: () => loadModule<typeof import('prettier-tslint')>('tslint')
-  },
-  prettierStylelint: {
-    languageIds: ['css', 'less', 'scss'],
-    getModule: () => loadModule<typeof import('prettier-stylelint')>('stylelint')
+export class TSLint {
+  private static prettierTSLint: typeof import('prettier-tslint');
+  static readonly languageIds = ['typescript', 'typescriptreact'];
+
+  static get format(): typeof import('prettier-tslint').format {
+    if (!this.prettierTSLint) {
+      this.prettierTSLint = require('prettier-tslint');
+    }
+    return this.prettierTSLint.format;
   }
-};
+}
+
+export class Stylelint {
+  private static prettierStylelint: typeof import('prettier-stylelint');
+  static readonly languageIds = ['css', 'less', 'scss'];
+
+  static get format(): typeof import('prettier-stylelint').format {
+    if (!this.prettierStylelint) {
+      this.prettierStylelint = require('prettier-stylelint');
+    }
+    return this.prettierStylelint.format;
+  }
+}

@@ -1,8 +1,6 @@
 import glob from 'glob';
 import Mocha from 'mocha';
 import * as path from 'path';
-import * as vscode from 'vscode';
-import * as fs from 'fs';
 
 export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
   const mocha = new Mocha({
@@ -27,24 +25,3 @@ export function run(testsRoot: string, cb: (error: any, failures?: number) => vo
     }
   });
 }
-
-async function format(filename: string, uri: vscode.Uri): Promise<{ result: string; source: string }> {
-  const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
-  const doc = await vscode.workspace.openTextDocument(extendedUri);
-  const text = doc.getText();
-
-  await vscode.window.showTextDocument(doc);
-
-  console.time(filename);
-  await vscode.commands.executeCommand('editor.action.formatDocument');
-  console.timeEnd(filename);
-
-  return { result: doc.getText(), source: text };
-}
-
-function readFile(filename: string, uri: vscode.Uri): Promise<string> {
-  const extendedUri = uri.with({ path: path.join(uri.fsPath, filename) });
-  return fs.promises.readFile(extendedUri.fsPath, 'utf8');
-}
-
-export const extension = { format, readFile };

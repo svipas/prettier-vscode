@@ -1,37 +1,37 @@
-import { Disposable, DocumentFilter, ExtensionContext, languages, workspace } from 'vscode';
-import { configCacheHandler } from './config-cache-handler';
-import { errorHandler } from './error-handler';
+import * as vscode from 'vscode';
+import { ErrorHandler } from './error-handler';
 import { ignoreFileHandler } from './ignore-file-handler';
+import { Parser } from './parser';
+import { prettierConfigFileWatcher } from './prettier-config-file-watcher';
 import { PrettierEditProvider } from './prettier-edit-provider';
-import { allSupportedLanguageIds, getGlobalNodeModulesPaths, getVSCodeConfig } from './utils';
+import { getVSCodeConfig } from './utils';
 
-let formatterHandler: Disposable | undefined;
-export let globalNodeModulesPaths: (string | undefined)[];
+let formatterHandler: vscode.Disposable | undefined;
 
 function disposeFormatterHandler() {
   formatterHandler?.dispose();
   formatterHandler = undefined;
 }
 
-function formatterSelector(): string[] | DocumentFilter[] {
+function formatterSelector(): string[] | vscode.DocumentFilter[] {
   const { disableLanguages } = getVSCodeConfig();
-  let globalLanguageSelector = allSupportedLanguageIds;
+  let globalLanguageSelector = Parser.supportedLanguageIds;
 
   if (disableLanguages.length !== 0) {
     globalLanguageSelector = globalLanguageSelector.filter(lang => !disableLanguages.includes(lang));
   }
 
   // No workspace opened.
-  if (!workspace.workspaceFolders) {
+  if (!vscode.workspace.workspaceFolders) {
     return globalLanguageSelector;
   }
 
-  const untitledLanguageSelector: DocumentFilter[] = globalLanguageSelector.map(lang => ({
+  const untitledLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(lang => ({
     language: lang,
     scheme: 'untitled'
   }));
 
-  const fileLanguageSelector: DocumentFilter[] = globalLanguageSelector.map(lang => ({
+  const fileLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(lang => ({
     language: lang,
     scheme: 'file'
   }));
@@ -39,8 +39,7 @@ function formatterSelector(): string[] | DocumentFilter[] {
   return untitledLanguageSelector.concat(fileLanguageSelector);
 }
 
-export async function activate(context: ExtensionContext) {
-  globalNodeModulesPaths = await getGlobalNodeModulesPaths();
+export async function activate(context: vscode.ExtensionContext) {
   const { fileIsIgnored } = ignoreFileHandler(context.subscriptions);
   const prettierEditProvider = new PrettierEditProvider(fileIsIgnored);
 
@@ -48,16 +47,16 @@ export async function activate(context: ExtensionContext) {
     disposeFormatterHandler();
 
     const languageSelector = formatterSelector();
-    formatterHandler = languages.registerDocumentFormattingEditProvider(languageSelector, prettierEditProvider);
+    formatterHandler = vscode.languages.registerDocumentFormattingEditProvider(languageSelector, prettierEditProvider);
   };
 
   registerFormatter();
 
   context.subscriptions.push(
-    workspace.onDidChangeWorkspaceFolders(registerFormatter),
+    vscode.workspace.onDidChangeWorkspaceFolders(registerFormatter),
     { dispose: disposeFormatterHandler },
-    configCacheHandler.fileWatcher,
-    ...errorHandler.disposables
+    prettierConfigFileWatcher,
+    ...ErrorHandler.disposables
   );
 }
 

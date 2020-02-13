@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import ignore from 'ignore';
 import * as path from 'path';
-import { Disposable, Uri, workspace } from 'vscode';
-import { errorHandler } from './error-handler';
+import * as vscode from 'vscode';
+import { ErrorHandler } from './error-handler';
 import { getVSCodeConfig } from './utils';
 
 interface Ignorer {
@@ -15,17 +15,17 @@ const nullIgnorer: Ignorer = { ignores: () => false };
  * Create an ignore file handler. Will lazily read ignore files on a per-resource
  * basis, and cache the contents until it changes.
  */
-export function ignoreFileHandler(disposables: Disposable[]) {
+export function ignoreFileHandler(disposables: vscode.Disposable[]) {
   let ignorers: { [key: string]: Ignorer } = {};
   disposables.push({ dispose: () => (ignorers = {}) });
 
-  const unloadIgnorer = (ignoreUri: Uri) => (ignorers[ignoreUri.fsPath] = nullIgnorer);
+  const unloadIgnorer = (ignoreUri: vscode.Uri) => (ignorers[ignoreUri.fsPath] = nullIgnorer);
 
-  const loadIgnorer = async (ignoreUri: Uri) => {
+  const loadIgnorer = async (ignoreUri: vscode.Uri) => {
     let ignorer = nullIgnorer;
 
     if (!ignorers[ignoreUri.fsPath]) {
-      const fileWatcher = workspace.createFileSystemWatcher(ignoreUri.fsPath);
+      const fileWatcher = vscode.workspace.createFileSystemWatcher(ignoreUri.fsPath);
       disposables.push(fileWatcher);
       fileWatcher.onDidCreate(loadIgnorer, null, disposables);
       fileWatcher.onDidChange(loadIgnorer, null, disposables);
@@ -41,7 +41,7 @@ export function ignoreFileHandler(disposables: Disposable[]) {
   };
 
   const getIgnorerForFile = async (fsPath: string): Promise<{ ignorer: Ignorer; ignoreFilePath: string }> => {
-    const { ignorePath } = getVSCodeConfig(Uri.file(fsPath));
+    const { ignorePath } = getVSCodeConfig(vscode.Uri.file(fsPath));
     const absolutePath = getIgnorePathForFile(fsPath, ignorePath);
 
     if (!absolutePath) {
@@ -49,13 +49,13 @@ export function ignoreFileHandler(disposables: Disposable[]) {
     }
 
     if (!ignorers[absolutePath]) {
-      await loadIgnorer(Uri.file(absolutePath));
+      await loadIgnorer(vscode.Uri.file(absolutePath));
     }
 
     if (await !isFileExists(absolutePath)) {
       // Don't log default value.
       if (ignorePath !== '.prettierignore') {
-        errorHandler.log(
+        ErrorHandler.log(
           `Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`,
           fsPath
         );
@@ -83,8 +83,8 @@ function getIgnorePathForFile(filePath: string, ignorePath: string): string | un
     return;
   }
 
-  if (workspace.workspaceFolders) {
-    const folder = workspace.getWorkspaceFolder(Uri.file(filePath));
+  if (vscode.workspace.workspaceFolders) {
+    const folder = vscode.workspace.getWorkspaceFolder(vscode.Uri.file(filePath));
     if (folder) {
       return getPath(ignorePath, folder.uri.fsPath);
     }

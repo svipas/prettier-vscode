@@ -1,10 +1,10 @@
 import * as assert from 'assert';
 import * as prettier from 'prettier';
 import { workspace } from 'vscode';
-import { extension } from '.';
+import { ExtensionTest } from './extension-test';
 
 async function formatSameAsPrettier(filepath: string) {
-  const { result, source } = await extension.format(filepath, workspace.workspaceFolders![0].uri);
+  const { result, source } = await ExtensionTest.format(filepath, workspace.workspaceFolders![0].uri);
   const prettierFormatted = prettier.format(source, { filepath });
   assert.strictEqual(result, prettierFormatted);
 }
