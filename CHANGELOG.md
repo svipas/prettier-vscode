@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## 3.6.4 (February 13, 2020)
+
+- Update all dependencies across whole project.
+- Update `README`.
+- Refactor extension.
+
 ## 3.6.3 (January 19, 2020)
 
 - Update all dependencies across whole project.
