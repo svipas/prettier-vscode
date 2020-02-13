@@ -99,9 +99,6 @@ Linux: Ctrl + Shift + I
 // Format all files on save
 "editor.formatOnSave": true,
 
-// Increase timeout for format on save
-"editor.formatOnSaveTimeout": 1500,
-
 // Format per-language file on save
 "[javascript]": {
   "editor.formatOnSave": false
