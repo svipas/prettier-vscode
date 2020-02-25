@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 3.6.5 (February 25, 2020)
+
+- Update all dependencies across whole project including TypeScript to 3.8
+
 ## 3.6.4 (February 13, 2020)
 
 - Update all dependencies across whole project.
