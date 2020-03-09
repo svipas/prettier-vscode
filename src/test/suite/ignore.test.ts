@@ -11,12 +11,12 @@ suite('ignore', function() {
   });
 
   test('it does not format subfolder/*', async () => {
-    const { result, source } = await ExtensionTest.format('ignoreMe2/index.js', workspaceFolder);
+    const { result, source } = await ExtensionTest.format('ignore-me-2/index.js', workspaceFolder);
     assert.strictEqual(result, source);
   });
 
   test('it does not format sub-subfolder', async () => {
-    const { result, source } = await ExtensionTest.format('ignoreMe/subdir/index.js', workspaceFolder);
+    const { result, source } = await ExtensionTest.format('ignore-me/subdir/index.js', workspaceFolder);
     assert.strictEqual(result, source);
   });
 });
