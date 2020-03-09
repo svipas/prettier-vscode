@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## 3.6.6 (March 9, 2020)
+
+- Update all dependencies across whole project.
+- Change filename convention to use camelCase and hyphen for folders.
+- Refactor extension.
+
 ## 3.6.5 (February 25, 2020)
 
 - Update all dependencies across whole project including TypeScript to 3.8
