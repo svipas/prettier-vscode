@@ -1,35 +1,27 @@
-export class ESLint {
-  private static prettierESLint: typeof import('prettier-eslint');
-  static readonly languageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
+export const eslintLanguageIds = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'];
+export const tslintLanguageIds = ['typescript', 'typescriptreact'];
+export const stylelintLanguageIds = ['css', 'less', 'scss'];
 
-  static get format(): typeof import('prettier-eslint') {
-    if (!this.prettierESLint) {
-      this.prettierESLint = require('prettier-eslint');
-    }
-    return this.prettierESLint;
+let prettierESLint: typeof import('prettier-eslint');
+export function prettierEslintFormat(): typeof import('prettier-eslint') {
+  if (!prettierESLint) {
+    prettierESLint = require('prettier-eslint');
   }
+  return prettierESLint;
 }
 
-export class TSLint {
-  private static prettierTSLint: typeof import('prettier-tslint');
-  static readonly languageIds = ['typescript', 'typescriptreact'];
-
-  static get format(): typeof import('prettier-tslint').format {
-    if (!this.prettierTSLint) {
-      this.prettierTSLint = require('prettier-tslint');
-    }
-    return this.prettierTSLint.format;
+let prettierTSLint: typeof import('prettier-tslint');
+export function prettierTslintFormat(): typeof import('prettier-tslint').format {
+  if (!prettierTSLint) {
+    prettierTSLint = require('prettier-tslint');
   }
+  return prettierTSLint.format;
 }
 
-export class Stylelint {
-  private static prettierStylelint: typeof import('prettier-stylelint');
-  static readonly languageIds = ['css', 'less', 'scss'];
-
-  static get format(): typeof import('prettier-stylelint').format {
-    if (!this.prettierStylelint) {
-      this.prettierStylelint = require('prettier-stylelint');
-    }
-    return this.prettierStylelint.format;
+let prettierStylelint: typeof import('prettier-stylelint');
+export function prettierStylelintFormat(): typeof import('prettier-stylelint').format {
+  if (!prettierStylelint) {
+    prettierStylelint = require('prettier-stylelint');
   }
+  return prettierStylelint.format;
 }

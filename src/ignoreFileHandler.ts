@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import ignore from 'ignore';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { ErrorHandler } from './error-handler';
+import { logMessage } from './errorHandler';
 import { getVSCodeConfig } from './utils';
 
 interface Ignorer {
@@ -55,10 +55,7 @@ export function ignoreFileHandler(disposables: vscode.Disposable[]) {
     if (await !isFileExists(absolutePath)) {
       // Don't log default value.
       if (ignorePath !== '.prettierignore') {
-        ErrorHandler.log(
-          `Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`,
-          fsPath
-        );
+        logMessage(`Invalid "prettier.ignorePath" in your settings. The path ${ignorePath} doesn't exist.`, fsPath);
       }
       return { ignoreFilePath: '', ignorer: nullIgnorer };
     }

@@ -2,9 +2,16 @@ import * as childProcess from 'child_process';
 import * as prettier from 'prettier';
 import { promisify } from 'util';
 import * as vscode from 'vscode';
-import { ErrorHandler } from './error-handler';
-import { ESLint, Stylelint, TSLint } from './integration';
-import { Parser } from './parser';
+import { logMessage, safeExecution, setUsedModule } from './errorHandler';
+import {
+  eslintLanguageIds,
+  prettierEslintFormat,
+  prettierStylelintFormat,
+  prettierTslintFormat,
+  stylelintLanguageIds,
+  tslintLanguageIds
+} from './integration';
+import { getParserByLangIdAndFilename, pluginLanguageIds } from './parser';
 import { getVSCodeConfig } from './utils';
 
 export class PrettierEditProvider implements vscode.DocumentFormattingEditProvider {
@@ -36,7 +43,7 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
       return text;
     }
 
-    if (Parser.supportedPluginLanguageIds.includes(languageId)) {
+    if (pluginLanguageIds.includes(languageId)) {
       vscode.workspace.workspaceFolders?.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
 
       if (!this.cachedGlobalNodeModulesPaths) {
@@ -47,7 +54,7 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 
     let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
     if (parser === '') {
-      parser = Parser.supportedParser(languageId, isUntitled ? undefined : fileName);
+      parser = getParserByLangIdAndFilename(languageId, isUntitled ? undefined : fileName);
     }
 
     let configOptions: prettier.PrettierConfig | undefined;
@@ -55,9 +62,9 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
     if (vscodeConfig.requireConfig) {
       const { config, error } = await this.resolvePrettierConfig(fileName, { editorconfig: true });
       if (error != null) {
-        ErrorHandler.log(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
+        logMessage(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
       } else if (config == null) {
-        ErrorHandler.log(`Prettier config is empty. Falling back to the default settings.`);
+        logMessage(`Prettier config is empty. Falling back to the default settings.`);
       } else {
         configOptions = config;
         hasConfig = true;
@@ -86,20 +93,20 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
     });
 
     const sendToOutput = (name: string, version: string) => {
-      ErrorHandler.log(
+      logMessage(
         `Using ${name}@${version}${
           hasConfig ? ' with Prettier config' : ''
         } to format code with ${parser} parser for ${languageId} language.`,
         fileName
       );
-      ErrorHandler.setUsedModule(name, version);
+      setUsedModule(name, version);
     };
 
-    if (vscodeConfig.tslintIntegration && TSLint.languageIds.includes(languageId)) {
-      return ErrorHandler.safeExecution(
+    if (vscodeConfig.tslintIntegration && tslintLanguageIds.includes(languageId)) {
+      return safeExecution(
         () => {
           sendToOutput('prettier-tslint', '0.4.2');
-          return TSLint.format({
+          return prettierTslintFormat()({
             text,
             filePath: fileName,
             fallbackPrettierOptions: prettierOptions
@@ -110,11 +117,11 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
       );
     }
 
-    if (vscodeConfig.eslintIntegration && ESLint.languageIds.includes(languageId)) {
-      return ErrorHandler.safeExecution(
+    if (vscodeConfig.eslintIntegration && eslintLanguageIds.includes(languageId)) {
+      return safeExecution(
         () => {
           sendToOutput('prettier-eslint', '9.0.1');
-          return ESLint.format({
+          return prettierEslintFormat()({
             text,
             filePath: fileName,
             fallbackPrettierOptions: prettierOptions
@@ -125,10 +132,10 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
       );
     }
 
-    if (vscodeConfig.stylelintIntegration && Stylelint.languageIds.includes(languageId)) {
+    if (vscodeConfig.stylelintIntegration && stylelintLanguageIds.includes(languageId)) {
       sendToOutput('prettier-stylelint', '0.4.2');
-      return ErrorHandler.safeExecution(
-        Stylelint.format({
+      return safeExecution(
+        prettierStylelintFormat()({
           text,
           filePath: fileName,
           prettierOptions
@@ -138,7 +145,7 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
       );
     }
 
-    return ErrorHandler.safeExecution(
+    return safeExecution(
       () => {
         sendToOutput('prettier', prettier.version);
         return prettier.format(text, prettierOptions);

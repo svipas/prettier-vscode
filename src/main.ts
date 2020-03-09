@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { ErrorHandler } from './error-handler';
-import { ignoreFileHandler } from './ignore-file-handler';
-import { Parser } from './parser';
-import { prettierConfigFileWatcher } from './prettier-config-file-watcher';
-import { PrettierEditProvider } from './prettier-edit-provider';
+import { errorHandlerDisposables } from './errorHandler';
+import { ignoreFileHandler } from './ignoreFileHandler';
+import { allLanguageIds } from './parser';
+import { prettierConfigFileWatcher } from './prettierConfigFileWatcher';
+import { PrettierEditProvider } from './PrettierEditProvider';
 import { getVSCodeConfig } from './utils';
 
 let formatterHandler: vscode.Disposable | undefined;
@@ -15,10 +15,12 @@ function disposeFormatterHandler() {
 
 function formatterSelector(): string[] | vscode.DocumentFilter[] {
   const { disableLanguages } = getVSCodeConfig();
-  let globalLanguageSelector = Parser.supportedLanguageIds;
+  let globalLanguageSelector: string[];
 
   if (disableLanguages.length !== 0) {
-    globalLanguageSelector = globalLanguageSelector.filter(lang => !disableLanguages.includes(lang));
+    globalLanguageSelector = allLanguageIds.filter(lang => !disableLanguages.includes(lang));
+  } else {
+    globalLanguageSelector = allLanguageIds;
   }
 
   // No workspace opened.
@@ -56,7 +58,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidChangeWorkspaceFolders(registerFormatter),
     { dispose: disposeFormatterHandler },
     prettierConfigFileWatcher,
-    ...ErrorHandler.disposables
+    ...errorHandlerDisposables
   );
 }
 
