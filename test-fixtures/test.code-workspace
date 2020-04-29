@@ -1,33 +1,33 @@
 {
-  "folders": [
-    { "path": "project" },
-    { "path": "workspace" },
-    { "path": "eslint" },
-    { "path": "tslint" },
-    { "path": "stylelint" }
-  ],
-  "settings": {
-    "editor.defaultFormatter": "svipas.prettier-plus",
-    "[javascript]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[typescript]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[css]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[html]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[json]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[graphql]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[vue]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    }
-  }
+	"folders": [
+		{ "path": "project" },
+		{ "path": "workspace" },
+		{ "path": "eslint" },
+		{ "path": "tslint" },
+		{ "path": "stylelint" }
+	],
+	"settings": {
+		"editor.defaultFormatter": "svipas.prettier-plus",
+		"[javascript]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[css]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[html]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[json]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[graphql]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		},
+		"[vue]": {
+			"editor.defaultFormatter": "svipas.prettier-plus"
+		}
+	}
 }

@@ -1,15 +1,15 @@
 {
-  "extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
-  "rules": {
-    "prettier": [
-      true,
-      {
-        "singleQuote": true,
-        "trailingComma": "es5",
-        "semi": false
-      }
-    ],
-    "semicolon": [true, "never"],
-    "quotemark": [true, "single"]
-  }
+	"extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
+	"rules": {
+		"prettier": [
+			true,
+			{
+				"singleQuote": true,
+				"trailingComma": "es5",
+				"semi": false
+			}
+		],
+		"semicolon": [true, "never"],
+		"quotemark": [true, "single"]
+	}
 }

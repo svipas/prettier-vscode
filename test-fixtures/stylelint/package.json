@@ -1,10 +1,10 @@
 {
-  "private": true,
-  "description": "Test stylelint integration",
-  "devDependencies": {
-    "prettier": "1.19.1",
-    "stylelint": "^13.2.0",
-    "stylelint-config-prettier": "^8.0.1",
-    "stylelint-prettier": "^1.1.2"
-  }
+	"private": true,
+	"description": "Test stylelint integration",
+	"devDependencies": {
+		"prettier": "1.19.1",
+		"stylelint": "^13.2.0",
+		"stylelint-config-prettier": "^8.0.1",
+		"stylelint-prettier": "^1.1.2"
+	}
 }

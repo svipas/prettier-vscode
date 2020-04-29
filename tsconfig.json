@@ -1,14 +1,14 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2017",
-    "outDir": "out",
-    "strict": true,
-    "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "rootDir": "src"
-  },
-  "exclude": ["node_modules", ".vscode-test", "test-fixtures"]
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "ES2017",
+		"outDir": "out",
+		"strict": true,
+		"noUnusedLocals": true,
+		"esModuleInterop": true,
+		"removeComments": true,
+		"sourceMap": true,
+		"rootDir": "src"
+	},
+	"exclude": ["node_modules", ".vscode-test", "test-fixtures"]
 }
