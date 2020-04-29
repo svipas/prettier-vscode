@@ -2,8 +2,8 @@
 	"private": true,
 	"description": "Test stylelint integration",
 	"devDependencies": {
-		"prettier": "1.19.1",
-		"stylelint": "^13.2.0",
+		"prettier": "2.0.5",
+		"stylelint": "^13.3.3",
 		"stylelint-config-prettier": "^8.0.1",
 		"stylelint-prettier": "^1.1.2"
 	}
