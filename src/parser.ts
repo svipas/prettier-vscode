@@ -9,9 +9,9 @@ interface LanguagesFromPrettier {
 	}[];
 }
 
-export const pluginVSCodeLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
 const prettierLanguages = prettier.getSupportInfo().languages;
-const allVSCodeLanguageParsers: {
+export const VSCodePluginLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
+const VSCodeLanguageParsers: {
 	[parser: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
 } = {
 	// Prettier
@@ -77,31 +77,25 @@ export function getParserByLangIdAndFilename(
 	return getParserByLangId(languageId);
 }
 
-export const allVSCodeLanguageIds: string[] = [
-	...prettierLanguages.reduce((ids: string[], lang) => {
-		if (lang.vscodeLanguageIds) {
-			ids.push(...lang.vscodeLanguageIds);
-		}
-		return ids;
-	}, []),
-	...pluginVSCodeLanguageIds
-];
+const allVSCodeLanguageIds: string[] = [...VSCodePluginLanguageIds];
+const allLanguagesFromPrettier: LanguagesFromPrettier = {};
+prettierLanguages.forEach(lang => {
+	const { filenames = [], extensions = [], parsers = [], vscodeLanguageIds = [] } = lang;
 
-function getParserByLangId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
-	const parsers = allVSCodeLanguageParsers[languageId];
-	return parsers?.[0] ?? '';
-}
-
-const allLanguagesFromPrettier: LanguagesFromPrettier = prettierLanguages.reduce((obj: any, prettierLang) => {
-	const { filenames = [], extensions = [], parsers = [], vscodeLanguageIds = [] } = prettierLang;
+	if (vscodeLanguageIds.length > 0) {
+		allVSCodeLanguageIds.push(...vscodeLanguageIds);
+	}
 
 	vscodeLanguageIds.forEach(vscodeLangId => {
-		if (obj[vscodeLangId]) {
-			obj[vscodeLangId].push({ filenames, extensions, parsers });
+		if (allLanguagesFromPrettier[vscodeLangId]) {
+			allLanguagesFromPrettier[vscodeLangId].push({ filenames, extensions, parsers });
 		} else {
-			obj[vscodeLangId] = [{ filenames, extensions, parsers }];
+			allLanguagesFromPrettier[vscodeLangId] = [{ filenames, extensions, parsers }];
 		}
 	});
+});
 
-	return obj;
-}, {});
+function getParserByLangId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
+	const parsers = VSCodeLanguageParsers[languageId];
+	return parsers?.[0] ?? '';
+}
