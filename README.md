@@ -109,7 +109,7 @@ Linux: Ctrl + Shift + I
 
 These dependencies are bundled with the extension:
 
-- [Prettier (1.19.1)](https://github.com/prettier/prettier)
+- [Prettier (2.0.5)](https://github.com/prettier/prettier)
 - [prettier-eslint (9.0.1)](https://github.com/prettier/prettier-eslint)
 - [prettier-tslint (0.4.2)](https://github.com/azz/prettier-tslint)
 - [prettier-stylelint (0.4.2)](https://github.com/hugomrdias/prettier-stylelint)

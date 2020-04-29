@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 4.0.1 (April 30, 2020)
+
+- Update `README`.
+
 ## 4.0.0 (April 29, 2020)
 
 - Change project indentation to tabs.
