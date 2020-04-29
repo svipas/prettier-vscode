@@ -5,6 +5,6 @@
 		"prettier/prettier": true,
 		"no-extra-semicolons": true,
 		"shorthand-property-no-redundant-values": true,
-		"color-hex-case": true
+		"color-hex-case": "lower"
 	}
 }
