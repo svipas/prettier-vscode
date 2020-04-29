@@ -12,6 +12,7 @@
 - Remove the `version` parameter from `prettier.getSupportInfo()`.
 - Add `babel-ts` parser.
 - Fix `prettier-stylelint` parser by manually changing it from `postcss` to `css`.
+- Fix `prettier-tslint` peer dependency `prettier` by manually changing it from `^1.7.4` to `^2.0.0`.
 
 ## 3.6.6 (March 9, 2020)
 

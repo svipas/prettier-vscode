@@ -310,8 +310,8 @@
 		]
 	},
 	"scripts": {
-		"fix-prettier-stylelint": "node scripts/fix-prettier-stylelint.js",
-		"vscode:prepublish": "npm run fix-prettier-stylelint && parcel build src/main.ts --target node",
+		"fix-prettier-integrations": "node scripts/fix-prettier-integrations.js",
+		"vscode:prepublish": "npm run fix-prettier-integrations && parcel build src/main.ts --target node",
 		"compile": "NODE_ENV=development parcel build src/main.ts --target node",
 		"watch": "parcel watch src/main.ts --target node",
 		"pretest": "npm run test-compile && npm run vscode:prepublish && cd test-fixtures/eslint && npm install && cd ../tslint && npm install && cd ../stylelint && npm install",
