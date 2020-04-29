@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import { errorHandlerDisposables } from './errorHandler';
-import { ignoreFileHandler } from './ignoreFileHandler';
+import { errorHandlerDisposables } from './error-handler';
+import { ignoreFileHandler } from './ignore-file-handler';
 import { allLanguageIds } from './parser';
-import { prettierConfigFileWatcher } from './prettierConfigFileWatcher';
+import { prettierConfigFileWatcher } from './prettier-config-file-watcher';
 import { PrettierEditProvider } from './PrettierEditProvider';
 import { getVSCodeConfig } from './utils';
 

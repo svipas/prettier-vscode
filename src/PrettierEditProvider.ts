@@ -2,7 +2,7 @@ import * as childProcess from 'child_process';
 import * as prettier from 'prettier';
 import { promisify } from 'util';
 import * as vscode from 'vscode';
-import { logMessage, safeExecution, setUsedModule } from './errorHandler';
+import { logMessage, safeExecution, setUsedModule } from './error-handler';
 import {
 	eslintLanguageIds,
 	prettierEslintFormat,

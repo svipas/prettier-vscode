@@ -313,7 +313,7 @@
 		"watch": "parcel watch src/main.ts --target node",
 		"pretest": "npm run test-compile && npm run vscode:prepublish && cd test-fixtures/eslint && npm install && cd ../tslint && npm install && cd ../stylelint && npm install",
 		"test-compile": "tsc -p ./",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/run-test.js"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
