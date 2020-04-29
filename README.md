@@ -177,14 +177,14 @@ Specify the number of spaces per indentation-level. [Learn more here.](https://p
 
 Use single quotes instead of double quotes. [Learn more here.](https://prettier.io/docs/en/options.html#quotes)
 
-#### prettier.trailingComma (default: 'none')
+#### prettier.trailingComma (default: 'es5')
 
 Print trailing commas wherever possible when multi-line. (A single-line array, for example, never gets trailing commas.) [Learn more here.](https://prettier.io/docs/en/options.html#trailing-commas)
 
 Valid options:
 
-- `"none"` - No trailing commas.
 - `"es5"` - Trailing commas where valid in ES5 (objects, arrays, etc.)
+- `"none"` - No trailing commas.
 - `"all"` - Trailing commas wherever possible (including function arguments). This requires node 8 or a transform.
 
 #### prettier.bracketSpacing (default: true)
@@ -208,6 +208,7 @@ Valid options:
 - `""` - Automatically infers the parser from the input file path.
 - `"babel"` - Via `@babel/parser` named `babylon` until v1.16.0
 - `"babel-flow"` - Same as `babel` but enables Flow parsing explicitly to avoid ambiguity. First available in v1.16.0
+- `"babel-ts"` - Similar to `typescript` but uses Babel and its TypeScript plugin. First available in v2.0.0
 - `"flow"` - Via `flow-parser`
 - `"typescript"` - Via `@typescript-eslint/typescript-estree`. First available in v1.4.0
 - `"css"` - Via `postcss-scss` and `postcss-less`, autodetects which to use. First available in v1.7.1
@@ -243,14 +244,14 @@ Valid options:
 - `"always"` - Wrap prose if it exceeds the print width.
 - `"never"` - Do not wrap prose.
 
-#### prettier.arrowParens (default: 'avoid')
+#### prettier.arrowParens (default: 'always')
 
 Include parentheses around a sole arrow function parameter. [Learn more here.](https://prettier.io/docs/en/options.html#arrow-function-parentheses)
 
 Valid options:
 
-- `"avoid"` - Omit parens when possible. Example: `x => x`
 - `"always"` - Always include parens. Example: `(x) => x`
+- `"avoid"` - Omit parens when possible. Example: `x => x`
 
 #### prettier.jsxSingleQuote (default: false)
 
@@ -275,16 +276,16 @@ Valid options:
 - `"false"` - Do not indent script and style tags in Vue files.
 - `"true"` - Indent script and style tags in Vue files.
 
-#### prettier.endOfLine (default: 'auto')
+#### prettier.endOfLine (default: 'lf')
 
 Specify the end of line used by Prettier. [Learn more here.](https://prettier.io/docs/en/options.html#end-of-line)
 
 Valid options:
 
-- `"auto"` - Maintain existing line endings (mixed values within one file are normalised by looking at what's used after the first line)
 - `"lf"` - Line Feed only (`\n`), common on Linux and macOS as well as inside git repos
 - `"crlf"` - Carriage Return + Line Feed characters (`\r\n`), common on Windows
 - `"cr"` - Carriage Return character only (`\r`), used very rarely
+- `"auto"` - Maintain existing line endings (mixed values within one file are normalised by looking at what's used after the first line)
 
 #### prettier.quoteProps (default: 'as-needed')
 

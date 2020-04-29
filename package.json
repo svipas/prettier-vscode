@@ -93,15 +93,15 @@
 				"prettier.trailingComma": {
 					"type": "string",
 					"enum": [
-						"none",
 						"es5",
+						"none",
 						"all"
 					],
-					"default": "none",
+					"default": "es5",
 					"description": "Print trailing commas wherever possible when multi-line. (A single-line array, for example, never gets trailing commas.)",
 					"enumDescriptions": [
-						"No trailing commas.",
 						"Trailing commas where valid in ES5 (objects, arrays, etc.)",
+						"No trailing commas.",
 						"Trailing commas wherever possible (including function arguments). This requires node 8 or a transform."
 					],
 					"scope": "resource"
@@ -124,6 +124,7 @@
 						"",
 						"babel",
 						"babel-flow",
+						"babel-ts",
 						"flow",
 						"typescript",
 						"css",
@@ -147,6 +148,7 @@
 						"Automatically infers the parser from the input file path.",
 						"Via '@babel/parser' named 'babylon' until v1.16.0",
 						"Same as 'babel' but enables Flow parsing explicitly to avoid ambiguity. First available in v1.16.0",
+						"Similar to 'typescript' but uses Babel and its TypeScript plugin. First available in v2.0.0",
 						"Via 'flow-parser'",
 						"Via '@typescript-eslint/typescript-estree'. First available in v1.4.0",
 						"Via 'postcss-scss' and 'postcss-less', autodetects which to use. First available in v1.7.1",
@@ -196,14 +198,14 @@
 				"prettier.arrowParens": {
 					"type": "string",
 					"enum": [
-						"avoid",
-						"always"
+						"always",
+						"avoid"
 					],
-					"default": "avoid",
+					"default": "always",
 					"description": "Include parentheses around a sole arrow function parameter.",
 					"enumDescriptions": [
-						"Omit parens when possible. Example: x => x",
-						"Always include parens. Example: (x) => x"
+						"Always include parens. Example: (x) => x",
+						"Omit parens when possible. Example: x => x"
 					],
 					"scope": "resource"
 				},
@@ -235,18 +237,18 @@
 				"prettier.endOfLine": {
 					"type": "string",
 					"enum": [
-						"auto",
 						"lf",
 						"crlf",
-						"cr"
+						"cr",
+						"auto"
 					],
 					"default": "auto",
 					"description": "Specify the end of line used by Prettier.",
 					"enumDescriptions": [
-						"Maintain existing line endings (mixed values within one file are normalised by looking at what's used after the first line)",
 						"Line Feed only (\\n), common on Linux and macOS as well as inside git repos",
 						"Carriage Return + Line Feed characters (\\r\\n), common on Windows",
-						"Carriage Return character only (\\r), used very rarely"
+						"Carriage Return character only (\\r), used very rarely",
+						"Maintain existing line endings (mixed values within one file are normalised by looking at what's used after the first line)"
 					]
 				},
 				"prettier.quoteProps": {

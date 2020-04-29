@@ -3,6 +3,7 @@ declare module 'prettier' {
 		| ''
 		| 'babel'
 		| 'babel-flow'
+		| 'babel-ts'
 		| 'flow'
 		| 'typescript'
 		| 'css'
@@ -22,25 +23,23 @@ declare module 'prettier' {
 
 	type PluginParserOption = 'php' | 'pug' | 'ruby' | 'swift' | 'xml';
 
-	type TrailingCommaOption = 'none' | 'es5' | 'all';
-
 	interface PrettierConfig {
 		printWidth: number;
 		tabWidth: number;
 		singleQuote: boolean;
-		trailingComma: TrailingCommaOption;
+		trailingComma: 'es5' | 'none' | 'all';
 		bracketSpacing: boolean;
 		jsxBracketSameLine: boolean;
 		parser: ParserOption | PluginParserOption;
 		semi: boolean;
 		useTabs: boolean;
 		proseWrap: 'preserve' | 'always' | 'never';
-		arrowParens: 'avoid' | 'always';
+		arrowParens: 'always' | 'avoid';
 		filepath: string;
 		jsxSingleQuote: boolean;
 		htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore';
 		vueIndentScriptAndStyle: boolean;
-		endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+		endOfLine: 'lf' | 'crlf' | 'cr' | 'auto';
 		quoteProps: 'as-needed' | 'consistent' | 'preserve';
 		pluginSearchDirs: string[];
 		plugins: string[];
@@ -82,7 +81,7 @@ declare module 'prettier' {
 
 	function clearConfigCache(): void;
 
-	function getSupportInfo(version?: string): PrettierSupportInfo;
+	function getSupportInfo(): PrettierSupportInfo;
 
 	const version: string;
 

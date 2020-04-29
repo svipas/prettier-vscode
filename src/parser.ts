@@ -10,7 +10,7 @@ interface LanguagesFromPrettier {
 }
 
 export const pluginLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
-const prettierLanguages = prettier.getSupportInfo(prettier.version).languages;
+const prettierLanguages = prettier.getSupportInfo().languages;
 const allLanguageParsers: {
 	[key: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
 } = {
@@ -18,13 +18,12 @@ const allLanguageParsers: {
 	mongo: ['babel', 'flow'],
 	javascript: ['babel', 'flow'],
 	javascriptreact: ['babel', 'flow'],
-	typescript: ['typescript'],
-	typescriptreact: ['typescript'],
+	typescript: ['typescript', 'babel-ts'],
+	typescriptreact: ['typescript', 'babel-ts'],
 	json: ['json'],
 	jsonc: ['json'],
 	json5: ['json5'],
 	css: ['css'],
-	postcss: ['css'],
 	less: ['less'],
 	scss: ['scss'],
 	graphql: ['graphql'],
