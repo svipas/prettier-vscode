@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as prettier from 'prettier';
 
 interface LanguagesFromPrettier {
-	[vsCodeLanguageId: string]: {
+	[VSCodeLanguageId: string]: {
 		filenames: string[];
 		extensions: string[];
 		parsers: prettier.ParserOption[];
