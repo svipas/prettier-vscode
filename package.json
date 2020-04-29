@@ -311,7 +311,6 @@
 	},
 	"scripts": {
 		"fix-prettier-stylelint": "node scripts/fix-prettier-stylelint.js",
-		"vscode:publish": "vsce publish",
 		"vscode:prepublish": "npm run fix-prettier-stylelint && parcel build src/main.ts --target node",
 		"compile": "NODE_ENV=development parcel build src/main.ts --target node",
 		"watch": "parcel watch src/main.ts --target node",

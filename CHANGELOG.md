@@ -5,7 +5,6 @@
 - Change project indentation to tabs.
 - Update all dependencies across whole project including Prettier to `2.0.5` version (https://prettier.io/blog/2020/03/21/2.0.0.html).
 - Change project filename convention to kebab-case.
-- Add `vscode:publish` script.
 - Create utils for tests instead of `ExtensionTest` class with static methods.
 - Change default value for `trailingComma` to `es5`.
 - Change default value for `arrowParens` to `always`.
