@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { errorHandlerDisposables } from './error-handler';
 import { ignoreFileHandler } from './ignore-file-handler';
-import { allLanguageIds } from './parser';
+import { allVSCodeLanguageIds } from './parser';
 import { prettierConfigFileWatcher } from './prettier-config-file-watcher';
 import { PrettierEditProvider } from './PrettierEditProvider';
 import { getVSCodeConfig } from './utils';
@@ -18,9 +18,9 @@ function formatterSelector(): string[] | vscode.DocumentFilter[] {
 	let globalLanguageSelector: string[];
 
 	if (disableLanguages.length !== 0) {
-		globalLanguageSelector = allLanguageIds.filter(lang => !disableLanguages.includes(lang));
+		globalLanguageSelector = allVSCodeLanguageIds.filter(lang => !disableLanguages.includes(lang));
 	} else {
-		globalLanguageSelector = allLanguageIds;
+		globalLanguageSelector = allVSCodeLanguageIds;
 	}
 
 	// No workspace opened.

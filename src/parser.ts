@@ -2,17 +2,17 @@ import * as path from 'path';
 import * as prettier from 'prettier';
 
 interface LanguagesFromPrettier {
-	[languageId: string]: {
+	[vsCodeLanguageId: string]: {
 		filenames: string[];
 		extensions: string[];
 		parsers: prettier.ParserOption[];
 	}[];
 }
 
-export const pluginLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
+export const pluginVSCodeLanguageIds = ['php', 'jade', 'ruby', 'swift', 'xml'];
 const prettierLanguages = prettier.getSupportInfo().languages;
-const allLanguageParsers: {
-	[key: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
+const allVSCodeLanguageParsers: {
+	[parser: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
 } = {
 	// Prettier
 	mongo: ['babel', 'flow'],
@@ -77,18 +77,18 @@ export function getParserByLangIdAndFilename(
 	return getParserByLangId(languageId);
 }
 
-export const allLanguageIds: string[] = [
+export const allVSCodeLanguageIds: string[] = [
 	...prettierLanguages.reduce((ids: string[], lang) => {
 		if (lang.vscodeLanguageIds) {
 			ids.push(...lang.vscodeLanguageIds);
 		}
 		return ids;
 	}, []),
-	...pluginLanguageIds
+	...pluginVSCodeLanguageIds
 ];
 
 function getParserByLangId(languageId: string): prettier.ParserOption | prettier.PluginParserOption {
-	const parsers = allLanguageParsers[languageId];
+	const parsers = allVSCodeLanguageParsers[languageId];
 	return parsers?.[0] ?? '';
 }
 

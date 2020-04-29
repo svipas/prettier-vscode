@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { allLanguageIds } from './parser';
+import { allVSCodeLanguageIds } from './parser';
 import { getVSCodeConfig } from './utils';
 
 type EditorPart = 'debug' | 'output';
@@ -28,7 +28,7 @@ function toggleStatusBar(editor: vscode.TextEditor | undefined) {
 	}
 
 	const { disableLanguages } = getVSCodeConfig(editor.document.uri);
-	const score = vscode.languages.match(allLanguageIds, editor.document);
+	const score = vscode.languages.match(allVSCodeLanguageIds, editor.document);
 
 	if (score > 0 && !disableLanguages.includes(editor.document.languageId)) {
 		statusBarItem.show();

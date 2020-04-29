@@ -11,7 +11,7 @@ import {
 	stylelintLanguageIds,
 	tslintLanguageIds
 } from './integration';
-import { getParserByLangIdAndFilename, pluginLanguageIds } from './parser';
+import { getParserByLangIdAndFilename, pluginVSCodeLanguageIds } from './parser';
 import { getVSCodeConfig } from './utils';
 
 export class PrettierEditProvider implements vscode.DocumentFormattingEditProvider {
@@ -43,7 +43,7 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 			return text;
 		}
 
-		if (pluginLanguageIds.includes(languageId)) {
+		if (pluginVSCodeLanguageIds.includes(languageId)) {
 			vscode.workspace.workspaceFolders?.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
 
 			if (!this.cachedGlobalNodeModulesPaths) {
