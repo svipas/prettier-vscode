@@ -308,6 +308,7 @@
 		]
 	},
 	"scripts": {
+		"vscode:publish": "vsce publish",
 		"vscode:prepublish": "parcel build src/main.ts --target node",
 		"compile": "NODE_ENV=development parcel build src/main.ts --target node",
 		"watch": "parcel watch src/main.ts --target node",
