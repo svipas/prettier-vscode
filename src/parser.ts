@@ -23,6 +23,7 @@ const allLanguageParsers: {
 	json: ['json'],
 	jsonc: ['json'],
 	json5: ['json5'],
+	postcss: ['css'],
 	css: ['css'],
 	less: ['less'],
 	scss: ['scss'],
