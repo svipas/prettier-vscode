@@ -77,7 +77,7 @@ export function getParserByLangIdAndFilename(
 	return getParserByLangId(languageId);
 }
 
-const allVSCodeLanguageIds: string[] = [...VSCodePluginLanguageIds];
+export const allVSCodeLanguageIds: string[] = [...VSCodePluginLanguageIds];
 const allLanguagesFromPrettier: LanguagesFromPrettier = {};
 prettierLanguages.forEach(lang => {
 	const { filenames = [], extensions = [], parsers = [], vscodeLanguageIds = [] } = lang;
