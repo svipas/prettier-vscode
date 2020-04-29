@@ -315,7 +315,7 @@
 		"vscode:prepublish": "npm run fix-prettier-stylelint && parcel build src/main.ts --target node",
 		"compile": "NODE_ENV=development parcel build src/main.ts --target node",
 		"watch": "parcel watch src/main.ts --target node",
-		"pretest": "npm run fix-prettier-stylelint && npm run test-compile && npm run vscode:prepublish && cd test-fixtures/eslint && npm install && cd ../tslint && npm install && cd ../stylelint && npm install",
+		"pretest": "npm run test-compile && npm run vscode:prepublish && cd test-fixtures/eslint && npm install && cd ../tslint && npm install && cd ../stylelint && npm install",
 		"test-compile": "tsc -p ./",
 		"test": "node ./out/test/run-test.js"
 	},
