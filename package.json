@@ -311,6 +311,7 @@
 	},
 	"scripts": {
 		"fix-prettier-integrations": "node scripts/fix-prettier-integrations.js",
+		"vscode:publish": "vsce publish",
 		"vscode:prepublish": "npm run fix-prettier-integrations && parcel build src/main.ts --target node",
 		"compile": "NODE_ENV=development parcel build src/main.ts --target node",
 		"watch": "parcel watch src/main.ts --target node",
