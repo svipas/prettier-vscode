@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## 4.0.2 (May 17, 2020)
+
+- Simplify script to fix prettier integrations.
+- Reformat project with new settings.
+- Update all dependencies.
+- Add `vscode:publish` script.
+- Update `README`.
+
 ## 4.0.1 (April 30, 2020)
 
 - Update `README`.
