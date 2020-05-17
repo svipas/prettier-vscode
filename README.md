@@ -74,7 +74,7 @@
 
 Install through VS Code extensions, search for `Prettier+` by `Benas Svipas`. _If you can't find extension by name try to search by publisher name._
 
-&#x26a0; A word of warning-if you have any other code formatting extensions installed they might take precedence and format your code instead of Prettier+ leading to unexpected results.
+&#x26a0; If you have any other code formatting extensions installed they might take precedence and format your code instead of Prettier+ leading to unexpected results.
 
 ## Usage
 
@@ -96,10 +96,10 @@ Linux: Ctrl + Shift + I
 #### Format a file on save
 
 ```json
-// Format all files on save
+// Format all files on save.
 "editor.formatOnSave": true,
 
-// Format per-language file on save
+// Format per-language file on save.
 "[javascript]": {
   "editor.formatOnSave": false
 }
@@ -120,19 +120,19 @@ After installing this extension you can immediately start to format your code, y
 
 #### [ESLint](https://github.com/prettier/prettier-eslint)
 
-1. Install `eslint` **locally** with Yarn or npm.
+1. Install `eslint` **locally** with npm or Yarn.
 2. Setup your ESLint configuration.
 3. Add `"prettier.eslintIntegration": true` in VS Code settings.
 
 #### [TSLint](https://github.com/azz/prettier-tslint)
 
-1. Install `tslint` **locally** with Yarn or npm.
+1. Install `tslint` **locally** with npm or Yarn.
 2. Setup your TSLint configuration.
 3. Add `"prettier.tslintIntegration": true` in VS Code settings.
 
 #### [stylelint](https://github.com/hugomrdias/prettier-stylelint)
 
-1. Install `stylelint` **locally** with Yarn or npm.
+1. Install `stylelint` **locally** with npm or Yarn.
 2. Setup your stylelint configuration.
 3. Add `"prettier.stylelintIntegration": true` in VS Code settings.
 
@@ -144,11 +144,11 @@ If you have both `"prettier.eslintIntegration"` and `"prettier.tslintIntegration
 
 &#x26a0; The plugin API is in a beta state. This extension supports only [official plugins](https://prettier.io/docs/en/plugins.html#official-plugins).
 
-- **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` locally or globally with Yarn or npm.
-- **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` locally or globally with Yarn or npm.
-- **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` locally or globally with Yarn or npm.
-- **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` locally or globally with Yarn or npm.
-- **[XML](https://github.com/prettier/plugin-xml)**: install `@prettier/plugin-xml` locally or globally with Yarn or npm.
+- **[PHP](https://github.com/prettier/plugin-php)**: install `prettier` and `@prettier/plugin-php` locally or globally with npm or Yarn.
+- **[Pug](https://github.com/prettier/plugin-pug)**: install `@prettier/plugin-pug` locally or globally with npm or Yarn.
+- **[Ruby](https://github.com/prettier/plugin-ruby)**: install `@prettier/plugin-ruby` locally or globally with npm or Yarn.
+- **[Swift](https://github.com/prettier/plugin-swift)**: install `prettier/plugin-swift` locally or globally with npm or Yarn.
+- **[XML](https://github.com/prettier/plugin-xml)**: install `@prettier/plugin-xml` locally or globally with npm or Yarn.
 
 ## Settings
 
