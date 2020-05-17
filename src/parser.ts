@@ -12,7 +12,7 @@ interface LanguagesFromPrettier {
 const prettierLanguages = prettier.getSupportInfo().languages;
 export const VSCodePluginLanguageIds = ["php", "jade", "ruby", "swift", "xml"];
 const VSCodeLanguageParsers: {
-	[parser: string]: (prettier.ParserOption | prettier.PluginParserOption)[];
+	[parser: string]: prettier.AllParsers[];
 } = {
 	// Prettier
 	mongo: ["babel", "flow"],
@@ -44,7 +44,7 @@ const VSCodeLanguageParsers: {
 export function getParserByLangIdAndFilename(
 	languageId: string,
 	filepath?: string
-): prettier.ParserOption | prettier.PluginParserOption {
+): prettier.AllParsers {
 	if (!filepath) {
 		return getParserByLangId(languageId);
 	}
@@ -107,9 +107,7 @@ prettierLanguages.forEach((lang) => {
 	});
 });
 
-function getParserByLangId(
-	languageId: string
-): prettier.ParserOption | prettier.PluginParserOption {
+function getParserByLangId(languageId: string): prettier.AllParsers {
 	const parsers = VSCodeLanguageParsers[languageId];
 	return parsers?.[0] ?? "";
 }

@@ -65,8 +65,7 @@ export class PrettierEditProvider
 			});
 		}
 
-		let parser: prettier.ParserOption | prettier.PluginParserOption =
-			vscodeConfig.parser;
+		let parser: prettier.AllParsers = vscodeConfig.parser;
 		if (parser === "") {
 			parser = getParserByLangIdAndFilename(
 				languageId,

@@ -23,6 +23,8 @@ declare module "prettier" {
 
 	type PluginParserOption = "php" | "pug" | "ruby" | "swift" | "xml";
 
+	type AllParsers = ParserOption | PluginParserOption;
+
 	interface PrettierConfig {
 		printWidth: number;
 		tabWidth: number;
@@ -30,7 +32,7 @@ declare module "prettier" {
 		trailingComma: "es5" | "none" | "all";
 		bracketSpacing: boolean;
 		jsxBracketSameLine: boolean;
-		parser: ParserOption | PluginParserOption;
+		parser: AllParsers;
 		semi: boolean;
 		useTabs: boolean;
 		proseWrap: "preserve" | "always" | "never";
