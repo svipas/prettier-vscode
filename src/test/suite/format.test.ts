@@ -13,28 +13,28 @@ async function formatSameAsPrettier(filepath: string) {
 }
 
 suite("Prettier", () => {
-	test("it formats JavaScript", () => {
-		formatSameAsPrettier("format-test/ugly.js");
+	test("it formats JavaScript", async () => {
+		await formatSameAsPrettier("format-test/ugly.js");
 	});
-	test("it formats TypeScript", () => {
-		formatSameAsPrettier("format-test/ugly.ts");
+	test("it formats TypeScript", async () => {
+		await formatSameAsPrettier("format-test/ugly.ts");
 	});
-	test("it formats CSS", () => {
-		formatSameAsPrettier("format-test/ugly.css");
+	test("it formats CSS", async () => {
+		await formatSameAsPrettier("format-test/ugly.css");
 	});
-	test("it formats JSON", () => {
-		formatSameAsPrettier("format-test/ugly.json");
+	test("it formats JSON", async () => {
+		await formatSameAsPrettier("format-test/ugly.json");
 	});
-	test("it formats package.json", () => {
-		formatSameAsPrettier("format-test/package.json");
+	test("it formats package.json", async () => {
+		await formatSameAsPrettier("format-test/package.json");
 	});
-	test("it formats HTML", () => {
-		formatSameAsPrettier("format-test/index.html");
+	test("it formats HTML", async () => {
+		await formatSameAsPrettier("format-test/index.html");
 	});
-	test("it formats Vue", () => {
-		formatSameAsPrettier("format-test/ugly.vue");
+	test("it formats Vue", async () => {
+		await formatSameAsPrettier("format-test/ugly.vue");
 	});
-	test("it formats GraphQL", () => {
-		formatSameAsPrettier("format-test/ugly.graphql");
+	test("it formats GraphQL", async () => {
+		await formatSameAsPrettier("format-test/ugly.graphql");
 	});
 });
