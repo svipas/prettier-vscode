@@ -1,7 +1,7 @@
-declare module 'prettier-eslint' {
-	import { PrettierConfig } from 'prettier';
+declare module "prettier-eslint" {
+	import { PrettierConfig } from "prettier";
 
-	type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace';
+	type LogLevel = "error" | "warn" | "info" | "debug" | "trace";
 
 	interface PrettierEslintOptions {
 		/**

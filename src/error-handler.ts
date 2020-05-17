@@ -1,15 +1,18 @@
-import * as vscode from 'vscode';
-import { allVSCodeLanguageIds } from './parser';
-import { getVSCodeConfig } from './utils';
+import * as vscode from "vscode";
+import { allVSCodeLanguageIds } from "./parser";
+import { getVSCodeConfig } from "./utils";
 
-type EditorPart = 'debug' | 'output';
+type EditorPart = "debug" | "output";
 
-const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, -1);
-statusBarItem.text = 'Prettier+';
-statusBarItem.command = 'prettier-plus.open-output';
+const statusBarItem = vscode.window.createStatusBarItem(
+	vscode.StatusBarAlignment.Right,
+	-1
+);
+statusBarItem.text = "Prettier+";
+statusBarItem.command = "prettier-plus.open-output";
 toggleStatusBar(vscode.window.activeTextEditor);
 
-const outputChannel = vscode.window.createOutputChannel('Prettier+');
+const outputChannel = vscode.window.createOutputChannel("Prettier+");
 let prettierInformation: string | undefined;
 
 function toggleStatusBar(editor: vscode.TextEditor | undefined) {
@@ -23,7 +26,10 @@ function toggleStatusBar(editor: vscode.TextEditor | undefined) {
 	// Both are seen as an "editor".
 	// The following check will ignore such panels.
 	const textDocumentEditorPart = editor.document.uri.scheme as EditorPart;
-	if (textDocumentEditorPart === 'debug' || textDocumentEditorPart === 'output') {
+	if (
+		textDocumentEditorPart === "debug" ||
+		textDocumentEditorPart === "output"
+	) {
 		return;
 	}
 
@@ -60,7 +66,7 @@ export function logMessage(message: string, filename?: string) {
 
 	// Create a sort of title, to differentiate between messages
 	outputChannel.appendLine(title);
-	outputChannel.appendLine('-'.repeat(title.length));
+	outputChannel.appendLine("-".repeat(title.length));
 
 	// Append actual output.
 	outputChannel.appendLine(`${message}\n`);
@@ -80,29 +86,33 @@ export function safeExecution(
 ): string | Promise<string> {
 	if (cb instanceof Promise) {
 		return cb
-			.then(returnValue => {
-				updateStatusBar('Prettier+: $(check)');
+			.then((returnValue) => {
+				updateStatusBar("Prettier+: $(check)");
 				return returnValue;
 			})
 			.catch((err: Error) => {
 				logMessage(err.message, filename);
-				updateStatusBar('Prettier+: $(x)');
+				updateStatusBar("Prettier+: $(x)");
 				return defaultText;
 			});
 	}
 
 	try {
 		const returnValue = cb();
-		updateStatusBar('Prettier+: $(check)');
+		updateStatusBar("Prettier+: $(check)");
 		return returnValue;
 	} catch (err) {
 		logMessage(err.message, filename);
-		updateStatusBar('Prettier+: $(x)');
+		updateStatusBar("Prettier+: $(x)");
 		return defaultText;
 	}
 }
 
 export const errorHandlerDisposables: vscode.Disposable[] = [
-	vscode.window.onDidChangeActiveTextEditor(editor => toggleStatusBar(editor)),
-	vscode.commands.registerCommand('prettier-plus.open-output', () => outputChannel.show())
+	vscode.window.onDidChangeActiveTextEditor((editor) =>
+		toggleStatusBar(editor)
+	),
+	vscode.commands.registerCommand("prettier-plus.open-output", () =>
+		outputChannel.show()
+	),
 ];

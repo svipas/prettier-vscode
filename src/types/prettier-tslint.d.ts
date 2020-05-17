@@ -1,7 +1,7 @@
-declare module 'prettier-tslint' {
-	import { PrettierConfig } from 'prettier';
+declare module "prettier-tslint" {
+	import { PrettierConfig } from "prettier";
 
-	type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace';
+	type LogLevel = "error" | "warn" | "info" | "debug" | "trace";
 
 	interface PrettierTslintOptions {
 		/**

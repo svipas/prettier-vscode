@@ -1,10 +1,10 @@
-import * as vscode from 'vscode';
-import { errorHandlerDisposables } from './error-handler';
-import { ignoreFileHandler } from './ignore-file-handler';
-import { allVSCodeLanguageIds } from './parser';
-import { prettierConfigFileWatcher } from './prettier-config-file-watcher';
-import { PrettierEditProvider } from './PrettierEditProvider';
-import { getVSCodeConfig } from './utils';
+import * as vscode from "vscode";
+import { errorHandlerDisposables } from "./error-handler";
+import { ignoreFileHandler } from "./ignore-file-handler";
+import { allVSCodeLanguageIds } from "./parser";
+import { prettierConfigFileWatcher } from "./prettier-config-file-watcher";
+import { PrettierEditProvider } from "./PrettierEditProvider";
+import { getVSCodeConfig } from "./utils";
 
 let formatterHandler: vscode.Disposable | undefined;
 
@@ -18,7 +18,9 @@ function formatterSelector(): string[] | vscode.DocumentFilter[] {
 	let globalLanguageSelector: string[];
 
 	if (disableLanguages.length !== 0) {
-		globalLanguageSelector = allVSCodeLanguageIds.filter(lang => !disableLanguages.includes(lang));
+		globalLanguageSelector = allVSCodeLanguageIds.filter((lang) => {
+			return !disableLanguages.includes(lang);
+		});
 	} else {
 		globalLanguageSelector = allVSCodeLanguageIds;
 	}
@@ -28,15 +30,19 @@ function formatterSelector(): string[] | vscode.DocumentFilter[] {
 		return globalLanguageSelector;
 	}
 
-	const untitledLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(lang => ({
-		language: lang,
-		scheme: 'untitled'
-	}));
+	const untitledLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(
+		(lang) => ({
+			language: lang,
+			scheme: "untitled",
+		})
+	);
 
-	const fileLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(lang => ({
-		language: lang,
-		scheme: 'file'
-	}));
+	const fileLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(
+		(lang) => ({
+			language: lang,
+			scheme: "file",
+		})
+	);
 
 	return untitledLanguageSelector.concat(fileLanguageSelector);
 }
@@ -49,7 +55,10 @@ export async function activate(context: vscode.ExtensionContext) {
 		disposeFormatterHandler();
 
 		const languageSelector = formatterSelector();
-		formatterHandler = vscode.languages.registerDocumentFormattingEditProvider(languageSelector, prettierEditProvider);
+		formatterHandler = vscode.languages.registerDocumentFormattingEditProvider(
+			languageSelector,
+			prettierEditProvider
+		);
 	};
 
 	registerFormatter();

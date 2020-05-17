@@ -1,20 +1,24 @@
-import * as childProcess from 'child_process';
-import * as prettier from 'prettier';
-import { promisify } from 'util';
-import * as vscode from 'vscode';
-import { logMessage, safeExecution, setUsedModule } from './error-handler';
+import * as childProcess from "child_process";
+import * as prettier from "prettier";
+import { promisify } from "util";
+import * as vscode from "vscode";
+import { logMessage, safeExecution, setUsedModule } from "./error-handler";
 import {
 	eslintLanguageIds,
 	prettierEslintFormat,
 	prettierStylelintFormat,
 	prettierTslintFormat,
 	stylelintLanguageIds,
-	tslintLanguageIds
-} from './integration';
-import { getParserByLangIdAndFilename, VSCodePluginLanguageIds } from './parser';
-import { getVSCodeConfig } from './utils';
+	tslintLanguageIds,
+} from "./integration";
+import {
+	getParserByLangIdAndFilename,
+	VSCodePluginLanguageIds,
+} from "./parser";
+import { getVSCodeConfig } from "./utils";
 
-export class PrettierEditProvider implements vscode.DocumentFormattingEditProvider {
+export class PrettierEditProvider
+	implements vscode.DocumentFormattingEditProvider {
 	private cachedGlobalNodeModulesPaths?: (string | undefined)[];
 	private readonly fileIsIgnored: (filePath: string) => Promise<boolean>;
 
@@ -22,7 +26,9 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 		this.fileIsIgnored = fileIsIgnored;
 	}
 
-	provideDocumentFormattingEdits(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {
+	provideDocumentFormattingEdits(
+		document: vscode.TextDocument
+	): Promise<vscode.TextEdit[]> {
 		return this.provideEdits(document);
 	}
 
@@ -32,7 +38,10 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 	 * @param path formatting file's path.
 	 * @returns formatted text.
 	 */
-	private async format(text: string, { fileName, languageId, uri, isUntitled }: vscode.TextDocument): Promise<string> {
+	private async format(
+		text: string,
+		{ fileName, languageId, uri, isUntitled }: vscode.TextDocument
+	): Promise<string> {
 		const vscodeConfig: prettier.PrettierVSCodeConfig = getVSCodeConfig(uri);
 		const workspaceFolderPaths: string[] = [];
 
@@ -44,27 +53,41 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 		}
 
 		if (VSCodePluginLanguageIds.includes(languageId)) {
-			vscode.workspace.workspaceFolders?.forEach(wf => workspaceFolderPaths.push(wf.uri.fsPath));
+			vscode.workspace.workspaceFolders?.forEach((wf) => {
+				workspaceFolderPaths.push(wf.uri.fsPath);
+			});
 
 			if (!this.cachedGlobalNodeModulesPaths) {
 				this.cachedGlobalNodeModulesPaths = await this.globalNodeModulesPaths();
 			}
-			this.cachedGlobalNodeModulesPaths.forEach(globalPath => globalPath && workspaceFolderPaths.push(globalPath));
+			this.cachedGlobalNodeModulesPaths.forEach((globalPath) => {
+				globalPath && workspaceFolderPaths.push(globalPath);
+			});
 		}
 
-		let parser: prettier.ParserOption | prettier.PluginParserOption = vscodeConfig.parser;
-		if (parser === '') {
-			parser = getParserByLangIdAndFilename(languageId, isUntitled ? undefined : fileName);
+		let parser: prettier.ParserOption | prettier.PluginParserOption =
+			vscodeConfig.parser;
+		if (parser === "") {
+			parser = getParserByLangIdAndFilename(
+				languageId,
+				isUntitled ? undefined : fileName
+			);
 		}
 
 		let configOptions: prettier.PrettierConfig | undefined;
 		let hasConfig = false;
 		if (vscodeConfig.requireConfig) {
-			const { config, error } = await this.resolvePrettierConfig(fileName, { editorconfig: true });
+			const { config, error } = await this.resolvePrettierConfig(fileName, {
+				editorconfig: true,
+			});
 			if (error != null) {
-				logMessage(`Failed to resolve config for ${fileName}. Falling back to the default settings.`);
+				logMessage(
+					`Failed to resolve config for ${fileName}. Falling back to the default settings.`
+				);
 			} else if (config == null) {
-				logMessage(`Prettier config is empty. Falling back to the default settings.`);
+				logMessage(
+					`Prettier config is empty. Falling back to the default settings.`
+				);
 			} else {
 				configOptions = config;
 				hasConfig = true;
@@ -89,27 +112,30 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 			quoteProps: vscodeConfig.quoteProps,
 			filepath: fileName,
 			pluginSearchDirs: workspaceFolderPaths,
-			parser
+			parser,
 		});
 
 		const sendToOutput = (name: string, version: string) => {
 			logMessage(
 				`Using ${name}@${version}${
-					hasConfig ? ' with Prettier config' : ''
+					hasConfig ? " with Prettier config" : ""
 				} to format code with ${parser} parser for ${languageId} language.`,
 				fileName
 			);
 			setUsedModule(name, version);
 		};
 
-		if (vscodeConfig.tslintIntegration && tslintLanguageIds.includes(languageId)) {
+		if (
+			vscodeConfig.tslintIntegration &&
+			tslintLanguageIds.includes(languageId)
+		) {
 			return safeExecution(
 				() => {
-					sendToOutput('prettier-tslint', '0.4.2');
+					sendToOutput("prettier-tslint", "0.4.2");
 					return prettierTslintFormat()({
 						text,
 						filePath: fileName,
-						fallbackPrettierOptions: prettierOptions
+						fallbackPrettierOptions: prettierOptions,
 					});
 				},
 				text,
@@ -117,14 +143,17 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 			);
 		}
 
-		if (vscodeConfig.eslintIntegration && eslintLanguageIds.includes(languageId)) {
+		if (
+			vscodeConfig.eslintIntegration &&
+			eslintLanguageIds.includes(languageId)
+		) {
 			return safeExecution(
 				() => {
-					sendToOutput('prettier-eslint', '9.0.1');
+					sendToOutput("prettier-eslint", "9.0.1");
 					return prettierEslintFormat()({
 						text,
 						filePath: fileName,
-						fallbackPrettierOptions: prettierOptions
+						fallbackPrettierOptions: prettierOptions,
 					});
 				},
 				text,
@@ -132,13 +161,16 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 			);
 		}
 
-		if (vscodeConfig.stylelintIntegration && stylelintLanguageIds.includes(languageId)) {
-			sendToOutput('prettier-stylelint', '0.4.2');
+		if (
+			vscodeConfig.stylelintIntegration &&
+			stylelintLanguageIds.includes(languageId)
+		) {
+			sendToOutput("prettier-stylelint", "0.4.2");
 			return safeExecution(
 				prettierStylelintFormat()({
 					text,
 					filePath: fileName,
-					prettierOptions
+					prettierOptions,
 				}),
 				text,
 				fileName
@@ -147,7 +179,7 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 
 		return safeExecution(
 			() => {
-				sendToOutput('prettier', prettier.version);
+				sendToOutput("prettier", prettier.version);
 				return prettier.format(text, prettierOptions);
 			},
 			text,
@@ -160,14 +192,17 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 		const executeCommand = async (cmd: string): Promise<string | undefined> => {
 			try {
 				let nodeModulesPath = (await promisifiedExec(cmd)).stdout.trim();
-				if (nodeModulesPath.endsWith('node_modules')) {
-					nodeModulesPath = nodeModulesPath.replace('node_modules', '');
+				if (nodeModulesPath.endsWith("node_modules")) {
+					nodeModulesPath = nodeModulesPath.replace("node_modules", "");
 				}
 				return nodeModulesPath;
 			} catch {}
 		};
 
-		return Promise.all([executeCommand('yarn global dir'), executeCommand('npm -g root')]);
+		return Promise.all([
+			executeCommand("yarn global dir"),
+			executeCommand("npm -g root"),
+		]);
 	}
 
 	/**
@@ -206,15 +241,24 @@ export class PrettierEditProvider implements vscode.DocumentFormattingEditProvid
 
 	private fullDocumentRange(document: vscode.TextDocument): vscode.Range {
 		const lastLineId = document.lineCount - 1;
-		return new vscode.Range(0, 0, lastLineId, document.lineAt(lastLineId).text.length);
+		return new vscode.Range(
+			0,
+			0,
+			lastLineId,
+			document.lineAt(lastLineId).text.length
+		);
 	}
 
-	private async provideEdits(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {
+	private async provideEdits(
+		document: vscode.TextDocument
+	): Promise<vscode.TextEdit[]> {
 		if (!document.isUntitled && (await this.fileIsIgnored(document.fileName))) {
 			return [];
 		}
 
 		const formattedText = await this.format(document.getText(), document);
-		return [vscode.TextEdit.replace(this.fullDocumentRange(document), formattedText)];
+		return [
+			vscode.TextEdit.replace(this.fullDocumentRange(document), formattedText),
+		];
 	}
 }

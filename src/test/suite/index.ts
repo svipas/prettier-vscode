@@ -1,25 +1,26 @@
-import glob from 'glob';
-import Mocha from 'mocha';
-import * as path from 'path';
+import glob from "glob";
+import Mocha from "mocha";
+import * as path from "path";
 
-export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
+export function run(
+	cwd: string,
+	cb: (error: any, failures?: number) => void
+): void {
 	const mocha = new Mocha({
-		ui: 'tdd',
+		ui: "tdd",
 		useColors: true,
-		timeout: 20_000
+		timeout: 20_000,
 	});
 
-	glob('**/**.test.js', { cwd: testsRoot }, (err, files) => {
+	glob("**/**.test.js", { cwd }, (err, files) => {
 		if (err) {
 			return cb(err);
 		}
 
-		// Add files to the test suite
-		files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+		files.forEach((f) => mocha.addFile(path.resolve(cwd, f)));
 
 		try {
-			// Run the mocha test
-			mocha.run(failures => cb(null, failures));
+			mocha.run((failures) => cb(null, failures));
 		} catch (err) {
 			cb(err);
 		}

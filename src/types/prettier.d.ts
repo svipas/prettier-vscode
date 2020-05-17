@@ -1,46 +1,46 @@
-declare module 'prettier' {
+declare module "prettier" {
 	type ParserOption =
-		| ''
-		| 'babel'
-		| 'babel-flow'
-		| 'babel-ts'
-		| 'flow'
-		| 'typescript'
-		| 'css'
-		| 'scss'
-		| 'less'
-		| 'json'
-		| 'json5'
-		| 'json-stringify'
-		| 'graphql'
-		| 'markdown'
-		| 'mdx'
-		| 'html'
-		| 'vue'
-		| 'angular'
-		| 'lwc'
-		| 'yaml';
+		| ""
+		| "babel"
+		| "babel-flow"
+		| "babel-ts"
+		| "flow"
+		| "typescript"
+		| "css"
+		| "scss"
+		| "less"
+		| "json"
+		| "json5"
+		| "json-stringify"
+		| "graphql"
+		| "markdown"
+		| "mdx"
+		| "html"
+		| "vue"
+		| "angular"
+		| "lwc"
+		| "yaml";
 
-	type PluginParserOption = 'php' | 'pug' | 'ruby' | 'swift' | 'xml';
+	type PluginParserOption = "php" | "pug" | "ruby" | "swift" | "xml";
 
 	interface PrettierConfig {
 		printWidth: number;
 		tabWidth: number;
 		singleQuote: boolean;
-		trailingComma: 'es5' | 'none' | 'all';
+		trailingComma: "es5" | "none" | "all";
 		bracketSpacing: boolean;
 		jsxBracketSameLine: boolean;
 		parser: ParserOption | PluginParserOption;
 		semi: boolean;
 		useTabs: boolean;
-		proseWrap: 'preserve' | 'always' | 'never';
-		arrowParens: 'always' | 'avoid';
+		proseWrap: "preserve" | "always" | "never";
+		arrowParens: "always" | "avoid";
 		filepath: string;
 		jsxSingleQuote: boolean;
-		htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore';
+		htmlWhitespaceSensitivity: "css" | "strict" | "ignore";
 		vueIndentScriptAndStyle: boolean;
-		endOfLine: 'lf' | 'crlf' | 'cr' | 'auto';
-		quoteProps: 'as-needed' | 'consistent' | 'preserve';
+		endOfLine: "lf" | "crlf" | "cr" | "auto";
+		quoteProps: "as-needed" | "consistent" | "preserve";
 		pluginSearchDirs: string[];
 		plugins: string[];
 	}
