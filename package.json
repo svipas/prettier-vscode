@@ -31,7 +31,6 @@
 	],
 	"contributes": {
 		"configuration": {
-			"type": "object",
 			"title": "Prettier+",
 			"properties": {
 				"prettier.disableLanguages": {
@@ -193,7 +192,8 @@
 						"Wrap prose as-is. First available in v1.9.0",
 						"Wrap prose if it exceeds the print width.",
 						"Do not wrap prose."
-					]
+					],
+					"scope": "resource"
 				},
 				"prettier.arrowParens": {
 					"type": "string",
@@ -227,12 +227,14 @@
 						"Respect the default value of CSS 'display' property.",
 						"Whitespaces are considered sensitive.",
 						"Whitespaces are considered insensitive."
-					]
+					],
+					"scope": "resource"
 				},
 				"prettier.vueIndentScriptAndStyle": {
 					"type": "boolean",
 					"default": false,
-					"description": "Whether or not to indent the code inside <script> and <style> tags in Vue files. Some people (like the creator of Vue) don’t indent to save an indentation level, but this might break code folding in your editor."
+					"description": "Whether or not to indent the code inside <script> and <style> tags in Vue files. Some people (like the creator of Vue) don’t indent to save an indentation level, but this might break code folding in your editor.",
+					"scope": "resource"
 				},
 				"prettier.endOfLine": {
 					"type": "string",
@@ -249,7 +251,8 @@
 						"Carriage Return + Line Feed characters (\\r\\n), common on Windows",
 						"Carriage Return character only (\\r), used very rarely",
 						"Maintain existing line endings (mixed values within one file are normalised by looking at what's used after the first line)"
-					]
+					],
+					"scope": "resource"
 				},
 				"prettier.quoteProps": {
 					"type": "string",
@@ -264,7 +267,8 @@
 						"Only add quotes around object properties where required.",
 						"If at least one property in an object requires quotes, quote all properties.",
 						"Respect the input use of quotes in object properties."
-					]
+					],
+					"scope": "resource"
 				}
 			}
 		},
