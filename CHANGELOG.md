@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## 4.1.0 (May 25, 2020)
+
+- Add missing `scope` parameter for several configs.
+- Update all dependencies across whole project including `prettier-eslint` to `10.1.1`.
+
 ## 4.0.2 (May 17, 2020)
 
 - Simplify script to fix prettier integrations.
