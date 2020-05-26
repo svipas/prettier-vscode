@@ -3,6 +3,7 @@
 ## 4.1.1 (May 26, 2020)
 
 - Update script for fixing prettier integrations and add it to `.vscodeignore`.
+- Fix formatting of VS Code `settings.json` file by adding special language selector.
 
 ## 4.1.0 (May 25, 2020)
 

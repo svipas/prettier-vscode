@@ -15,12 +15,14 @@ function disposeFormatterHandler() {
 
 function formatterSelector(): string[] | vscode.DocumentFilter[] {
 	const { disableLanguages } = getVSCodeConfig();
-	let globalLanguageSelector: string[];
+	let globalLanguageSelector: string[] = [];
 
 	if (disableLanguages.length !== 0) {
-		globalLanguageSelector = allVSCodeLanguageIds.filter((lang) => {
-			return !disableLanguages.includes(lang);
-		});
+		for (const lang of allVSCodeLanguageIds) {
+			if (!disableLanguages.includes(lang)) {
+				globalLanguageSelector.push(lang);
+			}
+		}
 	} else {
 		globalLanguageSelector = allVSCodeLanguageIds;
 	}
@@ -30,21 +32,21 @@ function formatterSelector(): string[] | vscode.DocumentFilter[] {
 		return globalLanguageSelector;
 	}
 
-	const untitledLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(
-		(lang) => ({
-			language: lang,
-			scheme: "untitled",
-		})
-	);
+	const specialLanguageSelector: vscode.DocumentFilter[] = [
+		{ language: "jsonc", scheme: "vscode-userdata" },
+	];
+	const untitledLanguageSelector: vscode.DocumentFilter[] = [];
+	const fileLanguageSelector: vscode.DocumentFilter[] = [];
+	for (const lang of globalLanguageSelector) {
+		untitledLanguageSelector.push({ language: lang, scheme: "untitled" });
+		fileLanguageSelector.push({ language: lang, scheme: "file" });
+	}
 
-	const fileLanguageSelector: vscode.DocumentFilter[] = globalLanguageSelector.map(
-		(lang) => ({
-			language: lang,
-			scheme: "file",
-		})
-	);
-
-	return untitledLanguageSelector.concat(fileLanguageSelector);
+	return [
+		...untitledLanguageSelector,
+		...fileLanguageSelector,
+		...specialLanguageSelector,
+	];
 }
 
 export async function activate(context: vscode.ExtensionContext) {
