@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 4.1.1 (May 26, 2020)
+
+- Update script for fixing prettier integrations and add it to `.vscodeignore`.
+
 ## 4.1.0 (May 25, 2020)
 
 - Add missing `scope` parameter for several configs.
