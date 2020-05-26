@@ -2,6 +2,7 @@
 .vscode/**
 .vscode-test/**
 out/**
+scripts/**
 src/**
 test-fixtures/**
 .eslintignore
