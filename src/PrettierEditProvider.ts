@@ -148,7 +148,7 @@ export class PrettierEditProvider
 		) {
 			return safeExecution(
 				() => {
-					sendToOutput("prettier-eslint", "10.1.1");
+					sendToOutput("prettier-eslint", "11.0.0");
 					return prettierEslintFormat()({
 						text,
 						filePath: fileName,
