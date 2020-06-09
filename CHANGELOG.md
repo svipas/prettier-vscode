@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 4.1.2 (June 9, 2020)
+
+- Update all dependencies across whole project including `prettier-eslint` to `11.0.0`.
+
 ## 4.1.1 (May 26, 2020)
 
 - Update script for fixing prettier integrations and add it to `.vscodeignore`.
