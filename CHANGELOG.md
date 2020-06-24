@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## 4.2.0 (June 24, 2020)
+
+- Update all dependencies across whole project.
+- Use Yarn instead of npm.
+- Use webpack instead of Parcel.
+- Fix `Cannot find module 'core-js/modules/es.array.iterator'` by adding `core-js` dependency manually.
+
 ## 4.1.2 (June 9, 2020)
 
 - Update all dependencies across whole project including `prettier-eslint` to `11.0.0`.
