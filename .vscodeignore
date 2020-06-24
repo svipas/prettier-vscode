@@ -8,6 +8,7 @@ test-fixtures/**
 .eslintignore
 azure-pipelines.yml
 tsconfig.json
+webpack.config.js
 
 node_modules/**/Jenkinsfile
 node_modules/**/Makefile

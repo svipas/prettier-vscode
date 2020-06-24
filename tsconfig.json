@@ -10,5 +10,5 @@
 		"sourceMap": true,
 		"rootDir": "src"
 	},
-	"exclude": ["node_modules", ".vscode-test", "test-fixtures"]
+	"exclude": ["node_modules", ".vscode-test", "scripts", "test-fixtures"]
 }

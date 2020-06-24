@@ -1,1 +1,3 @@
+scripts/
 test-fixtures/
+webpack.config.js
