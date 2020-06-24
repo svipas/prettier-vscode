@@ -1,7 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const child_process = require("child_process");
-const { promisify } = require("util");
 
 /**
  * @param {string} modulePath
@@ -26,7 +24,7 @@ async function monkeyPatchNodeModule(modulePath, searchValue, replaceValue) {
 	);
 	console.log("prettier-stylelint parser was changed from postcss to css");
 
-	// prettier-tslint contains peer dependency of prettier ^1.7.4 which fails with "npm ERR! peer dep missing".
+	// prettier-tslint contains peer dependency of prettier ^1.7.4, but we are using prettier ^2.0.0.
 	await monkeyPatchNodeModule(
 		"node_modules/prettier-tslint/package.json",
 		'"prettier": "^1.7.4"',
@@ -35,8 +33,4 @@ async function monkeyPatchNodeModule(modulePath, searchValue, replaceValue) {
 	console.log(
 		"prettier-tslint peer dependency prettier was changed from ^1.7.4 to ^2.0.0"
 	);
-
-	// prettier-eslint 10.1.1 removed core-js dependency, but still relies on it
-	await promisify(child_process.exec)("npm install --no-save core-js");
-	console.log("Missing core-js dependency in prettier-eslint was installed");
 })();
