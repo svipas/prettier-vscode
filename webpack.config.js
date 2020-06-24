@@ -24,6 +24,7 @@ const config = {
 	},
 	externals: {
 		vscode: "commonjs vscode",
+		"core-js": "commonjs core-js",
 		ignore: "commonjs ignore",
 		prettier: "commonjs prettier",
 		"prettier-eslint": "commonjs prettier-eslint",
