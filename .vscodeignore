@@ -1,4 +1,3 @@
-.cache/**
 .vscode/**
 .vscode-test/**
 out/**
@@ -6,6 +5,7 @@ scripts/**
 src/**
 test-fixtures/**
 .eslintignore
+.gitignore
 azure-pipelines.yml
 tsconfig.json
 webpack.config.js
