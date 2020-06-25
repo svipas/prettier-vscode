@@ -72,5 +72,3 @@ export async function activate(context: vscode.ExtensionContext) {
 		...errorHandlerDisposables
 	);
 }
-
-export function deactivate() {}
