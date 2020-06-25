@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 4.2.1 (June 25, 2020)
+
+- Update `.vscodeignore`.
+
 ## 4.2.0 (June 24, 2020)
 
 - Update all dependencies across whole project.
