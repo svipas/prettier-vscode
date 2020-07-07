@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## 4.2.2 (July 7, 2020)
+
+- Update all dependencies across whole project.
+- Change project file names convention.
+- Update `README`.
+
 ## 4.2.1 (June 25, 2020)
 
 - Update `.vscodeignore`.
