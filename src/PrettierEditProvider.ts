@@ -2,7 +2,7 @@ import * as childProcess from "child_process";
 import * as prettier from "prettier";
 import { promisify } from "util";
 import * as vscode from "vscode";
-import { logMessage, safeExecution, setUsedModule } from "./error-handler";
+import { logMessage, safeExecution, setUsedModule } from "./errorHandler";
 import {
 	eslintLanguageIds,
 	prettierEslintFormat,
@@ -19,17 +19,17 @@ import { getVSCodeConfig } from "./utils";
 
 export class PrettierEditProvider
 	implements vscode.DocumentFormattingEditProvider {
-	private cachedGlobalNodeModulesPaths?: (string | undefined)[];
-	private readonly fileIsIgnored: (filePath: string) => Promise<boolean>;
+	private _cachedGlobalNodeModulesPaths?: (string | undefined)[];
+	private readonly _fileIsIgnored: (filePath: string) => Promise<boolean>;
 
 	constructor(fileIsIgnored: (filePath: string) => Promise<boolean>) {
-		this.fileIsIgnored = fileIsIgnored;
+		this._fileIsIgnored = fileIsIgnored;
 	}
 
 	provideDocumentFormattingEdits(
 		document: vscode.TextDocument
 	): Promise<vscode.TextEdit[]> {
-		return this.provideEdits(document);
+		return this._provideEdits(document);
 	}
 
 	/**
@@ -38,7 +38,7 @@ export class PrettierEditProvider
 	 * @param path formatting file's path.
 	 * @returns formatted text.
 	 */
-	private async format(
+	private async _format(
 		text: string,
 		{ fileName, languageId, uri, isUntitled }: vscode.TextDocument
 	): Promise<string> {
@@ -57,10 +57,10 @@ export class PrettierEditProvider
 				workspaceFolderPaths.push(wf.uri.fsPath);
 			});
 
-			if (!this.cachedGlobalNodeModulesPaths) {
-				this.cachedGlobalNodeModulesPaths = await this.globalNodeModulesPaths();
+			if (!this._cachedGlobalNodeModulesPaths) {
+				this._cachedGlobalNodeModulesPaths = await this._globalNodeModulesPaths();
 			}
-			this.cachedGlobalNodeModulesPaths.forEach((globalPath) => {
+			this._cachedGlobalNodeModulesPaths.forEach((globalPath) => {
 				globalPath && workspaceFolderPaths.push(globalPath);
 			});
 		}
@@ -76,7 +76,7 @@ export class PrettierEditProvider
 		let configOptions: prettier.PrettierConfig | undefined;
 		let hasConfig = false;
 		if (vscodeConfig.requireConfig) {
-			const { config, error } = await this.resolvePrettierConfig(fileName, {
+			const { config, error } = await this._resolvePrettierConfig(fileName, {
 				editorconfig: true,
 			});
 			if (error != null) {
@@ -93,7 +93,7 @@ export class PrettierEditProvider
 			}
 		}
 
-		const prettierOptions = this.mergeConfig(hasConfig, configOptions || {}, {
+		const prettierOptions = this._mergeConfig(hasConfig, configOptions || {}, {
 			printWidth: vscodeConfig.printWidth,
 			tabWidth: vscodeConfig.tabWidth,
 			singleQuote: vscodeConfig.singleQuote,
@@ -186,7 +186,7 @@ export class PrettierEditProvider
 		);
 	}
 
-	private async globalNodeModulesPaths(): Promise<(string | undefined)[]> {
+	private async _globalNodeModulesPaths(): Promise<(string | undefined)[]> {
 		const promisifiedExec = promisify(childProcess.exec);
 		const executeCommand = async (cmd: string): Promise<string | undefined> => {
 			try {
@@ -208,7 +208,7 @@ export class PrettierEditProvider
 	 * Resolves the prettier config for the given file.
 	 * @param filePath file's path.
 	 */
-	private async resolvePrettierConfig(
+	private async _resolvePrettierConfig(
 		filePath: string,
 		options?: { editorconfig?: boolean }
 	): Promise<{ config?: prettier.PrettierConfig; error: Error | null }> {
@@ -226,7 +226,7 @@ export class PrettierEditProvider
 	 * @param prettierConfig config from prettier's config file.
 	 * @param vscodeConfig vscode config.
 	 */
-	private mergeConfig(
+	private _mergeConfig(
 		hasPrettierConfig: boolean,
 		prettierConfig: Partial<prettier.PrettierConfig>,
 		vscodeConfig: Partial<prettier.PrettierConfig>
@@ -238,7 +238,7 @@ export class PrettierEditProvider
 		return { ...vscodeConfig, ...prettierConfig };
 	}
 
-	private fullDocumentRange(document: vscode.TextDocument): vscode.Range {
+	private _fullDocumentRange(document: vscode.TextDocument): vscode.Range {
 		const lastLineId = document.lineCount - 1;
 		return new vscode.Range(
 			0,
@@ -248,16 +248,19 @@ export class PrettierEditProvider
 		);
 	}
 
-	private async provideEdits(
+	private async _provideEdits(
 		document: vscode.TextDocument
 	): Promise<vscode.TextEdit[]> {
-		if (!document.isUntitled && (await this.fileIsIgnored(document.fileName))) {
+		if (
+			!document.isUntitled &&
+			(await this._fileIsIgnored(document.fileName))
+		) {
 			return [];
 		}
 
-		const formattedText = await this.format(document.getText(), document);
+		const formattedText = await this._format(document.getText(), document);
 		return [
-			vscode.TextEdit.replace(this.fullDocumentRange(document), formattedText),
+			vscode.TextEdit.replace(this._fullDocumentRange(document), formattedText),
 		];
 	}
 }

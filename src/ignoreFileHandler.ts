@@ -2,7 +2,7 @@ import * as fs from "fs";
 import ignore from "ignore";
 import * as path from "path";
 import * as vscode from "vscode";
-import { logMessage } from "./error-handler";
+import { logMessage } from "./errorHandler";
 import { getVSCodeConfig } from "./utils";
 
 interface Ignorer {

@@ -315,9 +315,9 @@
 		]
 	},
 	"scripts": {
-		"build": "node scripts/fix-prettier-integrations.js && webpack --mode production",
+		"build": "node scripts/fixPrettierIntegrations.js && webpack --mode production",
 		"pretest": "tsc -p ./ && yarn build && cd test-fixtures/eslint && yarn && cd ../tslint && yarn && cd ../stylelint && yarn",
-		"test": "node ./out/test/run-test.js",
+		"test": "node ./out/test/runTest.js",
 		"vscode:publish": "vsce publish --yarn",
 		"vscode:prepublish": "yarn build"
 	},
